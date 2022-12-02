@@ -1,7 +1,6 @@
-import os
+
 import logging
 import json
-import datetime
 from threading import Timer
 from telegram import Update
 from telegram.ext import Updater, Filters, CallbackContext,CommandHandler,MessageHandler, InlineQueryHandler, CallbackQueryHandler,ConversationHandler
@@ -57,17 +56,14 @@ silenceMenu=InlineKeyboardMarkup([
         [InlineKeyboardButton('返回', callback_data='backAdminMenu')]])
 
 
-
 # auto message
 def message_handler(update: Update, context: CallbackContext):
-    #context.bot.send_message(chat_id=update.message.chat.id, text=update.message.text)
     if update.message.text == '/start' or update.message.text == '/start@CCP1121_BOT':
         context.bot.send_message(chat_id = update.message.chat.id,text='菜單', reply_markup = menu)
     if update.message.text == '/help' or update.message.text == '/help@CCP1121_BOT':
         context.bot.send_message(chat_id = update.message.chat.id, text = description)
 
-
-    # 菜單選擇
+# 菜單選擇
 def choose(update: Update, context: CallbackContext):
     chatid=update.callback_query.message.chat_id
     current = context.bot.getChat(chatid).permissions
@@ -122,7 +118,11 @@ def choose(update: Update, context: CallbackContext):
     # 設置廣告推送間隔時間(秒)
     if update.callback_query.data=='groupSetAdvertiseTime':
 
+        context.bot.sendChatAction(action = 'typing', chat_id = chatid)
         context.bot.send_message(chat_id = chatid, text = "OK. Send me the new 'time(s)' text. ")
+        if update.message=='1':
+            context.bot.send_message(chat_id = chatid, text = "2")
+
 
         with open("data.json",'r',encoding='utf-8') as load_f:
             load_dict = json.load(load_f)
@@ -141,6 +141,7 @@ def choose(update: Update, context: CallbackContext):
         current.can_invite_users=True
         current.can_pin_messages=True
         context.bot.set_chat_permissions(chat_id = chatid, permissions = current)
+        context.bot.send_message(chat_id = chatid, text = "OK. Setting Finish ")
 
     #開啟用戶禁言
     if update.callback_query.data=='groupOpenSilence':
@@ -153,42 +154,11 @@ def choose(update: Update, context: CallbackContext):
         current.can_invite_users=False
         current.can_pin_messages=False
         context.bot.set_chat_permissions(chat_id = chatid, permissions = current)
-
-NAME, DOG_SAVE = range(2)
-
-def start(update: Update, context: CallbackContext):
-    context.bot.send_message(chat_id = update.message.chat_id, text = 'send /name to activate save a dog name')
-    update.message.reply_text(
-        'send /name to activate save a dog name'
-    )
-    return NAME
-
-def name(update: Update, context: CallbackContext):
-    update.message.reply_text('What do you want to name this dog?')
-
-    return DOG_SAVE
-
-def dog_save(update: Update, context: CallbackContext):
-    name = update.message.text
-    update.message.reply_text(f'Dog saved as {name}')
-
-    return ConversationHandler.END
-
-
+        context.bot.send_message(chat_id = chatid, text = "OK. Setting Finish ")
 
 def main():
-    conv_handler = ConversationHandler(
-        entry_points=[CommandHandler('dd', start)],
-        fallbacks=[],
-
-        states={
-            NAME: [CommandHandler('name', name)],
-            DOG_SAVE: [MessageHandler(Filters.text, dog_save)],
-        },
-    )
     updater.dispatcher.add_handler(MessageHandler(filters=Filters.text, callback=message_handler))
     updater.dispatcher.add_handler(CallbackQueryHandler(choose))
-    updater.dispatcher.add_handler(conv_handler)
     updater.start_polling()
     updater.idle()
     updater.stop()
