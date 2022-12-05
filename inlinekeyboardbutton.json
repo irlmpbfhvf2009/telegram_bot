@@ -1,0 +1,10 @@
+{"setAdmin": "管理员设置", "cd_setAdmin": "cd_setAdmin",
+"setUser":"用户设置","cd_setUser":"cd_setUser",
+"analysisDay":"分析当日","cd_analysisDay":"cd_analysisDay",
+"callRyan":"联系作者ryan","callRyan_url":"https://t.me/coffeeboy315",
+"banToAllPost":"禁言功能","cd_bannedToAllPost":"cd_bannedToAllPost",
+
+"adSettings":"设置间隔时间发广告","cd_adSettings":"cd_adSettings",
+"goBack":"返回","cd_goBack":"cd_goBack",
+"goAdminMenu":"返回","cd_goAdminMenu":"cd_goAdminMenu"
+}
