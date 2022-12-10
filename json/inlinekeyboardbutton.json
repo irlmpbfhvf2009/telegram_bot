@@ -3,8 +3,11 @@
 "analysisDay":"分析当日","cd_analysisDay":"cd_analysisDay",
 "callRyan":"联系作者ryan","callRyan_url":"https://t.me/coffeeboy315",
 "banToAllPost":"禁言功能","cd_bannedToAllPost":"cd_bannedToAllPost",
+"channelMsgControl":"频道信息清空设置","cd_channelMsgControl":"cd_channelMsgControl",
 
-"adSettings":"设置间隔时间发广告","cd_adSettings":"cd_adSettings",
-"goBack":"返回","cd_goBack":"cd_goBack",
+
+"adSettings":"间隔时间广告设置","cd_adSettings":"cd_adSettings",
+
+"goBack":"返回","cd_goBack":"cd_goBack","menu":"菜单",
 "goAdminMenu":"返回","cd_goAdminMenu":"cd_goAdminMenu"
 }
