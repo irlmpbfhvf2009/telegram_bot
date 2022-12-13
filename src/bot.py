@@ -74,7 +74,6 @@ def wordFlow(update:Update,context:CallbackContext):
     dict.update(groupLastMessageId)
     dict.update({str(chat_id):str(msgId)})
     config.set('telegram-bot',"grouplastmessageid",str(json.dumps(dict, ensure_ascii=False)))
-    config.write
     with open('config.ini', 'w',encoding="utf-8") as configfile:
         config.write(configfile)
     configfile.close()
@@ -174,20 +173,25 @@ def adminWork(update:Update,context:CallbackContext):
     chat_id=update.effective_chat.id
     userid=update.effective_user.id
     text=update.message.text
+    ug = json.loads(config.get('telegram-bot', 'useGroup'))
+    dict={}
+    dict.update(ug)
     for key,value in useGroup.items():
         if str(key)==str(userid):
             if text == keyBoardDict['work']['banToAllPost']:
                 ...
             if text == keyBoardDict['work']['groupMsgClear']:
-                context.bot.send_message(chat_id=userid,text="Please tap on CLEAR")
-                new_message_id = update.message.message_id
-                while new_message_id > 1:
-                    try:
-                        context.bot.delete_message(chat_id=value, message_id=new_message_id)
-                    except Exception as error:
-                        print(f'Message_id does not exist: {new_message_id} - {error}')
-                        #return ConversationHandler.END
-                    new_message_id = new_message_id - 1
+                grouplastmessageid = json.loads(config.get('telegram-bot', 'grouplastmessageid'))
+                for k,v in grouplastmessageid.items():
+                    if str(k) == str(dict[str(userid)]):
+                        new_message_id = int(v)
+                        while new_message_id+10 > 1:
+                            try:
+                                context.bot.delete_message(chat_id=value, message_id=new_message_id)
+                            except Exception as error:
+                                print(f'Message_id does not exist: {new_message_id} - {error}')
+                            #return ConversationHandler.END
+                            new_message_id = new_message_id - 1
                 #return STARTCLEARMSG
 
 
