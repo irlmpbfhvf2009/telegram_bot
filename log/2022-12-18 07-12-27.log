@@ -1,0 +1,24 @@
+2022-12-18 07:12 DEBUG Setting singleton dispatcher as <telegram.ext.dispatcher.Dispatcher object at 0x00000237102F0040>
+2022-12-18 07:12 INFO Scheduler started
+2022-12-18 07:12 DEBUG Looking for jobs to run
+2022-12-18 07:12 DEBUG Entering: get_me
+2022-12-18 07:12 DEBUG No jobs; waiting until a job is added
+2022-12-18 07:12 DEBUG {'supports_inline_queries': True, 'id': 5855785269, 'is_bot': True, 'username': 'CCP1121_BOT', 'first_name': 'love0204', 'can_join_groups': True, 'can_read_all_group_messages': True}
+2022-12-18 07:12 DEBUG Exiting: get_me
+2022-12-18 07:12 DEBUG Bot:5855785269:dispatcher - started
+2022-12-18 07:12 DEBUG Bot:5855785269:updater - started
+2022-12-18 07:12 DEBUG Waiting for Dispatcher and polling to start
+2022-12-18 07:12 DEBUG Updater thread started (polling)
+2022-12-18 07:12 DEBUG Start network loop retry bootstrap del webhook
+2022-12-18 07:12 DEBUG Dispatcher started
+2022-12-18 07:12 DEBUG Deleting webhook
+2022-12-18 07:12 DEBUG Entering: delete_webhook
+2022-12-18 07:12 DEBUG True
+2022-12-18 07:12 DEBUG Exiting: delete_webhook
+2022-12-18 07:12 DEBUG Bootstrap done
+2022-12-18 07:12 DEBUG Start network loop retry getting Updates
+2022-12-18 07:12 DEBUG Entering: get_updates
+2022-12-18 07:12 DEBUG No new updates found.
+2022-12-18 07:12 DEBUG []
+2022-12-18 07:12 DEBUG Exiting: get_updates
+2022-12-18 07:12 DEBUG Entering: get_updates

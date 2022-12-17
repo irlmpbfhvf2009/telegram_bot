@@ -1,10 +1,21 @@
-import logging
+
 import json
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton ,KeyboardButton,ReplyKeyboardMarkup
 from telegram.ext import Updater, Filters, CallbackContext,CommandHandler,MessageHandler,ConversationHandler,CallbackQueryHandler
 import configparser
+import time
+import logging
 
-logging.basicConfig(level=logging.DEBUG)
+
+localtime = time.localtime()
+result = time.strftime("%Y-%m-%d %H-%M-%S", localtime)
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s %(levelname)s %(message)s',
+                    datefmt='%Y-%m-%d %H:%M',
+                    handlers=[logging.FileHandler(f'log//{result}.log', 'w', 'utf-8'),
+                                logging.StreamHandler()])
+
+
 config = configparser.ConfigParser()
 config.read('config.ini',encoding="utf-8")
 description = config.get('telegram-bot', 'description')
@@ -77,7 +88,6 @@ def wordFlow(update:Update,context:CallbackContext):
     with open('config.ini', 'w',encoding="utf-8") as configfile:
         config.write(configfile)
     configfile.close()
-
 
     if text == keyBoardDict['wordFlow']['howToAddMeToYourGroup']:
         context.bot.send_message(chat_id=chat_id , text=f'Tap on this link and then choose your group.\n\n{addLink}\n\n"Add admins" permission is required.',
@@ -223,7 +233,18 @@ def joinGroup(update:Update,context:CallbackContext):
             with open('config.ini', 'w',encoding="utf-8") as configfile:
                 config.write(configfile)
             configfile.close()
+        else:
+            #邀請人ID
+            inviteId=str(update.message.from_user.id)
+            #邀請人帳號
+            inviteAccount =update.message.from_user.first_name
+            #被邀請人ID
+            beInvitedId = str(member.id)
+            #被邀請人帳號
+            beInvitedAccoun = member.username
+            logging.info(inviteId+inviteAccount+"邀請"+beInvitedId+beInvitedAccoun)
 
+            
 def leftGroup(update:Update,context:CallbackContext):
     dictionary = {}
     dictionary.update(group)
@@ -235,6 +256,12 @@ def leftGroup(update:Update,context:CallbackContext):
             config.write(configfile)
         configfile.close()
 
+def messageHandler(update:Update,context:CallbackContext):
+    text=update.message.text
+    userName=update.effective_user.first_name
+    userId=update.effective_user.id
+    chat_id=update.message.chat.id
+    context.bot.send_message(chat_id=chat_id,text=str(userId)+userName+text)
 
 dispatcher.add_handler(
     ConversationHandler(
@@ -247,7 +274,6 @@ dispatcher.add_handler(
             ADMINWORK: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=adminWork)],
             STARTCLEARMSG: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=start_clearmsg)],
         },fallbacks=[CommandHandler('start', start),CallbackQueryHandler(choose),MessageHandler(filters=Filters.text & (~ Filters.command), callback=wordFlow)]))
-
 
 dispatcher.add_handler(MessageHandler(Filters.status_update.new_chat_members, joinGroup))
 dispatcher.add_handler(MessageHandler(Filters.status_update.left_chat_member, leftGroup))

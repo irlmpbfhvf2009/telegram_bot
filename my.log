@@ -1,0 +1,44 @@
+2022-12-18 07:06 DEBUG Setting singleton dispatcher as <telegram.ext.dispatcher.Dispatcher object at 0x000001AE59220040>
+2022-12-18 07:06 INFO Scheduler started
+2022-12-18 07:06 DEBUG Looking for jobs to run
+2022-12-18 07:06 DEBUG Entering: get_me
+2022-12-18 07:06 DEBUG No jobs; waiting until a job is added
+2022-12-18 07:06 DEBUG {'can_read_all_group_messages': True, 'supports_inline_queries': True, 'id': 5855785269, 'is_bot': True, 'first_name': 'love0204', 'username': 'CCP1121_BOT', 'can_join_groups': True}
+2022-12-18 07:06 DEBUG Exiting: get_me
+2022-12-18 07:06 DEBUG Bot:5855785269:dispatcher - started
+2022-12-18 07:06 DEBUG Bot:5855785269:updater - started
+2022-12-18 07:06 DEBUG Waiting for Dispatcher and polling to start
+2022-12-18 07:06 DEBUG Updater thread started (polling)
+2022-12-18 07:06 DEBUG Start network loop retry bootstrap del webhook
+2022-12-18 07:06 DEBUG Dispatcher started
+2022-12-18 07:06 DEBUG Deleting webhook
+2022-12-18 07:06 DEBUG Entering: delete_webhook
+2022-12-18 07:06 DEBUG True
+2022-12-18 07:06 DEBUG Exiting: delete_webhook
+2022-12-18 07:06 DEBUG Bootstrap done
+2022-12-18 07:06 DEBUG Start network loop retry getting Updates
+2022-12-18 07:06 DEBUG Entering: get_updates
+2022-12-18 07:06 DEBUG No new updates found.
+2022-12-18 07:06 DEBUG []
+2022-12-18 07:06 DEBUG Exiting: get_updates
+2022-12-18 07:06 DEBUG Entering: get_updates
+2022-12-18 07:06 DEBUG No new updates found.
+2022-12-18 07:06 DEBUG []
+2022-12-18 07:06 DEBUG Exiting: get_updates
+2022-12-18 07:06 DEBUG Entering: get_updates
+2022-12-18 07:07 DEBUG No new updates found.
+2022-12-18 07:07 DEBUG []
+2022-12-18 07:07 DEBUG Exiting: get_updates
+2022-12-18 07:07 DEBUG Entering: get_updates
+2022-12-18 07:07 DEBUG No new updates found.
+2022-12-18 07:07 DEBUG []
+2022-12-18 07:07 DEBUG Exiting: get_updates
+2022-12-18 07:07 DEBUG Entering: get_updates
+2022-12-18 07:07 DEBUG No new updates found.
+2022-12-18 07:07 DEBUG []
+2022-12-18 07:07 DEBUG Exiting: get_updates
+2022-12-18 07:07 DEBUG Entering: get_updates
+2022-12-18 07:07 DEBUG No new updates found.
+2022-12-18 07:07 DEBUG []
+2022-12-18 07:07 DEBUG Exiting: get_updates
+2022-12-18 07:07 DEBUG Entering: get_updates
