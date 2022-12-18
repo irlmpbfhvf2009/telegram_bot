@@ -1,0 +1,5 @@
+[2022-12-19 07:51]  DEBUG [dispatcher.py _set_singleton] [ line:342 ] Setting singleton dispatcher as <telegram.ext.dispatcher.Dispatcher object at 0x000002D34CB902B0>
+[2022-12-19 07:51]  INFO [base.py start] [ line:166 ] Scheduler started
+[2022-12-19 07:51]  DEBUG [base.py _process_jobs] [ line:940 ] Looking for jobs to run
+[2022-12-19 07:51]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_me
+[2022-12-19 07:51]  DEBUG [base.py _process_jobs] [ line:1016 ] No jobs; waiting until a job is added

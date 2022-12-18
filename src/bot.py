@@ -14,8 +14,8 @@ logging.basicConfig(level=logging.DEBUG,
 
 
 keyboard = _button.Keyboard()
-init = _config.BotConfig()
 sql = _sql.sql()
+init = _config.BotConfig()
 
 # CommandHandler
 def start(update:Update,context:CallbackContext):

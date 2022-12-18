@@ -80,12 +80,8 @@ class DBHP():
 
 class sql:
     def __init__(self):
-        self.db = DBHP(db_name="telegram-bot.db")
-        self.token = self.getToken()
-        self.password = self.getPassword()
-        self.botusername = self.getBotName()
-
         # config table
+        self.db = DBHP(db_name="telegram-bot.db")
         configTable = self.db.create_tables("config",['key', 'value'])
         if configTable == True:
             data=[
@@ -95,6 +91,9 @@ class sql:
                 {"key":"description","value":"1设置每天禁言时间段\n2删除指定时间内的重复发言，设置间隔时间发广告。\n3设置邀请指定人数后才能发言,设置几天数为一个周期。\n4设置关注指定频道成员才能发言。没有达标甚至提醒内容。 \n5分析当日，昨天新进成员 流失成员，被邀请成员，活跃度成员\n您@用户：您需要邀请2位好友后可以正常发言  （2使用红色字）\n您@用户：您需要关注频道 @xx 后可以正常发言  （跳转频道删除掉）\n增加提示信息控制 xx秒自动删除掉"}
             ]
             self.db.insert_data("config",data)
+        self.token = self.getToken()
+        self.password = self.getPassword()
+        self.botusername = self.getBotName()
         
         # show tables
     def showTables(self):
