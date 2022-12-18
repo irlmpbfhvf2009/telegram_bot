@@ -1,7 +1,7 @@
 import sqlite3
  
 '''
-sqlite3数据操作简易封装
+sqlite3數據操作封裝
 '''
 class DBHP():
     def __init__(self,db_name=None):
@@ -17,7 +17,7 @@ class DBHP():
         self.cursor.close()
         return tables
     '''
-    创建表格
+    創建表格
     @:param table_name 表名
     @:param field_list 字段列表,例如：["name","age","gender"]
     @:return 
@@ -33,9 +33,9 @@ class DBHP():
             #print(str(ex))
             return False
     '''
-    插入数据，根据传入的数据类型进行判断，自动选者插入方式
+    插入數據，根據傳入的數據類型進行判斷，自動選擇插入方式
     @:param table_name 表名
-    @:param data 要插入的数据
+    @:param data 要插入的數據
     '''
     def insert_data(self,table_name:str,data)->bool:
         try:
@@ -56,8 +56,8 @@ class DBHP():
         finally:
             self.conn.commit()
     '''
-    查询数据
-    @:param 要查询的sql语句
+    查詢數據
+    @:param 要查詢的sql語句
     '''
     def select_all_tasks(self,sql:str)->list:
         try:
@@ -69,14 +69,14 @@ class DBHP():
             return []
 
     '''
-    关闭数据库连接
+    關閉數據庫連接
     '''
     def close(self):
         try:
             self.cursor.close()
             self.conn.close()
         except Exception as ex:
-            raise Exception("关闭数据库连接失败")
+            raise Exception("關閉數據庫連接失敗")
 
 class sql:
     def __init__(self):
@@ -91,7 +91,8 @@ class sql:
             data=[
                 {"key":"token","value":"5855785269:AAH9bvPpYudd2wSAvMnBTiKakCeoB92_Z_8"},
                 {"key":"password","value":"RYANGOD"},
-                {"key":"botuserName","value":"CCP1121_BOT"}
+                {"key":"botuserName","value":"CCP1121_BOT"},
+                {"key":"description","value":"1设置每天禁言时间段\n2删除指定时间内的重复发言，设置间隔时间发广告。\n3设置邀请指定人数后才能发言,设置几天数为一个周期。\n4设置关注指定频道成员才能发言。没有达标甚至提醒内容。 \n5分析当日，昨天新进成员 流失成员，被邀请成员，活跃度成员\n您@用户：您需要邀请2位好友后可以正常发言  （2使用红色字）\n您@用户：您需要关注频道 @xx 后可以正常发言  （跳转频道删除掉）\n增加提示信息控制 xx秒自动删除掉"}
             ]
             self.db.insert_data("config",data)
         
