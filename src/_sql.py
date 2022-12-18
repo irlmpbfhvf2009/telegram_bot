@@ -1,62 +1,121 @@
+import sqlite3
+ 
+'''
+sqlite3数据操作简易封装
+'''
+class DBHP():
+    def __init__(self,db_name=None):
+        self.conn = sqlite3.connect(db_name if db_name else 'CattleSpider.db')
+        self.cursor = self.conn.cursor()
 
-import pymysql
-
-
-class SQL:
-    def __init__(self,host,user,password,db,port):
-        # sql參數
-        self.host = host
-        self.user = user
-        self.password = password
-        self.db = db
-        self.port = port
-
-    def connct_db(self):#定义连接数据库的方法
-        try:#try+except 捕获异常
-            global db#global把db对象，设置为全局变量
-            #connect方法连接数据库，实例变量作为参数传入
-            db = pymysql.connect(host=self.host, user=self.user, password=self.password, db=self.db, port=self.port)
-            global cursor#global把cursor方法创建游标对象对象，设置为全局变量
-            cursor=db.cursor()#cursor方法创建游标对象
-        except Exception as e:#连接数据库事变是会任意捕获异常
-            print('数据库连接失败', e)
-
-    def creatTable(self,sql):
+    def tables_in_sqlite_db(self):
+        self.cursor = self.conn.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        tables = [
+            v[0] for v in self.cursor.fetchall()
+            if v[0] != "sqlite_sequence"
+        ]
+        self.cursor.close()
+        return tables
+    '''
+    创建表格
+    @:param table_name 表名
+    @:param field_list 字段列表,例如：["name","age","gender"]
+    @:return 
+    '''
+    def create_tables(self,table_name:str,field_list:list)->bool:
         try:
-            cursor.execute(sql)
-            db.commit()
-        except Exception as e:
-            print(e)
-            db.rollback()
-
-    def select(self,sql):#定义查询方法，sql为形参，用例传递sql语句
+            fields=",".join([field+" TEXT" for field in field_list])
+            sql = f"CREATE TABLE {table_name} ({fields});"
+            self.cursor.execute(sql)
+            self.conn.commit()
+            return True
+        except Exception as ex:
+            #print(str(ex))
+            return False
+    '''
+    插入数据，根据传入的数据类型进行判断，自动选者插入方式
+    @:param table_name 表名
+    @:param data 要插入的数据
+    '''
+    def insert_data(self,table_name:str,data)->bool:
         try:
-            cursor.execute(sql)#通过游标对象，调用execute执行方法，查询sql语句
-            print(cursor.fetchall())#通过游标获取，表数据内容，并打印
-        except Exception as e:
-            print(e)
-            db.rollback()
-
-    def update(self,sql):
+            if isinstance(data,list):
+                for item in data:
+                    keys = ",".join(list(item.keys()))
+                    values = ",".join([f"'{x}'" for x in list(item.values())])
+                    sql = f"INSERT INTO {table_name} ({keys}) VALUES ({values});"
+                    self.cursor.execute(sql)
+            elif isinstance(data,dict):
+                keys = ",".join(list(data.keys()))
+                values = ",".join([f"'{x}'" for x in list(data.values())])
+                sql = f"INSERT INTO {table_name} ({keys}) VALUES ({values});"
+                self.cursor.execute(sql)
+            return True
+        except Exception as ex:
+            return False
+        finally:
+            self.conn.commit()
+    '''
+    查询数据
+    @:param 要查询的sql语句
+    '''
+    def select_all_tasks(self,sql:str)->list:
         try:
-            cursor.execute(sql)#通过游标执行查询语句
-            db.commit()
-        except Exception as e:
-            print(e)
-            db.rollback()
+            self.cursor = self.conn.execute(sql)
+            results = self.cursor.fetchall()
+            self.cursor.fetchone()
+            return results
+        except:
+            return []
 
-    def delete(self,sql):
+    '''
+    关闭数据库连接
+    '''
+    def close(self):
         try:
-            cursor.execute(sql)#通过游标执行查询语句
-            db.commit()
-        except Exception as e:
-            print(e)
-            db.rollback()
+            self.cursor.close()
+            self.conn.close()
+        except Exception as ex:
+            raise Exception("关闭数据库连接失败")
 
-    def insert(self,sql,data):
-        try:
-            cursor.execute(sql, tuple(data.values()))#通过游标执行查询语句
-            db.commit()
-        except Exception as e:
-            print(e)
-            db.rollback()
+class sql:
+    def __init__(self):
+        self.db = DBHP(db_name="telegram-bot.db")
+        self.token = self.getToken()
+        self.password = self.getPassword()
+        self.botusername = self.getBotName()
+
+        # config table
+        configTable = self.db.create_tables("config",['key', 'value'])
+        if configTable == True:
+            data=[
+                {"key":"token","value":"5855785269:AAH9bvPpYudd2wSAvMnBTiKakCeoB92_Z_8"},
+                {"key":"password","value":"RYANGOD"},
+                {"key":"botuserName","value":"CCP1121_BOT"}
+            ]
+            self.db.insert_data("config",data)
+        
+        # show tables
+    def showTables(self):
+        print(self.db.tables_in_sqlite_db())
+
+        # getToken
+    def getToken(self):
+        results = self.db.select_all_tasks("SELECT * FROM config WHERE key = 'token'")
+        for result in results:
+            return result[1]
+        self.db.close()
+
+        # getPassword
+    def getPassword(self):
+        results = self.db.select_all_tasks("SELECT * FROM config WHERE key = 'password'")
+        for result in results:
+            return result[1]
+        self.db.close()
+
+        # getBotName
+    def getBotName(self):
+        results = self.db.select_all_tasks("SELECT * FROM config WHERE key = 'botuserName'")
+        for result in results:
+            return result[1]
+        self.db.close()

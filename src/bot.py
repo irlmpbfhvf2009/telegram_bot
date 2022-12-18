@@ -1,14 +1,21 @@
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton ,KeyboardButton,ReplyKeyboardMarkup
 from telegram.ext import Filters, CallbackContext,CommandHandler,MessageHandler,ConversationHandler,CallbackQueryHandler
+import json
 import _button
 import _config
-import json
+import _sql
+import logging
+import time
+
+logging.basicConfig(level=logging.DEBUG,
+            format='[%(asctime)s]  %(levelname)s [%(filename)s %(funcName)s] [ line:%(lineno)d ] %(message)s',
+            datefmt='%Y-%m-%d %H:%M',
+            handlers=[logging.StreamHandler(),logging.FileHandler(f'log//{time.strftime("%Y-%m-%d %H-%M-%S", time.localtime())}.log', 'w', 'utf-8')])
+
 
 keyboard = _button.Keyboard()
-init = _config.BotConfig('localhost','root','123456','telegramBot',3306)
-init.connct_db()
-init.create_table("CREATE TABLE if not exists manager (id INT AUTO_INCREMENT PRIMARY KEY,userId VARCHAR(255), userName VARCHAR(255))")
-
+init = _config.BotConfig()
+sql = _sql.sql()
 
 # CommandHandler
 def start(update:Update,context:CallbackContext):

@@ -1,0 +1,33 @@
+[2022-12-19 07:18]  DEBUG [dispatcher.py _set_singleton] [ line:342 ] Setting singleton dispatcher as <telegram.ext.dispatcher.Dispatcher object at 0x000002046AD20110>
+[2022-12-19 07:18]  INFO [base.py start] [ line:166 ] Scheduler started
+[2022-12-19 07:18]  DEBUG [base.py _process_jobs] [ line:940 ] Looking for jobs to run
+[2022-12-19 07:18]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_me
+[2022-12-19 07:18]  DEBUG [base.py _process_jobs] [ line:1016 ] No jobs; waiting until a job is added
+[2022-12-19 07:18]  DEBUG [bot.py decorator] [ line:134 ] {'supports_inline_queries': True, 'can_join_groups': True, 'first_name': 'love0204', 'is_bot': True, 'can_read_all_group_messages': True, 'username': 'CCP1121_BOT', 'id': 5855785269}
+[2022-12-19 07:18]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_me
+[2022-12-19 07:18]  DEBUG [updater.py _thread_wrapper] [ line:351 ] Bot:5855785269:dispatcher - started
+[2022-12-19 07:18]  DEBUG [updater.py _thread_wrapper] [ line:351 ] Bot:5855785269:updater - started
+[2022-12-19 07:18]  DEBUG [updater.py start_polling] [ line:435 ] Waiting for Dispatcher and polling to start
+[2022-12-19 07:18]  DEBUG [updater.py _start_polling] [ line:590 ] Updater thread started (polling)
+[2022-12-19 07:18]  DEBUG [updater.py _network_loop_retry] [ line:647 ] Start network loop retry bootstrap del webhook
+[2022-12-19 07:18]  DEBUG [updater.py bootstrap_del_webhook] [ line:765 ] Deleting webhook
+[2022-12-19 07:18]  DEBUG [dispatcher.py start] [ line:468 ] Dispatcher started
+[2022-12-19 07:18]  DEBUG [bot.py decorator] [ line:132 ] Entering: delete_webhook
+[2022-12-19 07:18]  DEBUG [bot.py decorator] [ line:134 ] True
+[2022-12-19 07:18]  DEBUG [bot.py decorator] [ line:135 ] Exiting: delete_webhook
+[2022-12-19 07:18]  DEBUG [updater.py _start_polling] [ line:599 ] Bootstrap done
+[2022-12-19 07:18]  DEBUG [updater.py _network_loop_retry] [ line:647 ] Start network loop retry getting Updates
+[2022-12-19 07:18]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 07:18]  DEBUG [bot.py get_updates] [ line:3066 ] Getting updates: [299475620]
+[2022-12-19 07:18]  DEBUG [bot.py decorator] [ line:134 ] [<telegram.update.Update object at 0x000002046AC0D480>]
+[2022-12-19 07:18]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 07:18]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 07:18]  DEBUG [dispatcher.py start] [ line:486 ] Processing Update: {'update_id': 299475620, 'message': {'channel_chat_created': False, 'new_chat_photo': [], 'message_id': 2475, 'caption_entities': [], 'entities': [], 'group_chat_created': False, 'delete_chat_photo': False, 'new_chat_members': [], 'chat': {'title': 'LOVE0204群組測試', 'type': 'supergroup', 'id': -1001874169368}, 'photo': [], 'supergroup_chat_created': False, 'date': 1671346836, 'text': '命令列表', 'from': {'first_name': 'Johnny', 'is_bot': False, 'language_code': 'zh-hans', 'id': 5421691556}}}
+[2022-12-19 07:18]  DEBUG [conversationhandler.py check_update] [ line:559 ] selecting conversation (-1001874169368, 5421691556) with state None
+[2022-12-19 07:18]  DEBUG [bot.py decorator] [ line:132 ] Entering: send_message
+[2022-12-19 07:18]  DEBUG [bot.py decorator] [ line:134 ] {'channel_chat_created': False, 'new_chat_photo': [], 'message_id': 2476, 'caption_entities': [], 'entities': [], 'group_chat_created': False, 'delete_chat_photo': False, 'new_chat_members': [], 'chat': {'title': 'LOVE0204群組測試', 'type': 'supergroup', 'id': -1001874169368}, 'photo': [], 'supergroup_chat_created': False, 'date': 1671405517, 'text': 'undeveloped', 'from': {'first_name': 'love0204', 'is_bot': True, 'username': 'CCP1121_BOT', 'id': 5855785269}}
+[2022-12-19 07:18]  DEBUG [bot.py decorator] [ line:135 ] Exiting: send_message
+[2022-12-19 07:18]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 07:18]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 07:18]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 07:18]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
