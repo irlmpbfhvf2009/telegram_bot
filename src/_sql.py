@@ -8,6 +8,23 @@ class DBHP():
         self.conn = sqlite3.connect(db_name if db_name else 'CattleSpider.db')
         self.cursor = self.conn.cursor()
 
+        configTable = self.create_tables("config",['key', 'value'])
+        if configTable == True:
+            data=[
+                {"key":"token","value":"5855785269:AAH9bvPpYudd2wSAvMnBTiKakCeoB92_Z_8"},
+                {"key":"password","value":"RYANGOD"},
+                {"key":"botuserName","value":"CCP1121_BOT"},
+                {"key":"description","value":"1设置每天禁言时间段\n2删除指定时间内的重复发言，设置间隔时间发广告。\n3设置邀请指定人数后才能发言,设置几天数为一个周期。\n4设置关注指定频道成员才能发言。没有达标甚至提醒内容。 \n5分析当日，昨天新进成员 流失成员，被邀请成员，活跃度成员\n您@用户：您需要邀请2位好友后可以正常发言  （2使用红色字）\n您@用户：您需要关注频道 @xx 后可以正常发言  （跳转频道删除掉）\n增加提示信息控制 xx秒自动删除掉"}
+            ]
+            self.insert_data("config",data)
+
+        # invitationLimit table
+        self.create_tables("invitationLimit",['inviteId', 'inviteAccount','beInvited'])
+            
+        self.token = self.getToken()
+        self.password = self.getPassword()
+        self.botusername = self.getBotName()
+
     def tables_in_sqlite_db(self):
         self.cursor = self.conn.execute("SELECT name FROM sqlite_master WHERE type='table';")
         tables = [
@@ -78,45 +95,34 @@ class DBHP():
         except Exception as ex:
             raise Exception("關閉數據庫連接失敗")
 
-class sql:
-    def __init__(self):
-        # config table
-        self.db = DBHP(db_name="telegram-bot.db")
-        configTable = self.db.create_tables("config",['key', 'value'])
-        if configTable == True:
-            data=[
-                {"key":"token","value":"5855785269:AAH9bvPpYudd2wSAvMnBTiKakCeoB92_Z_8"},
-                {"key":"password","value":"RYANGOD"},
-                {"key":"botuserName","value":"CCP1121_BOT"},
-                {"key":"description","value":"1设置每天禁言时间段\n2删除指定时间内的重复发言，设置间隔时间发广告。\n3设置邀请指定人数后才能发言,设置几天数为一个周期。\n4设置关注指定频道成员才能发言。没有达标甚至提醒内容。 \n5分析当日，昨天新进成员 流失成员，被邀请成员，活跃度成员\n您@用户：您需要邀请2位好友后可以正常发言  （2使用红色字）\n您@用户：您需要关注频道 @xx 后可以正常发言  （跳转频道删除掉）\n增加提示信息控制 xx秒自动删除掉"}
-            ]
-            self.db.insert_data("config",data)
-            
-        self.token = self.getToken()
-        self.password = self.getPassword()
-        self.botusername = self.getBotName()
+
         
-        # show tables
-    def showTables(self):
-        print(self.db.tables_in_sqlite_db())
 
-        # getToken
+    # getToken
     def getToken(self):
-        results = self.db.select_all_tasks("SELECT * FROM config WHERE key = 'token'")
+        results = self.select_all_tasks("SELECT * FROM config WHERE key = 'token'")
         for result in results:
             return result[1]
-        self.db.close()
+        self.close()
 
-        # getPassword
+    # getPassword
     def getPassword(self):
-        results = self.db.select_all_tasks("SELECT * FROM config WHERE key = 'password'")
+        results = self.select_all_tasks("SELECT * FROM config WHERE key = 'password'")
         for result in results:
             return result[1]
-        self.db.close()
+        self.close()
 
-        # getBotName
+    # getBotName
     def getBotName(self):
-        results = self.db.select_all_tasks("SELECT * FROM config WHERE key = 'botuserName'")
+        results = self.select_all_tasks("SELECT * FROM config WHERE key = 'botuserName'")
         for result in results:
             return result[1]
-        self.db.close()
+        self.close()
+
+    # getInvitationLimit
+    def getInvitationLimit(self):
+        results = self.select_all_tasks("SELECT * FROM invitationLimit")
+        for result in results:
+            return result
+        self.close()
+

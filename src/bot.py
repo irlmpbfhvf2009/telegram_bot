@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.DEBUG,
 
 
 keyboard = _button.Keyboard()
-sql = _sql.sql()
+sql = _sql.DBHP("telegram-bot.db")
 init = _config.BotConfig()
 
 # CommandHandler
@@ -191,14 +191,30 @@ def joinGroup(update:Update,context:CallbackContext):
                 init.config.write(configfile)
             configfile.close()
         else:
-            #邀請人ID
+            # 邀請人ID
             inviteId=str(update.message.from_user.id)
-            #邀請人帳號
+            # 邀請人帳號
             inviteAccount =update.message.from_user.first_name
-            #被邀請人ID
+            # 被邀請人ID
             beInvitedId = str(member.id)
-            #被邀請人帳號
+            # 被邀請人帳號
             beInvitedAccoun = member.username
+
+            boolean = False
+            results = sql.comparisoninviteId
+            print(results)
+            for result in results:
+                if result == inviteId:
+                    boolean = True
+                    break
+            if boolean == False:
+                JSON_data = {beInvitedId:beInvitedAccoun}
+                print(JSON_data)
+                data=[
+                    {"inviteId":inviteId,"inviteAccount":inviteAccount,"beInvited":JSON_data}
+                ]
+                sql.db.insert_data("invitationLimit",data)
+
 
             
 def leftGroup(update:Update,context:CallbackContext):

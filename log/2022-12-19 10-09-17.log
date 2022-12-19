@@ -1,0 +1,121 @@
+[2022-12-19 10:09]  DEBUG [dispatcher.py _set_singleton] [ line:342 ] Setting singleton dispatcher as <telegram.ext.dispatcher.Dispatcher object at 0x000001F9843B0110>
+[2022-12-19 10:09]  INFO [base.py start] [ line:166 ] Scheduler started
+[2022-12-19 10:09]  DEBUG [base.py _process_jobs] [ line:940 ] Looking for jobs to run
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_me
+[2022-12-19 10:09]  DEBUG [base.py _process_jobs] [ line:1016 ] No jobs; waiting until a job is added
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:134 ] {'first_name': 'love0204', 'supports_inline_queries': True, 'id': 5855785269, 'can_read_all_group_messages': True, 'can_join_groups': True, 'username': 'CCP1121_BOT', 'is_bot': True}
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_me
+[2022-12-19 10:09]  DEBUG [updater.py _thread_wrapper] [ line:351 ] Bot:5855785269:dispatcher - started
+[2022-12-19 10:09]  DEBUG [updater.py _thread_wrapper] [ line:351 ] Bot:5855785269:updater - started
+[2022-12-19 10:09]  DEBUG [updater.py start_polling] [ line:435 ] Waiting for Dispatcher and polling to start
+[2022-12-19 10:09]  DEBUG [updater.py _start_polling] [ line:590 ] Updater thread started (polling)
+[2022-12-19 10:09]  DEBUG [updater.py _network_loop_retry] [ line:647 ] Start network loop retry bootstrap del webhook
+[2022-12-19 10:09]  DEBUG [updater.py bootstrap_del_webhook] [ line:765 ] Deleting webhook
+[2022-12-19 10:09]  DEBUG [dispatcher.py start] [ line:468 ] Dispatcher started
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:132 ] Entering: delete_webhook
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:134 ] True
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:135 ] Exiting: delete_webhook
+[2022-12-19 10:09]  DEBUG [updater.py _start_polling] [ line:599 ] Bootstrap done
+[2022-12-19 10:09]  DEBUG [updater.py _network_loop_retry] [ line:647 ] Start network loop retry getting Updates
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:09]  DEBUG [bot.py get_updates] [ line:3066 ] Getting updates: [299475621]
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:134 ] [<telegram.update.Update object at 0x000001F984051CC0>]
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:09]  DEBUG [dispatcher.py start] [ line:486 ] Processing Update: {'message': {'message_id': 2477, 'group_chat_created': False, 'delete_chat_photo': False, 'date': 1671414499, 'new_chat_members': [], 'text': '管理面板', 'caption_entities': [], 'chat': {'id': -1001874169368, 'title': 'LOVE0204群組測試', 'type': 'supergroup'}, 'entities': [], 'supergroup_chat_created': False, 'new_chat_photo': [], 'photo': [], 'channel_chat_created': False, 'from': {'first_name': 'Johnny', 'language_code': 'zh-hans', 'id': 5421691556, 'is_bot': False}}, 'update_id': 299475621}
+[2022-12-19 10:09]  DEBUG [conversationhandler.py check_update] [ line:559 ] selecting conversation (-1001874169368, 5421691556) with state None
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:132 ] Entering: send_message
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:134 ] {'message_id': 2478, 'group_chat_created': False, 'delete_chat_photo': False, 'date': 1671415758, 'new_chat_members': [], 'text': '目前尚无权限,请联系https://t.me/coffeeboy315', 'caption_entities': [], 'chat': {'id': -1001874169368, 'title': 'LOVE0204群組測試', 'type': 'supergroup'}, 'entities': [{'length': 25, 'offset': 10, 'type': 'url'}], 'supergroup_chat_created': False, 'new_chat_photo': [], 'photo': [], 'channel_chat_created': False, 'from': {'first_name': 'love0204', 'id': 5855785269, 'username': 'CCP1121_BOT', 'is_bot': True}}
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:135 ] Exiting: send_message
+[2022-12-19 10:09]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:09]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:09]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:09]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:10]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:10]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:10]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:10]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:10]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:10]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:10]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:10]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:10]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:10]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:10]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:10]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:10]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:10]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:10]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:10]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:10]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:10]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:10]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:10]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:10]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:10]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:10]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:10]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:11]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:11]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:11]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:11]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:11]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:11]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:11]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:11]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:11]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:11]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:11]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:11]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:11]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:11]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:11]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:11]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:11]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:11]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:11]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:11]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:11]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:11]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:11]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:11]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:12]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:12]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:12]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:12]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:12]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:12]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:12]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:12]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:12]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:12]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:12]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:12]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:12]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:12]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:12]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:12]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:12]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:12]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:12]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:12]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:12]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:12]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:12]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:12]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:13]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:13]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:13]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:13]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-19 10:13]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-19 10:13]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-19 10:13]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-19 10:13]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates

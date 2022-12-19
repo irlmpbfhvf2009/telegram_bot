@@ -13,3 +13,11 @@
 您@用户：您需要关注频道 @xx 后可以正常发言  （跳转频道删除掉）
 
 增加提示信息控制 xx秒自动删除掉
+
+SQLITE3
+SCHEMAS : telegram-bot.db
+
+TABLE 
+config            組態設定     key   value
+invitationLimit   邀请好友紀錄 inviteId(邀請人ID)  inviteAccount(邀請人帳號) beInvitedId(被邀請人ID)beInvitedAccoun(被邀請人帳號)
+        
