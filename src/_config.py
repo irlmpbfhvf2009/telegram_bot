@@ -3,7 +3,7 @@ import json
 from telegram.ext import Updater
 import _sql
 
-sql=_sql.sql()
+sql=_sql.DBHP("telegram-bot.db")
 class BotConfig:
     def __init__(self):
 

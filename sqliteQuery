@@ -1,2 +1,2 @@
 -- SQLite config invitationLimit
-select * from invitationLimit
+SELECT * from invitationLimit

@@ -200,21 +200,18 @@ def joinGroup(update:Update,context:CallbackContext):
             # 被邀請人帳號
             beInvitedAccoun = member.username
 
-            boolean = False
-            results = sql.comparisoninviteId
-            print(results)
-            for result in results:
-                if result == inviteId:
-                    boolean = True
-                    break
-            if boolean == False:
-                JSON_data = {beInvitedId:beInvitedAccoun}
-                print(JSON_data)
-                data=[
-                    {"inviteId":inviteId,"inviteAccount":inviteAccount,"beInvited":JSON_data}
-                ]
-                sql.db.insert_data("invitationLimit",data)
+            JSON_data = json.dumps({beInvitedId:beInvitedAccoun})
+            data=[
+                {"inviteId":inviteId,"inviteAccount":inviteAccount,"beInvited":JSON_data}
+            ]
 
+            sql = _sql.DBHP("telegram-bot.db")
+            print(sql.existInviteId(inviteId))
+            if sql.existInviteId(inviteId) == False:
+                sql.insert_data("invitationLimit",data)
+            else:
+                ...
+                #sql.updateBeInvited("invitationLimit",inviteId,data)
 
             
 def leftGroup(update:Update,context:CallbackContext):

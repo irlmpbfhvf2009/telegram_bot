@@ -1,5 +1,6 @@
 import sqlite3
- 
+import json
+
 '''
 sqlite3數據操作封裝
 '''
@@ -72,6 +73,7 @@ class DBHP():
             return False
         finally:
             self.conn.commit()
+
     '''
     查詢數據
     @:param 要查詢的sql語句
@@ -80,7 +82,6 @@ class DBHP():
         try:
             self.cursor = self.conn.execute(sql)
             results = self.cursor.fetchall()
-            self.cursor.fetchone()
             return results
         except:
             return []
@@ -126,3 +127,25 @@ class DBHP():
             return result
         self.close()
 
+    # existInviteId
+    def existInviteId(self,inviteId):
+        results = self.select_all_tasks(f"SELECT inviteId FROM invitationLimit where inviteId = \"{inviteId}\"")
+        for result in results:
+            if result[0] == inviteId:
+                return True
+        return False
+    
+    # updateBeInvited
+    def updateBeInvited(self,inviteId,data):
+        results = self.select_all_tasks(f"SELECT beInvited FROM invitationLimit where inviteId = \"{inviteId}\"")
+        for result in results:
+            JSON_data=json.loads(result[0])
+        print(JSON_data)
+
+        for key,value in json.loads(data[0]['beInvited']).items():
+            JSON_data[key] = value
+        print(JSON_data)
+        print(json.dumps(JSON_data))
+        sql = f"UPDATE invitationLimit SET beInvited = ? WHERE inviteId = '{inviteId}'" 
+        print("sql="+sql)
+        self.cursor.execute(sql, (str(json.dumps(JSON_data))),)
