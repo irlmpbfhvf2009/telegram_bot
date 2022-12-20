@@ -21,16 +21,6 @@ def runSQL():
 
 # CommandHandler
 def start(update:Update,context:CallbackContext):
-    if update.message.chat.type == 'private':
-        context.bot.send_message(chat_id=update.effective_chat.id,text="What con this bot do?\nPlease tap on START",reply_markup=ReplyKeyboardMarkup(keyboard.wordFlowKeyboardButton))
-        if str(update.effective_chat.id) == str(update.message.from_user.id):
-            return WORKFLOW
-    #else:
-    #    context.bot.send_message(chat_id=chat_id,text="开发中,请联系https://t.me/coffeeboy315")
-
-
-# MessageHandler 第一层msg监听
-def wordFlow(update:Update,context:CallbackContext):
     sql = runSQL()
     a = _config.BotConfig()
     # 限制邀請人數才能發言
@@ -41,39 +31,74 @@ def wordFlow(update:Update,context:CallbackContext):
         else:
             isAdmin = False
 
+    if update.message.chat.type == 'private':
+        context.bot.send_message(chat_id=update.effective_chat.id,text="What con this bot do?\nPlease tap on START",reply_markup=ReplyKeyboardMarkup(keyboard.wordFlowKeyboardButton))
+        if str(update.effective_chat.id) == str(update.message.from_user.id):
+            return WORKFLOW
+    else:
+        if isAdmin == False:
+            if update.message.text == f'/start@{sql.botusername}':
+                ...
+            else:
+                if sql.messageLimitToInviteFriends(update.message.from_user.id) == False:
+                    len = sql.getDynamicInviteFriendsQuantity(update.message.from_user.id)
+                    if len is None:
+                        len=sql.getInviteFriendsQuantity()
+                    mention = "["+update.message.from_user.first_name+"](tg://user?id="+str(update.message.from_user.id)+")"
+                    context.bot.delete_message(chat_id=update.effective_chat.id,message_id=update.message.message_id)
+                    context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需要邀请{len}位好友后可以正常发言",parse_mode="Markdown")
+    #else:
+    #    context.bot.send_message(chat_id=chat_id,text="开发中,请联系https://t.me/coffeeboy315")
+
+
+# MessageHandler 第一层msg监听
+def wordFlow(update:Update,context:CallbackContext):
+    sql = runSQL()
+    wordFlowInit = _config.BotConfig()
+    # 限制邀請人數才能發言
+    isAdmin = False
+    for key,value in wordFlowInit.manager.items():
+        if key == str(update.message.from_user.id):
+            isAdmin = True
+        else:
+            isAdmin = False
+
     if update.message.chat.type != 'private':
         if isAdmin == False:
             if sql.messageLimitToInviteFriends(update.message.from_user.id) == False:
-                len = sql.getInviteFriendsQuantity()
+                len = sql.getDynamicInviteFriendsQuantity(update.message.from_user.id)
+                if len is None:
+                    len=sql.getInviteFriendsQuantity()
                 mention = "["+update.message.from_user.first_name+"](tg://user?id="+str(update.message.from_user.id)+")"
                 context.bot.delete_message(chat_id=update.effective_chat.id,message_id=update.message.message_id)
                 context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需要邀请{len}位好友后可以正常发言",parse_mode="Markdown")
 
     dict={}
-    dict.update(json.loads(init.config.get('telegram-bot', 'groupLastMessageId')))
+    dict.update(json.loads(wordFlowInit.config.get('telegram-bot', 'groupLastMessageId')))
     dict.update({str(update.effective_chat.id):str(update.message.message_id)})
-    init.config.set('telegram-bot',"grouplastmessageid",str(json.dumps(dict, ensure_ascii=False)))
+    wordFlowInit.config.set('telegram-bot',"grouplastmessageid",str(json.dumps(dict, ensure_ascii=False)))
     with open('config.ini', 'w',encoding="utf-8") as configfile:
-        init.config.write(configfile)
+        wordFlowInit.config.write(configfile)
     configfile.close()
 
     # 如何将我添加到您的群组
     if update.message.text == keyboard.howToAddMeToYourGroup:
-        context.bot.send_message(chat_id=update.effective_chat.id , text=f'Tap on this link and then choose your group.\n\n{init.addLink}\n\n"Add admins" permission is required.',
-        reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('Add to group', url=init.addLink)]]))
+        context.bot.send_message(chat_id=update.effective_chat.id , text=f'Tap on this link and then choose your group.\n\n{wordFlowInit.addLink}\n\n"Add admins" permission is required.',
+        reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('Add to group', url=wordFlowInit.addLink)]]))
 
     # 管理面板
     if update.message.text == keyboard.managementPanel:
         # 显示所有群组
         def selectGroupKeyboardButton():
+            wordFlowInit2=_config.BotConfig()
             dict={}
-            dict.update(init.group)
+            dict.update(wordFlowInit2.group)
             button=[]
             for title in dict.values():
                 button.append([KeyboardButton(title)])
             button.append(keyboard.keyboardButtonGoBack)
             return button
-        for m in init.manager:
+        for m in wordFlowInit.manager:
             if str(m) == str(update.message.from_user.id):
                 context.bot.send_message(chat_id=update.effective_chat.id,text=f"Account {update.message.from_user.first_name} uses the administrator function")
                 context.bot.send_message(chat_id=update.effective_chat.id,text=f"Please select a group",reply_markup=ReplyKeyboardMarkup(selectGroupKeyboardButton()))
@@ -205,6 +230,8 @@ def adminWork(update:Update,context:CallbackContext):
 
 
 def joinGroup(update:Update,context:CallbackContext):
+
+    sql = runSQL()
     dictionary = {}
     dictionary.update(init.group)
     for member in update.message.new_chat_members:

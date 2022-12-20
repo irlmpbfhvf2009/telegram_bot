@@ -14,6 +14,7 @@
 
 增加提示信息控制 xx秒自动删除掉
 
+TOKEN : 5855785269:AAH9bvPpYudd2wSAvMnBTiKakCeoB92_Z_8
 SQLITE3
 SCHEMAS : telegram-bot.db
 
