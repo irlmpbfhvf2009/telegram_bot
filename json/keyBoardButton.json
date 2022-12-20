@@ -9,6 +9,7 @@
     },
     "work":
     {
+        "userSet":"用戶设置",
         "banToAllPost":"禁言功能",
         "groupMsgClear":"群组信息清空",
         "adSettings":"广告设置",

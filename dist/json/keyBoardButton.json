@@ -1,0 +1,23 @@
+{
+    "wordFlow":
+    {
+        "howToAddMeToYourGroup":"如何将我添加到您的群组",
+        "managementPanel":"管理面板",
+        "commandsList":"命令列表",
+        "supportGroup":"支援团队",
+        "adminUser":"管理员设置"
+    },
+    "work":
+    {
+        "userSet":"用戶设置",
+        "banToAllPost":"禁言功能",
+        "groupMsgClear":"群组信息清空",
+        "adSettings":"广告设置",
+        "analysisDay":"分析当日",
+        "homeScreen":"主画面"
+    },
+    "common":
+    {
+        "goBack":"返回"
+    }
+}

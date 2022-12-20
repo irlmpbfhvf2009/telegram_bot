@@ -13,9 +13,12 @@ class Keyboard:
                             [KeyboardButton(keyBoardDict['wordFlow']['adminUser'])]]
                             
 
-        self.workKeyboardButton=[[KeyboardButton(keyBoardDict['work']['banToAllPost']),KeyboardButton(keyBoardDict['work']['groupMsgClear'])],
-                                [KeyboardButton(keyBoardDict['work']['adSettings']),KeyboardButton(keyBoardDict['work']['analysisDay'])],
-                                [KeyboardButton(keyBoardDict['work']['homeScreen'])]]
+        self.workKeyboardButton=[
+                            [KeyboardButton(keyBoardDict['work']['userSet'])],
+                            [KeyboardButton(keyBoardDict['work']['banToAllPost']),KeyboardButton(keyBoardDict['work']['groupMsgClear'])],
+                            [KeyboardButton(keyBoardDict['work']['adSettings']),KeyboardButton(keyBoardDict['work']['analysisDay'])],
+                            [KeyboardButton(keyBoardDict['work']['homeScreen'])]
+                        ]
                                 
         self.keyboardButtonGoBack = [KeyboardButton(keyBoardDict['common']['goBack'])]
 
@@ -33,6 +36,7 @@ class Keyboard:
         self.adminUser = keyBoardDict['wordFlow']['adminUser']
         self.homeScreen = keyBoardDict['work']['homeScreen']
         self.banToAllPost = keyBoardDict['work']['banToAllPost']
+        self.userSet = keyBoardDict['work']['userSet']
         self.groupMsgClear= keyBoardDict['work']['groupMsgClear']
 
         self.goBack= keyBoardDict['common']['goBack']

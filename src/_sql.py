@@ -13,15 +13,16 @@ class DBHP():
         if configTable == True:
             data=[
                 {"key":"token","value":"5855785269:AAH9bvPpYudd2wSAvMnBTiKakCeoB92_Z_8"},
-                {"key":"password","value":"RYANGOD"},
+                {"key":"password","value":"12356"},
                 {"key":"botuserName","value":"CCP1121_BOT"},
+                {"key":"inviteFriendsQuantity","value":"2"},
                 {"key":"description","value":"1设置每天禁言时间段\n2删除指定时间内的重复发言，设置间隔时间发广告。\n3设置邀请指定人数后才能发言,设置几天数为一个周期。\n4设置关注指定频道成员才能发言。没有达标甚至提醒内容。 \n5分析当日，昨天新进成员 流失成员，被邀请成员，活跃度成员\n您@用户：您需要邀请2位好友后可以正常发言  （2使用红色字）\n您@用户：您需要关注频道 @xx 后可以正常发言  （跳转频道删除掉）\n增加提示信息控制 xx秒自动删除掉"}
             ]
             self.insert_data("config",data)
 
         # invitationLimit table
         self.create_tables("invitationLimit",['inviteId', 'inviteAccount','beInvited'])
-            
+        self.inviteFriendsQuantity = self.getInviteFriendsQuantity()
         self.token = self.getToken()
         self.password = self.getPassword()
         self.botusername = self.getBotName()
@@ -120,6 +121,13 @@ class DBHP():
             return result[1]
         self.close()
 
+    # getInviteFriendsQuantity
+    def getInviteFriendsQuantity(self):
+        results = self.select_all_tasks("SELECT * FROM config WHERE key = 'inviteFriendsQuantity'")
+        for result in results:
+            return result[1]
+        self.close()
+
     # getInvitationLimit
     def getInvitationLimit(self):
         results = self.select_all_tasks("SELECT * FROM invitationLimit")
@@ -140,12 +148,19 @@ class DBHP():
         results = self.select_all_tasks(f"SELECT beInvited FROM invitationLimit where inviteId = \"{inviteId}\"")
         for result in results:
             JSON_data=json.loads(result[0])
-        print(JSON_data)
-
         for key,value in json.loads(data[0]['beInvited']).items():
             JSON_data[key] = value
-        print(JSON_data)
-        print(json.dumps(JSON_data))
-        sql = f"UPDATE invitationLimit SET beInvited = ? WHERE inviteId = '{inviteId}'" 
-        print("sql="+sql)
-        self.cursor.execute(sql, (str(json.dumps(JSON_data))),)
+
+        sql = f"UPDATE invitationLimit SET beInvited = '{json.dumps(JSON_data)}' WHERE inviteId = '{inviteId}'" 
+        self.cursor.execute(sql)
+        self.conn.commit()
+
+    # messageLimitToInviteFriends
+    def messageLimitToInviteFriends(self,message_id):
+        results = self.select_all_tasks(f"SELECT beInvited FROM invitationLimit where inviteId = \"{message_id}\"")
+        for result in results:
+            JSON_data=json.loads(result[0])
+            lenBeInvited = len (JSON_data)
+            if lenBeInvited >= int(self.inviteFriendsQuantity):
+                return True
+        return False

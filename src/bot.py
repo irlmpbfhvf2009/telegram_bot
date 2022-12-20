@@ -1,9 +1,9 @@
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton ,KeyboardButton,ReplyKeyboardMarkup
 from telegram.ext import Filters, CallbackContext,CommandHandler,MessageHandler,ConversationHandler,CallbackQueryHandler
 import json
-import _button
-import _config
-import _sql
+from src import _button
+from src import _config
+from src import _sql
 import logging
 import time
 
@@ -11,23 +11,43 @@ logging.basicConfig(level=logging.DEBUG,
             format='[%(asctime)s]  %(levelname)s [%(filename)s %(funcName)s] [ line:%(lineno)d ] %(message)s',
             datefmt='%Y-%m-%d %H:%M',
             handlers=[logging.StreamHandler(),logging.FileHandler(f'log//{time.strftime("%Y-%m-%d %H-%M-%S", time.localtime())}.log', 'w', 'utf-8')])
+            #handlers=[logging.StreamHandler()])
 
 
 keyboard = _button.Keyboard()
-sql = _sql.DBHP("telegram-bot.db")
 init = _config.BotConfig()
+def runSQL():
+    return _sql.DBHP("telegram-bot.db")
 
 # CommandHandler
 def start(update:Update,context:CallbackContext):
-    context.bot.send_message(chat_id=update.effective_chat.id,text="What con this bot do?\nPlease tap on START",reply_markup=ReplyKeyboardMarkup(keyboard.wordFlowKeyboardButton))
-    if str(update.effective_chat.id) == str(update.message.from_user.id):
-        return WORKFLOW
+    if update.message.chat.type == 'private':
+        context.bot.send_message(chat_id=update.effective_chat.id,text="What con this bot do?\nPlease tap on START",reply_markup=ReplyKeyboardMarkup(keyboard.wordFlowKeyboardButton))
+        if str(update.effective_chat.id) == str(update.message.from_user.id):
+            return WORKFLOW
     #else:
     #    context.bot.send_message(chat_id=chat_id,text="开发中,请联系https://t.me/coffeeboy315")
 
 
 # MessageHandler 第一层msg监听
 def wordFlow(update:Update,context:CallbackContext):
+    sql = runSQL()
+    a = _config.BotConfig()
+    # 限制邀請人數才能發言
+    isAdmin = False
+    for key,value in a.manager.items():
+        if key == str(update.message.from_user.id):
+            isAdmin = True
+        else:
+            isAdmin = False
+
+    if update.message.chat.type != 'private':
+        if isAdmin == False:
+            if sql.messageLimitToInviteFriends(update.message.from_user.id) == False:
+                len = sql.getInviteFriendsQuantity()
+                mention = "["+update.message.from_user.first_name+"](tg://user?id="+str(update.message.from_user.id)+")"
+                context.bot.delete_message(chat_id=update.effective_chat.id,message_id=update.message.message_id)
+                context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需要邀请{len}位好友后可以正常发言",parse_mode="Markdown")
 
     dict={}
     dict.update(json.loads(init.config.get('telegram-bot', 'groupLastMessageId')))
@@ -136,9 +156,11 @@ def adminPanel(update:Update,context:CallbackContext):
             context.bot.send_message(chat_id=update.effective_chat.id,text=f"chose {update.message.text}",reply_markup=ReplyKeyboardMarkup(keyboard.workKeyboardButton))
             return ADMINWORK
 
+    # 主畫面
     if update.message.text == keyboard.homeScreen:
         context.bot.send_message(chat_id=update.effective_chat.id,text="What con this bot do?\nPlease tap on START",reply_markup=ReplyKeyboardMarkup(keyboard.wordFlowKeyboardButton))
         return ConversationHandler.END
+    # 返回
     if update.message.text == keyboard.goBack:
         context.bot.send_message(chat_id=update.effective_chat.id,text="What con this bot do?\nPlease tap on START",reply_markup=ReplyKeyboardMarkup(keyboard.wordFlowKeyboardButton))
         return ConversationHandler.END
@@ -151,6 +173,9 @@ def adminWork(update:Update,context:CallbackContext):
     dict.update(ug)
     for key,value in init.useGroup.items():
         if str(key)==str(update.effective_user.id):
+            # 用戶設置
+            if update.message.text == keyboard.userSet:
+                ...
             # 禁言系统
             if update.message.text == keyboard.banToAllPost:
                 ...
@@ -191,27 +216,19 @@ def joinGroup(update:Update,context:CallbackContext):
                 init.config.write(configfile)
             configfile.close()
         else:
-            # 邀請人ID
             inviteId=str(update.message.from_user.id)
-            # 邀請人帳號
             inviteAccount =update.message.from_user.first_name
-            # 被邀請人ID
             beInvitedId = str(member.id)
-            # 被邀請人帳號
             beInvitedAccoun = member.username
 
-            JSON_data = json.dumps({beInvitedId:beInvitedAccoun})
             data=[
-                {"inviteId":inviteId,"inviteAccount":inviteAccount,"beInvited":JSON_data}
+                {"inviteId":inviteId,"inviteAccount":inviteAccount,"beInvited":json.dumps({beInvitedId:beInvitedAccoun})}
             ]
-
-            sql = _sql.DBHP("telegram-bot.db")
-            print(sql.existInviteId(inviteId))
+            sql = runSQL()
             if sql.existInviteId(inviteId) == False:
                 sql.insert_data("invitationLimit",data)
             else:
-                ...
-                #sql.updateBeInvited("invitationLimit",inviteId,data)
+                sql.updateBeInvited(inviteId,data)
 
             
 def leftGroup(update:Update,context:CallbackContext):

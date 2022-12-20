@@ -1,0 +1,41 @@
+[2022-12-20 13:20]  DEBUG [dispatcher.py _set_singleton] [ line:342 ] Setting singleton dispatcher as <telegram.ext.dispatcher.Dispatcher object at 0x000001F97A266400>
+[2022-12-20 13:20]  INFO [base.py start] [ line:166 ] Scheduler started
+[2022-12-20 13:20]  DEBUG [base.py _process_jobs] [ line:940 ] Looking for jobs to run
+[2022-12-20 13:20]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_me
+[2022-12-20 13:20]  DEBUG [base.py _process_jobs] [ line:1016 ] No jobs; waiting until a job is added
+[2022-12-20 13:20]  DEBUG [bot.py decorator] [ line:134 ] {'is_bot': True, 'can_join_groups': True, 'supports_inline_queries': True, 'can_read_all_group_messages': True, 'first_name': 'Skeddy', 'username': 'CCP1121_BOT', 'id': 5855785269}
+[2022-12-20 13:20]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_me
+[2022-12-20 13:20]  DEBUG [updater.py _thread_wrapper] [ line:351 ] Bot:5855785269:dispatcher - started
+[2022-12-20 13:20]  DEBUG [updater.py _thread_wrapper] [ line:351 ] Bot:5855785269:updater - started
+[2022-12-20 13:20]  DEBUG [updater.py start_polling] [ line:435 ] Waiting for Dispatcher and polling to start
+[2022-12-20 13:20]  DEBUG [updater.py _start_polling] [ line:590 ] Updater thread started (polling)
+[2022-12-20 13:20]  DEBUG [updater.py _network_loop_retry] [ line:647 ] Start network loop retry bootstrap del webhook
+[2022-12-20 13:20]  DEBUG [updater.py bootstrap_del_webhook] [ line:765 ] Deleting webhook
+[2022-12-20 13:20]  DEBUG [bot.py decorator] [ line:132 ] Entering: delete_webhook
+[2022-12-20 13:20]  DEBUG [dispatcher.py start] [ line:468 ] Dispatcher started
+[2022-12-20 13:20]  DEBUG [bot.py decorator] [ line:134 ] True
+[2022-12-20 13:20]  DEBUG [bot.py decorator] [ line:135 ] Exiting: delete_webhook
+[2022-12-20 13:20]  DEBUG [updater.py _start_polling] [ line:599 ] Bootstrap done
+[2022-12-20 13:20]  DEBUG [updater.py _network_loop_retry] [ line:647 ] Start network loop retry getting Updates
+[2022-12-20 13:20]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-20 13:20]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-20 13:20]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-20 13:20]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-20 13:20]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-20 13:20]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-20 13:20]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-20 13:20]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-20 13:20]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-20 13:21]  DEBUG [bot.py get_updates] [ line:3068 ] No new updates found.
+[2022-12-20 13:21]  DEBUG [bot.py decorator] [ line:134 ] []
+[2022-12-20 13:21]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-20 13:21]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-20 13:21]  DEBUG [bot.py get_updates] [ line:3066 ] Getting updates: [299475877]
+[2022-12-20 13:21]  DEBUG [bot.py decorator] [ line:134 ] [<telegram.update.Update object at 0x000001F97A179180>]
+[2022-12-20 13:21]  DEBUG [bot.py decorator] [ line:135 ] Exiting: get_updates
+[2022-12-20 13:21]  DEBUG [bot.py decorator] [ line:132 ] Entering: get_updates
+[2022-12-20 13:21]  DEBUG [dispatcher.py start] [ line:486 ] Processing Update: {'update_id': 299475877, 'message': {'entities': [{'offset': 0, 'length': 6, 'type': 'bot_command'}], 'group_chat_created': False, 'chat': {'id': 5036779522, 'first_name': 'Leo', 'type': 'private'}, 'new_chat_members': [], 'channel_chat_created': False, 'message_id': 851, 'new_chat_photo': [], 'supergroup_chat_created': False, 'caption_entities': [], 'text': '/start', 'delete_chat_photo': False, 'photo': [], 'date': 1671513666, 'from': {'is_bot': False, 'language_code': 'zh-hant', 'first_name': 'Leo', 'id': 5036779522}}}
+[2022-12-20 13:21]  DEBUG [conversationhandler.py check_update] [ line:559 ] selecting conversation (5036779522, 5036779522) with state None
+[2022-12-20 13:21]  DEBUG [bot.py decorator] [ line:132 ] Entering: send_message
+[2022-12-20 13:21]  DEBUG [bot.py decorator] [ line:134 ] {'entities': [], 'group_chat_created': False, 'chat': {'id': 5036779522, 'first_name': 'Leo', 'type': 'private'}, 'new_chat_members': [], 'channel_chat_created': False, 'message_id': 852, 'new_chat_photo': [], 'supergroup_chat_created': False, 'caption_entities': [], 'text': 'What con this bot do?\nPlease tap on START', 'delete_chat_photo': False, 'photo': [], 'date': 1671513667, 'from': {'is_bot': True, 'first_name': 'Skeddy', 'username': 'CCP1121_BOT', 'id': 5855785269}}
+[2022-12-20 13:21]  DEBUG [bot.py decorator] [ line:135 ] Exiting: send_message

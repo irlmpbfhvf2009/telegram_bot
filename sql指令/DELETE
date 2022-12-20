@@ -1,0 +1,5 @@
+-- SQLite config invitationLimit
+-- SELECT * from invitationLimit  	{"986643915": "fun66happy"}  SELECT * from invitationLimit
+-- UPDATE invitationLimit SET beInvited = '{"986643915": "fun66happy"}' WHERE inviteId = '5036779522';
+-- SELECT * from config
+delete from config

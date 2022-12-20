@@ -1,0 +1,25 @@
+{
+    "adminUser":
+    {
+        "findAllAdmin":"查看所有用户",
+        "cd_findAllAdmin":"cd_findAllAdmin",
+        "getTheRight":"输入密码验证",
+        "cd_getTheRight":"cd_getTheRight",
+        "adminExit":"退出用户",
+        "cd_adminExit":"cd_exit"
+    },
+    
+    
+    "setAdmin": "管理员设置", "cd_setAdmin": "cd_setAdmin",
+    "setUser":"用户设置","cd_setUser":"cd_setUser",
+    "analysisDay":"分析当日","cd_analysisDay":"cd_analysisDay",
+    "callRyan":"联系作者ryan","callRyan_url":"https://t.me/coffeeboy315",
+    "banToAllPost":"禁言功能","cd_bannedToAllPost":"cd_bannedToAllPost",
+    "channelMsgControl":"频道信息清空设置","cd_channelMsgControl":"cd_channelMsgControl",
+
+
+    "adSettings":"间隔时间广告设置","cd_adSettings":"cd_adSettings",
+
+    "goBack":"返回","cd_goBack":"cd_goBack","menu":"菜单",
+    "goAdminMenu":"返回","cd_goAdminMenu":"cd_goAdminMenu"
+}
