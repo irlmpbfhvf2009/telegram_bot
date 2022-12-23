@@ -2,10 +2,11 @@
     "wordFlow":
     {
         "howToAddMeToYourGroup":"如何将我添加到您的群组",
+        "howToAddMeToYourChannel":"如何将我添加到您的频道",
         "managementPanel":"管理面板",
-        "commandsList":"命令列表",
-        "supportGroup":"支援团队",
-        "adminUser":"管理员设置"
+        "supportGroup":"支援团队列表",
+        "adminUser":"管理员设置",
+        "paramSet":"参数设定"
     },
     "work":
     {

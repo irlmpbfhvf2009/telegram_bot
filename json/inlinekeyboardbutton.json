@@ -1,14 +1,21 @@
 {
     "adminUser":
     {
-        "findAllAdmin":"查看所有用户",
-        "cd_findAllAdmin":"cd_findAllAdmin",
-        "getTheRight":"输入密码验证",
-        "cd_getTheRight":"cd_getTheRight",
-        "adminExit":"退出用户",
-        "cd_adminExit":"cd_exit"
+        "paramSet":"参数设定","cd_paramSet":"cd_paramSet",
+        "findAllAdmin":"查看管理员","cd_findAllAdmin":"cd_findAllAdmin",
+        "getTheRight":"登入管理员身份","cd_getTheRight":"cd_getTheRight",
+        "adminExit":"取消权限","cd_adminExit":"cd_exit"
     },
-    
+    "paramSetting":{
+        "passwordCheck":"查看密码","cd_passwordCheck":"cd_passwordCheck",
+        "passwordChange":"修改密码","cd_passwordChange":"cd_passwordChange",
+        "openInviteFriends":"开启 [邀请好友正常发言功能]","cd_openInviteFriends":"cd_openInviteFriends",
+        "closeInviteFriends":"关闭 [邀请好友正常发言功能]","cd_closeInviteFriends":"cd_closeInviteFriends",
+        "setInviteFriendsQuantity":"设置邀请指定人数后才能发言","cd_setInviteFriendsQuantity":"cd_setInviteFriendsQuantity",
+        "setInviteFriendsAutoClearTime":"设置几天数为一个周期(0为不重置)","cd_setInviteFriendsAutoClearTime":"cd_setInviteFriendsAutoClearTime",
+        "openFollowChannel":"开启 [关注频道正常发言功能]","cd_openFollowChannel":"cd_openFollowChannel",
+        "closeFollowChannel":"关闭 [关注频道正常发言功能]","cd_closeFollowChannel":"cd_closeFollowChannel"
+    },
     
     "setAdmin": "管理员设置", "cd_setAdmin": "cd_setAdmin",
     "setUser":"用户设置","cd_setUser":"cd_setUser",

@@ -1,0 +1,6 @@
+-- SQLite
+-- delete from lastGroupMessageId
+-- SELECT * from lastGroupMessageId
+-- SELECT * FROM lastGroupMessageId WHERE groupId = ''
+-- insert into lastGroupMessageId ('userId','lastMessageId') VALUES ('','')
+SELECT * from lastGroupMessageId

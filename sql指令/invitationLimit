@@ -1,0 +1,9 @@
+-- SQLite
+-- SELECT * from invitationLimit
+-- UPDATE invitationLimit SET beInvited = '{"986643915": "fun66happy"}' WHERE inviteId = '5036779522';
+-- delete from invitationLimit
+
+
+-- insert into invitationLimit ('groupId','groupTitle','inviteId','inviteAccount','beInvited') 
+--         VALUES ('','')
+SELECT * from invitationLimit

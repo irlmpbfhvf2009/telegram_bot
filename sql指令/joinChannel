@@ -1,0 +1,5 @@
+
+
+--select link from joinChannel  where channelId='-1001862708920'
+
+SELECT * FROM joinChannel

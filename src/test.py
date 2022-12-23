@@ -1,8 +1,17 @@
+import configparser
+from telethon import TelegramClient, events, sync
+from telethon.errors import SessionPasswordNeededError
 import _sql
-import json
+config = configparser.ConfigParser()
+config.read('config.ini')
+session_name=config['Telegram-APIS']['session_name']
+api_id=config['Telegram-APIS']['api_id']
+api_hash=config['Telegram-APIS']['api_hash']
+client = TelegramClient(config['Telegram-APIS']['session_name'], api_id=config['Telegram-APIS']['api_id'], api_hash=config['Telegram-APIS']['api_hash'])
+#client.connect()
+#client.start()
 
-sql=_sql.DBHP("telegram-bot.db")
+sql = _sql.DBHP("telegram-bot.db")
 
-message_id="5036779522"
-print(sql.messageLimitToInviteFriends(message_id))
-#print(sql.getInviteFriendsQuantity())
+time = sql.inviteFriendsAutoClearTime
+print(type(time))
