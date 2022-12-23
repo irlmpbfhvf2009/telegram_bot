@@ -1,4 +1,5 @@
 run main.py 執行程式
+pyinstaller -F .\main.py 打包
 
 TOKEN : 5898596506:AAEN-9Zfs7vWlNf7mp5PcYl1HOJVarrqXAw
 
