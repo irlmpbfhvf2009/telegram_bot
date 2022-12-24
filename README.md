@@ -1,13 +1,38 @@
 run main.py 執行程式
 pyinstaller -F .\main.py 打包
 
-TOKEN : 5898596506:AAEN-9Zfs7vWlNf7mp5PcYl1HOJVarrqXAw
+_button.py 內連鍵盤封裝
+_config.py 建立參數
+_sql.py 資料庫處理
+_bot.py 機器人輪詢 
 
 SQLITE3
 SCHEMAS : telegram-bot.db
-TABLE 
-config            組態設定     key   value
-invitationLimit   邀请好友紀錄 inviteId(邀請人ID)  inviteAccount(邀請人帳號) beInvitedId(被邀請人ID)beInvitedAccoun(被邀請人帳號)
+
+TABLE : config  組態設定    
+column: key,value
+        password(密碼)            
+        botuserName(機器人用戶名)
+        inviteFriendsAutoClearTime(邀請好友記錄清除日期)      
+        inviteFriendsSet(邀請好友發言權開關)
+        followChannelSet(關注頻道發言權開關)
+        inviteFriendsQuantity(邀請好友數量)
+        description(描述)
+
+TABLE : invitationLimit 邀請好友紀錄
+column : groupId(群組id),groupTitle(群組名稱),inviteId(邀請人ID),inviteAccount(邀請人帳號),beInvited(被邀請人JSON),invitationStartDate(邀請日期),invitationEndDate(過期日期),invitationDate(X日清除一次)
+
+TABLE : manager 管理員
+column : userId(用戶id),userName(用戶名稱),useGroupTitle(使用的群組名稱),useGroupId(使用的群組id),isManager(判斷是否為管理員)
+
+TABLE : lastGroupMessageId 紀錄最後訊息id
+column : groupId(群組id),lastMessageId(訊息id)
+
+TABLE : joinGroup 機器人管理的群組
+userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名稱),link(邀請連結)
+
+TABLE : joinChannel 機器人管理的頻道
+userId(用戶id),userName(用戶名稱),channelId(頻道id),channelTitle(頻道名稱),link(邀請連結)
 
 
 1. 设置每天禁言时间段
@@ -20,11 +45,10 @@ invitationLimit   邀请好友紀錄 inviteId(邀請人ID)  inviteAccount(邀請
 (已完成)
 
 4. 设置关注指定频道成员才能发言。没有达标甚至提醒内容。 您@用户：您需要关注频道 @xx 后可以正常发言  （跳转频道删除掉）
-(（跳转频道删除掉）未完成)
+(跳转频道删除掉未完成)
 
 5. 分析当日，昨天新进成员 流失成员，被邀请成员，活跃度成员
 (未開發)
-
 
 增加提示信息控制 xx秒自动删除掉
 (已完成 可改善)
