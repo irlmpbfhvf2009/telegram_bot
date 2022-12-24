@@ -3,4 +3,3 @@ python-telegram-bot==13.14
 PyMySQL==1.0.2
 Telethon==1.26.1
 config==0.5.1
-# Flask==2.2.2
