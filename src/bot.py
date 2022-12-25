@@ -46,7 +46,6 @@ def dealMessage(update:Update,context:CallbackContext):
     def deleteMsgToSeconds(context: CallbackContext):
         context.bot.delete_message(chat_id=update.effective_chat.id,message_id=context.job.context)
 
-
     if sql.getIsManager(update.effective_user.id) == "False" or sql.getManager(update.effective_user.id) is None:
         if sql.getInviteFriendsSet() == "True":
             if first_name != "Telegram":
@@ -67,14 +66,11 @@ def wordFlow(update:Update,context:CallbackContext):
     infoString = f"[{str(update.message.from_user.id)}] {update.message.from_user.first_name} : {update.message.text}"
     logging.info(infoString)
     sql = runSQL()
-
     # 记录群组最后messageId(方便删除用)
     if sql.inviteFriendsAutoClearTime != "0":
         sql.insertLastGroupMessageId(update.message.chat.id,update.message.message_id)
     # 自动清除邀请好友记录
     sql.AutoClearinviteFriends()
-
-
     # 限制邀請人數才能發言
     if update.message.chat.type != 'private':
         dealMessage(update,context)
@@ -364,7 +360,9 @@ START,WORKFLOW,GETTHERIGHT,ADMINWORK,SELECTGROUP,CHANGEPASSWORD,SETINVITEFRIENDS
 
 init.dispatcher.add_handler(
     ConversationHandler(
-        entry_points=[CommandHandler('start', start),CallbackQueryHandler(choose),MessageHandler(filters=Filters.text & (~ Filters.command), callback=wordFlow)],
+        entry_points=[CommandHandler('start', start),
+                        CallbackQueryHandler(choose),
+                        MessageHandler(filters=Filters.all & (~ Filters.command), callback=wordFlow)],
         states={
             START:[CommandHandler('start', start)],
             WORKFLOW: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=wordFlow)],
@@ -380,7 +378,6 @@ init.dispatcher.add_handler(
 init.dispatcher.add_handler(MessageHandler(Filters.status_update.new_chat_members, joinGroup))
 init.dispatcher.add_handler(MessageHandler(Filters.status_update.left_chat_member, leftGroup))
 init.dispatcher.add_handler(ChatMemberHandler(channel, ChatMemberHandler.MY_CHAT_MEMBER))
-
 def run():
     init.updater.start_polling()
     init.updater.idle()
