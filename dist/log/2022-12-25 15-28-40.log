@@ -1,0 +1,15 @@
+[2022-12-25 15:28]  INFO [base.py start] [ line:166 ] Scheduler started
+[2022-12-25 15:28]  INFO [bot.py wordFlow] [ line:67 ] [5036779522] Leo : 213
+[2022-12-25 15:28]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2022-12-25 15:28]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2022-12-25 07:28:54 UTC], next run at: 2022-12-25 07:28:54 UTC)" (scheduled at 2022-12-25 07:28:54.477033+00:00)
+[2022-12-25 15:28]  INFO [base.py remove_job] [ line:627 ] Removed job 4fdd55285c2341d7a0481ffe5f28367f
+[2022-12-25 15:28]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2022-12-25 07:28:54 UTC], next run at: 2022-12-25 07:28:54 UTC)" executed successfully
+[2022-12-25 15:28]  INFO [bot.py wordFlow] [ line:67 ] [5036779522] Leo : 51
+[2022-12-25 15:28]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2022-12-25 15:29]  INFO [base.py remove_job] [ line:627 ] Removed job 8dd4ee62ebc742a9acecf6b557deb8fa
+[2022-12-25 15:29]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2022-12-25 07:29:04 UTC], next run at: 2022-12-25 07:29:04 UTC)" (scheduled at 2022-12-25 07:29:04.424659+00:00)
+[2022-12-25 15:29]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2022-12-25 07:29:04 UTC], next run at: 2022-12-25 07:29:04 UTC)" executed successfully
+[2022-12-25 15:29]  INFO [bot.py wordFlow] [ line:67 ] [5036779522] Leo : 支援团队列表
+[2022-12-25 15:29]  INFO [bot.py wordFlow] [ line:67 ] [5036779522] Leo : 如何将我添加到您的频道
+[2022-12-25 15:29]  INFO [bot.py wordFlow] [ line:67 ] [5036779522] Leo : 如何将我添加到您的群组
+[2022-12-25 15:29]  INFO [bot.py wordFlow] [ line:67 ] [5036779522] Leo : 支援团队列表

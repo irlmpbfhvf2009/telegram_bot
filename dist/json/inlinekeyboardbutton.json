@@ -1,0 +1,35 @@
+{
+    "adminUser":
+    {
+        "findAllAdmin":"查看所有管理员","cd_findAllAdmin":"cd_findAllAdmin",
+        "passwordCheck":"查看密码","cd_passwordCheck":"cd_passwordCheck",
+        "passwordChange":"修改密码","cd_passwordChange":"cd_passwordChange",
+        "adminExit":"登出管理员","cd_adminExit":"cd_exit"
+    },
+    "inviteFriends":{
+        "openInviteFriends":"开启 [邀请好友限制发言]","cd_openInviteFriends":"cd_openInviteFriends",
+        "closeInviteFriends":"关闭 [邀请好友限制发言]","cd_closeInviteFriends":"cd_closeInviteFriends",
+        "deleteMsgForSecond":"未达标自动删除系统消息(秒)","cd_deleteMsgForSecond":"cd_deleteMsgForSecond",
+        "setInviteFriendsQuantity":"设置邀请指定人数","cd_setInviteFriendsQuantity":"cd_setInviteFriendsQuantity",
+        "setInviteFriendsAutoClearTime":"设置几天数为一个周期(0为不重置)","cd_setInviteFriendsAutoClearTime":"cd_setInviteFriendsAutoClearTime"
+    },
+    "followChannel":{
+        "openFollowChannel":"开启 [关注频道限制发言]","cd_openFollowChannel":"cd_openFollowChannel",
+        "closeFollowChannel":"关闭 [关注频道限制发言]","cd_closeFollowChannel":"cd_closeFollowChannel",
+        "deleteMsgForSecond":"未达标自动删除系统消息(秒)","cd_deleteMsgForSecond":"cd_deleteMsgForSecond"
+    },
+
+    
+    "setAdmin": "管理员设置", "cd_setAdmin": "cd_setAdmin",
+    "setUser":"用户设置","cd_setUser":"cd_setUser",
+    "analysisDay":"分析当日","cd_analysisDay":"cd_analysisDay",
+    "callRyan":"联系作者ryan","callRyan_url":"https://t.me/coffeeboy315",
+    "banToAllPost":"禁言功能","cd_bannedToAllPost":"cd_bannedToAllPost",
+    "channelMsgControl":"频道信息清空设置","cd_channelMsgControl":"cd_channelMsgControl",
+
+
+    "adSettings":"间隔时间广告设置","cd_adSettings":"cd_adSettings",
+
+    "goBack":"返回","cd_goBack":"cd_goBack","menu":"菜单",
+    "goAdminMenu":"返回","cd_goAdminMenu":"cd_goAdminMenu"
+}

@@ -1,0 +1,8 @@
+[2022-12-25 15:29]  INFO [base.py start] [ line:166 ] Scheduler started
+[2022-12-25 15:30]  INFO [bot.py wordFlow] [ line:67 ] [5036779522] Leo : 5
+[2022-12-25 15:30]  INFO [bot.py wordFlow] [ line:67 ] [5036779522] Leo : 5
+[2022-12-25 15:30]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2022-12-25 15:30]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2022-12-25 07:30:13 UTC], next run at: 2022-12-25 07:30:13 UTC)" (scheduled at 2022-12-25 07:30:13.632370+00:00)
+[2022-12-25 15:30]  INFO [base.py remove_job] [ line:627 ] Removed job c015b9b80fdc439fbc9bfb17ca30fc74
+[2022-12-25 15:30]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2022-12-25 07:30:13 UTC], next run at: 2022-12-25 07:30:13 UTC)" executed successfully
+[2022-12-25 15:30]  INFO [bot.py wordFlow] [ line:67 ] [5036779522] Leo : 支援团队列表

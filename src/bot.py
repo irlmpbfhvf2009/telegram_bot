@@ -33,7 +33,6 @@ def dealMessage(update:Update,context:CallbackContext):
     sql = runSQL()
     first_name = update.message.from_user.first_name
     mention = "["+first_name+"](tg://user?id="+str(update.message.from_user.id)+")"
-    channelmark = "[@"+sql.channelLink[13:]+"]("+sql.channelLink+")"
     len = sql.getDynamicInviteFriendsQuantity(update.message.from_user.id)
 
     def catchChannel():
@@ -57,6 +56,7 @@ def dealMessage(update:Update,context:CallbackContext):
         try:
             if context.bot.get_chat_member(int(sql.getChannelId()[0]),update.effective_user.id).status =="left":
                 if sql.getFollowChannelSet() == "True":
+                    channelmark = "[@"+sql.channelLink[13:]+"]("+sql.channelLink+")"
                     messagec = context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需关注频道{channelmark}后可以正常发言",parse_mode="Markdown").message_id
                     context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messagec)
         except Exception as e:
