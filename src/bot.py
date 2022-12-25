@@ -33,8 +33,8 @@ def dealMessage(update:Update,context:CallbackContext):
     sql = runSQL()
     first_name = update.message.from_user.first_name
     mention = "["+first_name+"](tg://user?id="+str(update.message.from_user.id)+")"
-    len = sql.getDynamicInviteFriendsQuantity(update.message.from_user.id)
     channelmark = "[@"+sql.channelLink[13:]+"]("+sql.channelLink+")"
+    len = sql.getDynamicInviteFriendsQuantity(update.message.from_user.id)
 
     def catchChannel():
         try:
@@ -50,7 +50,7 @@ def dealMessage(update:Update,context:CallbackContext):
         if sql.getInviteFriendsSet() == "True":
             if first_name != "Telegram":
                 if catchChannel() == False:
-                    if sql.messageLimitToInviteFriends(update.message.from_user.id) == False:
+                    if sql.messageLimitToInviteFriends(update.message.from_user.id,update.message.chat.id) == False:
                         context.bot.delete_message(chat_id=update.effective_chat.id,message_id=update.message.message_id)
                         messagea = context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需要邀请{len}位好友后可以正常发言",parse_mode="Markdown").message_id
                         context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messagea)
@@ -70,7 +70,7 @@ def wordFlow(update:Update,context:CallbackContext):
     if sql.inviteFriendsAutoClearTime != "0":
         sql.insertLastGroupMessageId(update.message.chat.id,update.message.message_id)
     # 自动清除邀请好友记录
-    sql.AutoClearinviteFriends()
+    sql.AutoClearinviteFriends(str(datetime.datetime.now()))
     # 限制邀請人數才能發言
     if update.message.chat.type != 'private':
         dealMessage(update,context)

@@ -40,14 +40,6 @@ class DBHP():
 
 
 
-
-
-
-
-
-
-
-
     def initConfig(self,key,value):
         if self.getConfigKey(key) is None:
             data=[{"key":key,"value":value}]
@@ -340,11 +332,16 @@ class DBHP():
             self.update(f"UPDATE lastGroupMessageId SET lastMessageId = '{lastMessageId}' WHERE groupId = '{groupId}'")
 
     # CRUD - invitationLimit
-    def AutoClearinviteFriends(self):
+    def AutoClearinviteFriends(self,time):
         results = self.select_all_tasks("SELECT * FROM invitationLimit")
         for result in results:
-            if result[5]>result[6] == True:
-                self.delete(f"delete from invitationLimit where inviteId = '{result[2]}'")
+            endTime = result[6]
+            if endTime < time:
+                self.update(f"UPDATE invitationLimit SET beInvited='',invitationStartDate='',invitationEndDate='',invitationDate='{self.inviteFriendsQuantity}' where inviteId = '{result[2]}' AND groupId='{result[0]}' ")
+
+    def getInvitationEndDate(self,inviteId,groupId):
+        results = self.select_all_tasks(f"SELECT invitationEndDate FROM invitationLimit where inviteId = '{inviteId}' AND groupId = '{groupId}'")
+        return results
 
     def insertInvitationLimit(self,groupId,groupTitle,inviteId,inviteAccount,beInvited,invitationStartDate,invitationEndDate,invitationDate):
         data=[
@@ -374,14 +371,19 @@ class DBHP():
     def updateBeInvited(self,inviteId,groupId,data,invitationStartDate,invitationEndDate,invitationDate):
         results = self.select_all_tasks(f"SELECT beInvited FROM invitationLimit where inviteId = '{inviteId}' AND groupId = '{groupId}'")
         for result in results:
-            JSON_data = json.loads(result[0])
+            if result[0] == '':
+                JSON_data = {}
+            else:
+                JSON_data = json.loads(result[0])
         for key,value in json.loads(data[0]['beInvited']).items():
             JSON_data[key] = value
         self.update(f"UPDATE invitationLimit SET beInvited = '{json.dumps(JSON_data)}',invitationStartDate='{invitationStartDate}',invitationEndDate='{invitationEndDate}',invitationDate='{invitationDate}' WHERE inviteId = '{inviteId}' AND groupId = '{groupId}'")
 
-    def messageLimitToInviteFriends(self,userId):
-        results = self.select_all_tasks(f"SELECT beInvited FROM invitationLimit where inviteId = '{userId}'")
+    def messageLimitToInviteFriends(self,userId,groupId):
+        results = self.select_all_tasks(f"SELECT beInvited FROM invitationLimit where inviteId = '{userId}' AND groupId = '{groupId}'")
         for result in results:
+            if result[0] =='':
+                return False
             JSON_data=json.loads(result[0])
             lenBeInvited = len(JSON_data)
             if lenBeInvited >= int(self.inviteFriendsQuantity):
@@ -393,6 +395,8 @@ class DBHP():
         if results == []:
             return self.inviteFriendsQuantity
         for result in results:
+            if result[0] == '':
+                return self.inviteFriendsQuantity
             JSON_data=json.loads(result[0])
             lenBeInvited = len(JSON_data)
             return lenBeInvited

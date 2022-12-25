@@ -6,4 +6,6 @@
 
 -- insert into invitationLimit ('groupId','groupTitle','inviteId','inviteAccount','beInvited') 
 --         VALUES ('','')
+
+UPDATE invitationLimit SET invitationEndDate = '2022-12-25 15:02:28.227007' WHERE inviteId = '5036779522';
 SELECT * from invitationLimit
