@@ -26,23 +26,26 @@ class Keyboard:
                         ]
 
         self.adminUserMenu=InlineKeyboardMarkup([
-                [InlineKeyboardButton(inlinekeyboardDict['adminUser']['paramSet'], callback_data=inlinekeyboardDict['adminUser']['cd_paramSet'])],
                 [InlineKeyboardButton(inlinekeyboardDict['adminUser']['findAllAdmin'], callback_data=inlinekeyboardDict['adminUser']['cd_findAllAdmin'])],
-                [InlineKeyboardButton(inlinekeyboardDict['adminUser']['getTheRight'], callback_data=inlinekeyboardDict['adminUser']['cd_getTheRight'])],
+                [InlineKeyboardButton(inlinekeyboardDict['adminUser']['passwordCheck'], callback_data=inlinekeyboardDict['adminUser']['cd_passwordCheck'])],
+                [InlineKeyboardButton(inlinekeyboardDict['adminUser']['passwordChange'], callback_data=inlinekeyboardDict['adminUser']['cd_passwordChange'])],
                 [InlineKeyboardButton(inlinekeyboardDict['adminUser']['adminExit'], callback_data=inlinekeyboardDict['adminUser']['cd_adminExit'])]
             ])
 
-        self.paramSettingMenu=InlineKeyboardMarkup([
-                [InlineKeyboardButton(inlinekeyboardDict['paramSetting']['passwordCheck'], callback_data=inlinekeyboardDict['paramSetting']['cd_passwordCheck'])],
-                [InlineKeyboardButton(inlinekeyboardDict['paramSetting']['passwordChange'], callback_data=inlinekeyboardDict['paramSetting']['cd_passwordChange'])],
-                [InlineKeyboardButton(inlinekeyboardDict['paramSetting']['openInviteFriends'], callback_data=inlinekeyboardDict['paramSetting']['cd_openInviteFriends'])],
-                [InlineKeyboardButton(inlinekeyboardDict['paramSetting']['closeInviteFriends'], callback_data=inlinekeyboardDict['paramSetting']['cd_closeInviteFriends'])],
-                [InlineKeyboardButton(inlinekeyboardDict['paramSetting']['setInviteFriendsQuantity'], callback_data=inlinekeyboardDict['paramSetting']['cd_setInviteFriendsQuantity'])],
-                [InlineKeyboardButton(inlinekeyboardDict['paramSetting']['setInviteFriendsAutoClearTime'], callback_data=inlinekeyboardDict['paramSetting']['cd_setInviteFriendsAutoClearTime'])],
-                [InlineKeyboardButton(inlinekeyboardDict['paramSetting']['openFollowChannel'], callback_data=inlinekeyboardDict['paramSetting']['cd_openFollowChannel'])],
-                [InlineKeyboardButton(inlinekeyboardDict['paramSetting']['closeFollowChannel'], callback_data=inlinekeyboardDict['paramSetting']['cd_closeFollowChannel'])]
+        self.inviteFriendsMenu=InlineKeyboardMarkup([
+                [InlineKeyboardButton(inlinekeyboardDict['inviteFriends']['openInviteFriends'], callback_data=inlinekeyboardDict['inviteFriends']['cd_openInviteFriends'])],
+                [InlineKeyboardButton(inlinekeyboardDict['inviteFriends']['closeInviteFriends'], callback_data=inlinekeyboardDict['inviteFriends']['cd_closeInviteFriends'])],
+                [InlineKeyboardButton(inlinekeyboardDict['inviteFriends']['deleteMsgForSecond'], callback_data=inlinekeyboardDict['inviteFriends']['cd_deleteMsgForSecond'])],
+                [InlineKeyboardButton(inlinekeyboardDict['inviteFriends']['setInviteFriendsQuantity'], callback_data=inlinekeyboardDict['inviteFriends']['cd_setInviteFriendsQuantity'])],
+                [InlineKeyboardButton(inlinekeyboardDict['inviteFriends']['setInviteFriendsAutoClearTime'], callback_data=inlinekeyboardDict['inviteFriends']['cd_setInviteFriendsAutoClearTime'])]
+            ])
+        self.followChannelMenu=InlineKeyboardMarkup([
+                [InlineKeyboardButton(inlinekeyboardDict['followChannel']['openFollowChannel'], callback_data=inlinekeyboardDict['followChannel']['cd_openFollowChannel'])],
+                [InlineKeyboardButton(inlinekeyboardDict['followChannel']['closeFollowChannel'], callback_data=inlinekeyboardDict['followChannel']['cd_closeFollowChannel'])],
+                [InlineKeyboardButton(inlinekeyboardDict['followChannel']['deleteMsgForSecond'], callback_data=inlinekeyboardDict['followChannel']['cd_deleteMsgForSecond'])]
             ])
 
+        # wordFlow
         self.wordFlow = keyBoardDict['wordFlow']
         self.howToAddMeToYourGroup = keyBoardDict['wordFlow']['howToAddMeToYourGroup']
         self.howToAddMeToYourChannel = keyBoardDict['wordFlow']['howToAddMeToYourChannel']
@@ -50,22 +53,29 @@ class Keyboard:
         self.supportGroup = keyBoardDict['wordFlow']['supportGroup']
         self.adminUser = keyBoardDict['wordFlow']['adminUser']
         self.paramSet = keyBoardDict['wordFlow']['paramSet']
+        self.inviteFriendsSet = keyBoardDict['wordFlow']['inviteFriendsSet']
+        self.followChannelSet = keyBoardDict['wordFlow']['followChannelSet']
         self.homeScreen = keyBoardDict['work']['homeScreen']
         self.banToAllPost = keyBoardDict['work']['banToAllPost']
         self.userSet = keyBoardDict['work']['userSet']
         self.groupMsgClear= keyBoardDict['work']['groupMsgClear']
 
-        self.goBack= keyBoardDict['common']['goBack']
-
-        self.cd_paramSet=inlinekeyboardDict['adminUser']['cd_paramSet']
+        # adminUser
         self.cd_findAllAdmin=inlinekeyboardDict['adminUser']['cd_findAllAdmin']
-        self.cd_getTheRight=inlinekeyboardDict['adminUser']['cd_getTheRight']
         self.cd_adminExit=inlinekeyboardDict['adminUser']['cd_adminExit']
-        self.cd_passwordCheck=inlinekeyboardDict['paramSetting']['cd_passwordCheck']
-        self.cd_passwordChange=inlinekeyboardDict['paramSetting']['cd_passwordChange']
-        self.cd_openInviteFriends=inlinekeyboardDict['paramSetting']['cd_openInviteFriends']
-        self.cd_closeInviteFriends=inlinekeyboardDict['paramSetting']['cd_closeInviteFriends']
-        self.cd_openFollowChannel=inlinekeyboardDict['paramSetting']['cd_openFollowChannel']
-        self.cd_closeFollowChannel=inlinekeyboardDict['paramSetting']['cd_closeFollowChannel']
-        self.cd_setInviteFriendsQuantity=inlinekeyboardDict['paramSetting']['cd_setInviteFriendsQuantity']
-        self.cd_setInviteFriendsAutoClearTime=inlinekeyboardDict['paramSetting']['cd_setInviteFriendsAutoClearTime']
+        self.cd_passwordCheck=inlinekeyboardDict['adminUser']['cd_passwordCheck']
+        self.cd_passwordChange=inlinekeyboardDict['adminUser']['cd_passwordChange']
+
+        # inviteFriends
+        self.cd_openInviteFriends=inlinekeyboardDict['inviteFriends']['cd_openInviteFriends']
+        self.cd_closeInviteFriends=inlinekeyboardDict['inviteFriends']['cd_closeInviteFriends']
+        self.cd_setInviteFriendsQuantity=inlinekeyboardDict['inviteFriends']['cd_setInviteFriendsQuantity']
+        self.cd_setInviteFriendsAutoClearTime=inlinekeyboardDict['inviteFriends']['cd_setInviteFriendsAutoClearTime']
+        
+        # followChannel
+        self.cd_openFollowChannel=inlinekeyboardDict['followChannel']['cd_openFollowChannel']
+        self.cd_closeFollowChannel=inlinekeyboardDict['followChannel']['cd_closeFollowChannel']
+        self.cd_deleteMsgForSecond=inlinekeyboardDict['followChannel']['cd_deleteMsgForSecond']
+
+        # common
+        self.goBack= keyBoardDict['common']['goBack']

@@ -1,5 +1,5 @@
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton ,KeyboardButton,ReplyKeyboardMarkup
-from telegram.ext import Filters, CallbackContext,CommandHandler,MessageHandler,ConversationHandler,CallbackQueryHandler,ChatMemberHandler,handler
+from telegram.ext import Filters, CallbackContext,CommandHandler,MessageHandler,ConversationHandler,CallbackQueryHandler,ChatMemberHandler
 import json
 from src import _button
 from src import _config
@@ -8,7 +8,7 @@ import logging
 import datetime
 import time
 
-logging.basicConfig(level=logging.DEBUG,
+logging.basicConfig(level=logging.INFO,
             format='[%(asctime)s]  %(levelname)s [%(filename)s %(funcName)s] [ line:%(lineno)d ] %(message)s',
             datefmt='%Y-%m-%d %H:%M',
             #handlers=[logging.StreamHandler()])
@@ -20,125 +20,64 @@ init = _config.BotConfig()
 def runSQL():
     return _sql.DBHP("telegram-bot.db")
 # 更新config table botuserName
-runSQL().updateConfig(init.updater.bot.username)
+runSQL().editBotusername(init.updater.bot.username)
 
 # CommandHandler
 def start(update:Update,context:CallbackContext):
-    sql = runSQL()
     # 限制邀請人數才能發言
     if update.message.chat.type == 'private':
         context.bot.send_message(chat_id=update.effective_chat.id,text="What con this bot do?\nPlease tap on START",reply_markup=ReplyKeyboardMarkup(keyboard.wordFlowKeyboardButton))
         if str(update.effective_chat.id) == str(update.message.from_user.id):
             return WORKFLOW
-    else:
-        if sql.getIsManager(update.effective_user.id) == "False" or sql.getManager(update.effective_user.id) is None:
-            if sql.getInviteFriendsSet == "True":
-                if update.message.from_user.first_name != "Telegram":
-                    try:
-                        if update.message.reply_to_message.forward_from_chat.type != "channel":
-                            if sql.messageLimitToInviteFriends(update.message.from_user.id) == False:
-                                len = sql.getDynamicInviteFriendsQuantity(update.message.from_user.id)
-                                mention = "["+update.message.from_user.first_name+"](tg://user?id="+str(update.message.from_user.id)+")"
-                                context.bot.delete_message(chat_id=update.effective_chat.id,message_id=update.message.message_id)
-                                context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需要邀请{len}位好友后可以正常发言",parse_mode="Markdown")
-                            elif sql.messageLimitToInviteFriends(update.message.from_user.id) == True:
-                                try:
-                                    if context.bot.get_chat_member(int(sql.getChannelId()[0]),update.effective_user.id).status =="left":
-                                        if sql.getFollowChannelSet() == "True":
-                                            channelmark = "[@"+sql.channelTitle+"]("+sql.channelLink+")"
-                                            mention = "["+update.message.from_user.first_name+"](tg://user?id="+str(update.message.from_user.id)+")"
-                                            context.bot.delete_message(chat_id=update.effective_chat.id,message_id=update.message.message_id)
-                                            context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需关注频道{channelmark}后可以正常发言",parse_mode="Markdown")
-                                except Exception as e:
-                                    print("機器人尚未加入頻道"+str(e))
-                    except:
-                        if sql.messageLimitToInviteFriends(update.message.from_user.id) == False:
-                            len = sql.getDynamicInviteFriendsQuantity(update.message.from_user.id)
-                            mention = "["+update.message.from_user.first_name+"](tg://user?id="+str(update.message.from_user.id)+")"
-                            context.bot.delete_message(chat_id=update.effective_chat.id,message_id=update.message.message_id)
-                            context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需要邀请{len}位好友后可以正常发言",parse_mode="Markdown")
-                            try:
-                                if context.bot.get_chat_member(int(sql.getChannelId()[0]),update.effective_user.id).status =="left":
-                                    if sql.getFollowChannelSet() == "True":
-                                        channelmark = "[@"+sql.channelTitle+"]("+sql.channelLink+")"
-                                        context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需关注频道{channelmark}后可以正常发言",parse_mode="Markdown")
-                            except:
-                                print("機器人尚未加入頻道")
-                        elif sql.messageLimitToInviteFriends(update.message.from_user.id) == True:
-                            try:
-                                if context.bot.get_chat_member(int(sql.getChannelId()[0]),update.effective_user.id).status =="left":
-                                    if sql.getFollowChannelSet() == "True":
-                                        mention = "["+update.message.from_user.first_name+"](tg://user?id="+str(update.message.from_user.id)+")"
-                                        channelmark = "[@"+sql.channelTitle+"]("+sql.channelLink+")"
-                                        context.bot.delete_message(chat_id=update.effective_chat.id,message_id=update.message.message_id)
-                                        context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需关注频道{channelmark}后可以正常发言",parse_mode="Markdown")
-                            except Exception as e:
-                                print("機器人尚未加入頻道"+str(e))
+def dealMessage(update:Update,context:CallbackContext):
+    sql = runSQL()
+    first_name = update.message.from_user.first_name
+    mention = "["+first_name+"](tg://user?id="+str(update.message.from_user.id)+")"
+    len = sql.getDynamicInviteFriendsQuantity(update.message.from_user.id)
+    channelmark = "[@"+sql.channelLink[13:]+"]("+sql.channelLink+")"
 
+    def catchChannel():
+        try:
+            update.message.reply_to_message.forward_from_chat.type
+            return True
+        except AttributeError:
+            return False
+            
+    def deleteMsgToSeconds(context: CallbackContext):
+        context.bot.delete_message(chat_id=update.effective_chat.id,message_id=context.job.context)
+
+
+    if sql.getIsManager(update.effective_user.id) == "False" or sql.getManager(update.effective_user.id) is None:
+        if sql.getInviteFriendsSet() == "True":
+            if first_name != "Telegram":
+                if catchChannel() == False:
+                    if sql.messageLimitToInviteFriends(update.message.from_user.id) == False:
+                        context.bot.delete_message(chat_id=update.effective_chat.id,message_id=update.message.message_id)
+                        messagea = context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需要邀请{len}位好友后可以正常发言",parse_mode="Markdown").message_id
+                        context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messagea)
+        try:
+            if context.bot.get_chat_member(int(sql.getChannelId()[0]),update.effective_user.id).status =="left":
+                if sql.getFollowChannelSet() == "True":
+                    messagec = context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需关注频道{channelmark}后可以正常发言",parse_mode="Markdown").message_id
+                    context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messagec)
+        except Exception as e:
+            print("機器人尚未加入頻道"+str(e))
 # MessageHandler 第一层msg监听
 def wordFlow(update:Update,context:CallbackContext):
+    infoString = f"[{str(update.message.from_user.id)}] {update.message.from_user.first_name} : {update.message.text}"
+    logging.info(infoString)
     sql = runSQL()
 
     # 记录群组最后messageId(方便删除用)
     if sql.inviteFriendsAutoClearTime != "0":
         sql.insertLastGroupMessageId(update.message.chat.id,update.message.message_id)
-    
     # 自动清除邀请好友记录
     sql.AutoClearinviteFriends()
 
-    first_name = update.message.from_user.first_name
+
     # 限制邀請人數才能發言
     if update.message.chat.type != 'private':
-        if sql.getIsManager(update.effective_user.id) == "False" or sql.getManager(update.effective_user.id) is None:
-            if sql.getInviteFriendsSet() == "True":
-                if first_name != "Telegram":
-                    try:
-                        if update.message.reply_to_message.forward_from_chat.type != "channel":
-                            if sql.messageLimitToInviteFriends(update.message.from_user.id) == False:
-                                len = sql.getDynamicInviteFriendsQuantity(update.message.from_user.id)
-                                mention = "["+first_name+"](tg://user?id="+str(update.message.from_user.id)+")"
-                                context.bot.delete_message(chat_id=update.effective_chat.id,message_id=update.message.message_id)
-                                context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需要邀请{len}位好友后可以正常发言",parse_mode="Markdown")
-                                try:
-                                    if context.bot.get_chat_member(int(sql.getChannelId()[0]),update.effective_user.id).status =="left":
-                                        if sql.getFollowChannelSet() == "True":
-                                            channelmark = "[@"+sql.channelTitle+"]("+sql.channelLink+")"
-                                            context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需关注频道{channelmark}后可以正常发言",parse_mode="Markdown")
-                                except:
-                                    print("機器人尚未加入頻道")
-                            elif sql.messageLimitToInviteFriends(update.message.from_user.id) == True:
-                                try:
-                                    if context.bot.get_chat_member(int(sql.getChannelId()[0]),update.effective_user.id).status =="left":
-                                        if sql.getFollowChannelSet() == "True":
-                                            mention = "["+first_name+"](tg://user?id="+str(update.message.from_user.id)+")"
-                                            channelmark = "[@"+sql.channelTitle+"]("+sql.channelLink+")"
-                                            context.bot.delete_message(chat_id=update.effective_chat.id,message_id=update.message.message_id)
-                                            context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需关注频道{channelmark}后可以正常发言",parse_mode="Markdown")
-                                except Exception as e:
-                                    print("機器人尚未加入頻道"+str(e))
-                    except:
-                        if sql.messageLimitToInviteFriends(update.message.from_user.id) == False:
-                            len = sql.getDynamicInviteFriendsQuantity(update.message.from_user.id)
-                            mention = "["+first_name+"](tg://user?id="+str(update.message.from_user.id)+")"
-                            context.bot.delete_message(chat_id=update.effective_chat.id,message_id=update.message.message_id)
-                            context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需要邀请{len}位好友后可以正常发言",parse_mode="Markdown")
-                            try:
-                                if context.bot.get_chat_member(int(sql.getChannelId()[0]),update.effective_user.id).status =="left":
-                                    if sql.getFollowChannelSet() == "True":
-                                        channelmark = "[@"+sql.channelTitle+"]("+sql.channelLink+")"
-                                        context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需关注频道{channelmark}后可以正常发言",parse_mode="Markdown")
-                            except Exception as e:
-                                print("機器人尚未加入頻道"+str(e))
-                        elif sql.messageLimitToInviteFriends(update.message.from_user.id) == True:
-                            try:
-                                if context.bot.get_chat_member(int(sql.getChannelId()[0]),update.effective_user.id).status =="left":
-                                    if sql.getFollowChannelSet() == "True":
-                                        mention = "["+first_name+"](tg://user?id="+str(update.message.from_user.id)+")"
-                                        channelmark = "[@"+sql.channelTitle+"]("+sql.channelLink+")"
-                                        context.bot.delete_message(chat_id=update.effective_chat.id,message_id=update.message.message_id)
-                                        context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需关注频道{channelmark}后可以正常发言",parse_mode="Markdown")
-                            except Exception as e:
-                                print("機器人尚未加入頻道"+str(e))
+        dealMessage(update,context)
     else:
         # 如何将我添加到您的群组
         if update.message.text == keyboard.howToAddMeToYourGroup:
@@ -170,7 +109,7 @@ def wordFlow(update:Update,context:CallbackContext):
             else:
                 context.bot.send_message(chat_id=update.effective_chat.id,text="you don't have permission")
 
-        # 支援团队
+        # 支援团队列表
         if update.message.text == keyboard.supportGroup:
             groups = sql.getAllJoinGroupIdAndTitle()
             for group in groups:
@@ -190,7 +129,14 @@ def wordFlow(update:Update,context:CallbackContext):
                 
         # 管理员设置
         if update.message.text == keyboard.adminUser:
-            context.bot.send_message(chat_id = update.effective_chat.id,text=keyboard.adminUser,reply_markup = keyboard.adminUserMenu)
+            if sql.getIsManager(update.message.from_user.id) == "True":
+                context.bot.send_message(chat_id = update.effective_chat.id,text=keyboard.adminUser,reply_markup = keyboard.adminUserMenu)
+                context.bot.send_message(chat_id = update.effective_chat.id,text=keyboard.inviteFriendsSet,reply_markup = keyboard.inviteFriendsMenu)
+                context.bot.send_message(chat_id = update.effective_chat.id,text=keyboard.followChannelSet,reply_markup = keyboard.followChannelMenu)
+            else:
+                context.bot.send_message(chat_id = update.effective_chat.id, text = "Send me the 'password' to login.")
+                return GETTHERIGHT
+        
         # 返回
         if update.message.text == keyboard.goBack:
             context.bot.send_message(chat_id=update.effective_chat.id,text="What con this bot do?\nPlease tap on START",reply_markup=ReplyKeyboardMarkup(keyboard.wordFlowKeyboardButton))
@@ -203,6 +149,8 @@ def wordFlow(update:Update,context:CallbackContext):
 # CallbackContext 内连键盘
 def choose(update:Update,context:CallbackContext):
     sql = runSQL()
+
+    # 管理员设置
     if update.callback_query.data==keyboard.cd_findAllAdmin:
         results = sql.getAllManager()
         string=""
@@ -210,9 +158,6 @@ def choose(update:Update,context:CallbackContext):
             mention = "["+result[1]+"](tg://user?id="+result[0]+")"
             string+=mention+" "
         context.bot.send_message(chat_id=update.effective_chat.id,text=f"目前管理员：{string}",parse_mode="Markdown")
-    if update.callback_query.data==keyboard.cd_getTheRight:
-        context.bot.send_message(chat_id = update.effective_chat.id, text = "OK. Send me the 'password' .")
-        return GETTHERIGHT
     if update.callback_query.data==keyboard.cd_adminExit:
         result = sql.exitManager(update.effective_user.id)
         context.bot.send_message(chat_id=update.effective_chat.id,text=result)
@@ -220,43 +165,69 @@ def choose(update:Update,context:CallbackContext):
     if sql.getIsManager(update.effective_user.id) == "False":
         context.bot.send_message(chat_id=update.effective_chat.id,text="You are not an administrator Please login")
     else:
-        if update.callback_query.data==keyboard.cd_paramSet:
-            context.bot.send_message(chat_id = update.effective_chat.id,text=keyboard.paramSet,reply_markup = keyboard.paramSettingMenu)
+        # 查看密码
         if update.callback_query.data == keyboard.cd_passwordCheck:
             context.bot.send_message(chat_id=update.effective_chat.id,text='password : '+sql.password)
+        # 修改密码
         if update.callback_query.data == keyboard.cd_passwordChange:
             context.bot.send_message(chat_id=update.effective_chat.id,text="OK. Send me the new 'password'")
             return CHANGEPASSWORD
+
+
+
+        # 开启 [邀请好友正常发言功能]
         if update.callback_query.data == keyboard.cd_openInviteFriends:
             context.bot.send_message(chat_id=update.effective_chat.id,text="OK. start success")
-            sql.openInviteFriends()
+            sql.editInviteFriends("True")
+        # 关闭 [邀请好友正常发言功能]
         if update.callback_query.data == keyboard.cd_closeInviteFriends:
             context.bot.send_message(chat_id=update.effective_chat.id,text="OK. stop success")
-            sql.closeInviteFriends()
+            sql.editInviteFriends("False")
+        # 设置邀请指定人数
+        if update.callback_query.data == keyboard.cd_setInviteFriendsQuantity:
+            context.bot.send_message(chat_id=update.effective_chat.id,text=f"Now set to '{sql.inviteFriendsQuantity}' seconds , Send me the new number of people")
+            return SETINVITEFRIENDSQUANTITY
+        # 设置几天数为一个周期(0为不重置)
+        if update.callback_query.data == keyboard.cd_setInviteFriendsAutoClearTime:
+            context.bot.send_message(chat_id=update.effective_chat.id,text=f"Now set to '{sql.inviteFriendsAutoClearTime}' seconds , Send me the new day")
+            return SETINVITEFRIENDSAUTOCLEARTIME
+
+        # 开启 [关注频道正常发言功能]
         if update.callback_query.data == keyboard.cd_openFollowChannel:
             context.bot.send_message(chat_id=update.effective_chat.id,text="OK. start success")
-            sql.openFollowChannel()
+            sql.editFollowChannel("True")
+        # 关闭 [关注频道正常发言功能]
         if update.callback_query.data == keyboard.cd_closeFollowChannel:
             context.bot.send_message(chat_id=update.effective_chat.id,text="OK. stop success")
-            sql.closeFollowChannel()
-        if update.callback_query.data == keyboard.cd_setInviteFriendsQuantity:
-            context.bot.send_message(chat_id=update.effective_chat.id,text="OK. Send me the new 'number' of people")
-            return SETINVITEFRIENDSQUANTITY
-        if update.callback_query.data == keyboard.cd_setInviteFriendsAutoClearTime:
-            context.bot.send_message(chat_id=update.effective_chat.id,text="OK. Send me the new 'day'")
-            return SETINVITEFRIENDSAUTOCLEARTIME
+            sql.editFollowChannel("False")
+        
+        # 未达标自动删除系统消息(秒)
+        if update.callback_query.data == keyboard.cd_deleteMsgForSecond:
+            context.bot.send_message(chat_id=update.effective_chat.id,text=f"Now set to '{sql.deleteSeconds}' seconds , Send me the new seconds")
+            return DELETEMSGFORSECOND
+# 未达标自动删除系统消息(秒)
+def deleteMsgForSecond(update:Update,context:CallbackContext):
+    sql = runSQL()
+    try:
+        if type(int(update.message.text)) == int:
+            sql.editDeleteSeconds(update.message.text)
+            context.bot.send_message(chat_id = update.effective_chat.id, text = f"Set the seconds to '{update.message.text}' success!")
+            return ConversationHandler.END
+    except:
+        context.bot.send_message(chat_id = update.effective_chat.id, text = "请重新输入数字")
+        return DELETEMSGFORSECOND
 # 修改密码
 def changePassword(update:Update,context:CallbackContext):
     sql = runSQL()
-    sql.updatePassword(update.message.text)
+    sql.editPassword(update.message.text)
     context.bot.send_message(chat_id = update.effective_chat.id, text = f"Set the password to {update.message.text} Success!")
     return ConversationHandler.END
 def setInviteFriendsQuantity(update:Update,context:CallbackContext):
     sql = runSQL()
     try:
         if type(int(update.message.text)) == int:
-            sql.setInviteFriendsQuantity(update.message.text)
-            context.bot.send_message(chat_id = update.effective_chat.id, text = f"Set the number of invitees to {update.message.text} people success!")
+            sql.editInviteFriendsQuantity(update.message.text)
+            context.bot.send_message(chat_id = update.effective_chat.id, text = f"Set the number of invitees to '{update.message.text}' people success!")
             return ConversationHandler.END
     except:
         context.bot.send_message(chat_id = update.effective_chat.id, text = "请重新输入数字")
@@ -265,8 +236,8 @@ def setInviteFriendsAutoClearTime(update:Update,context:CallbackContext):
     sql = runSQL()
     try:
         if type(int(update.message.text)) == int:
-            sql.setInviteFriendsAutoClearTime(update.message.text)
-            context.bot.send_message(chat_id = update.effective_chat.id, text = f"Set {update.message.text} days as a cycle success!")
+            sql.editInviteFriendsAutoClearTime(update.message.text)
+            context.bot.send_message(chat_id = update.effective_chat.id, text = f"Set '{update.message.text}' days as a cycle success!")
             return ConversationHandler.END
     except:
         context.bot.send_message(chat_id = update.effective_chat.id, text = "请重新输入数字")
@@ -288,9 +259,13 @@ def getTheRight(update:Update,context:CallbackContext):
             mention = "["+result[1]+"](tg://user?id="+result[0]+")"
             string+=mention+" "
         context.bot.send_message(chat_id=update.effective_chat.id,text=f"目前管理员：{string}",parse_mode="Markdown")
+        context.bot.send_message(chat_id = update.effective_chat.id,text=keyboard.adminUser,reply_markup = keyboard.adminUserMenu)
+        context.bot.send_message(chat_id = update.effective_chat.id,text=keyboard.inviteFriendsSet,reply_markup = keyboard.inviteFriendsMenu)
+        context.bot.send_message(chat_id = update.effective_chat.id,text=keyboard.followChannelSet,reply_markup = keyboard.followChannelMenu)
         return ConversationHandler.END
     else:
-        context.bot.send_message(chat_id=update.effective_chat.id,text='输入错误，请重新输入')
+        context.bot.send_message(chat_id=update.effective_chat.id,text='密码错误，请重新输入')
+        return GETTHERIGHT
 
 
 def selectGroup(update:Update,context:CallbackContext):
@@ -381,13 +356,11 @@ def channel(update: Update, context: CallbackContext):
             channelTitle=update.my_chat_member.chat.title
             userId=update.my_chat_member.from_user.id
             userName=update.my_chat_member.from_user.first_name
-            if userName == 'Channel':
-                sql.deleteJoinChannel(channelId)
-            else:
-                link = f'https://t.me/{channelUsername}'
-                sql.insertJoinChannel(userId,userName,channelId,channelTitle,link)
+            sql.deleteJoinChannel(channelId)
+            link = f'https://t.me/{channelUsername}'
+            sql.insertJoinChannel(userId,userName,channelId,channelTitle,link)
 
-START,WORKFLOW,GETTHERIGHT,ADMINWORK,SELECTGROUP,CHANGEPASSWORD,SETINVITEFRIENDSQUANTITY,SETINVITEFRIENDSAUTOCLEARTIME = range(8)
+START,WORKFLOW,GETTHERIGHT,ADMINWORK,SELECTGROUP,CHANGEPASSWORD,SETINVITEFRIENDSQUANTITY,SETINVITEFRIENDSAUTOCLEARTIME,DELETEMSGFORSECOND = range(9)
 
 init.dispatcher.add_handler(
     ConversationHandler(
@@ -399,6 +372,7 @@ init.dispatcher.add_handler(
             SETINVITEFRIENDSQUANTITY: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=setInviteFriendsQuantity)],
             SETINVITEFRIENDSAUTOCLEARTIME: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=setInviteFriendsAutoClearTime)],
             SELECTGROUP: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=selectGroup)],
+            DELETEMSGFORSECOND: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=deleteMsgForSecond)],
             GETTHERIGHT: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=getTheRight)],
             ADMINWORK: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=adminWork)],
         },fallbacks=[CommandHandler('start', start),CallbackQueryHandler(choose),MessageHandler(filters=Filters.text & (~ Filters.command), callback=wordFlow)]))
