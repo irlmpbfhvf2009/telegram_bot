@@ -8,6 +8,11 @@ import logging
 import datetime
 import time
 
+import os
+log_directory = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))+"\log"
+if not os.path.exists(log_directory):
+    os.makedirs(log_directory)
+
 logging.basicConfig(level=logging.DEBUG,
             format='[%(asctime)s]  %(levelname)s [%(filename)s %(funcName)s] [ line:%(lineno)d ] %(message)s',
             datefmt='%Y-%m-%d %H:%M',
@@ -428,6 +433,7 @@ def leftGroup(update:Update,context:CallbackContext):
         string=f'{mention} 將BOT移除群组 {update.message.chat.title} id:{update.message.chat.id}'
         context.bot.send_message(chat_id=5036779522,text=string,parse_mode="Markdown")
     else:
+        print("asdasd")
         sql.updateInviteToMakeMoneyLeftGroup(update.message.left_chat_member.id,update.message.chat.id)
 
 
