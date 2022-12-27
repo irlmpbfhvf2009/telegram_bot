@@ -474,3 +474,49 @@ class DBHP():
     def editInviteSettlementBonus(self,inviteSettlementBonus):
         sql=f"UPDATE config SET value='{inviteSettlementBonus}' where key='inviteSettlementBonus'"
         self.update(sql)
+
+    # CRUD - inviteToMakeMoney
+    def existInviteToMakeMoney(self,userId,groupId):
+        results = self.select_all_tasks(f"SELECT * FROM inviteToMakeMoney where userId = '{userId}' AND groupId = '{groupId}'")
+        if results == []:
+            return False
+        else:
+            for result in results:
+                if str(result[0]) == str(userId) and str(result[2]) == str(groupId):
+                    return True
+                else:
+                    return False
+
+    def insertInviteToMakeMoney(self,userId,userName,groupId,groupTitle,beInvited):
+        data=[
+            {"userId":userId,"userName":userName,"groupId":groupId,"groupTitle":groupTitle,"beInvited":beInvited,"outstandingAmount":"","settlementAmount":""}
+        ]
+        if self.existInviteToMakeMoney(userId,groupId) == False:
+            self.insert_data("inviteToMakeMoney",data)
+        else:
+            self.updateInviteToMakeMoneyBeInvited(userId,groupId,data)
+
+    def updateInviteToMakeMoneyBeInvited(self,userId,groupId,data):
+        results = self.select_all_tasks(f"SELECT beInvited FROM inviteToMakeMoney where userId = '{userId}' AND groupId = '{groupId}'")
+        for result in results:
+            if result[0] == '':
+                JSON_data = {}
+            else:
+                JSON_data = json.loads(result[0])
+        for key,value in json.loads(data[0]['beInvited']).items():
+            JSON_data[key] = value
+        self.update(f"UPDATE inviteToMakeMoney SET beInvited = '{json.dumps(JSON_data)}' WHERE userId = '{userId}' AND groupId = '{groupId}'")
+    
+    def getInviteToMakeMoneyBeInvited(self,groupId):
+        results = self.select_all_tasks(f"SELECT beInvited FROM inviteToMakeMoney where groupId = '{groupId}'")
+        return results
+
+    def updateInviteToMakeMoneyLeftGroup(self,beInvitedId,groupId):
+        results = self.getInviteToMakeMoneyBeInvited(groupId)
+        for result in results:
+            for key,value in json.loads(result[0]).items():
+                print(key)
+                print(beInvitedId)
+                if str(key) == str(beInvitedId):
+                    print('asdasdasdasd')
+                    return True

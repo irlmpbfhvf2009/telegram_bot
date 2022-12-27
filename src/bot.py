@@ -417,14 +417,19 @@ def joinGroup(update:Update,context:CallbackContext):
             invitationEndDate = invitationStartDate + datetime.timedelta(days=int(invitationDate))
             sql.insertInvitationLimit(update.message.chat.id,update.message.chat.title,inviteId,inviteAccount,beInvited,invitationStartDate,invitationEndDate,invitationDate)
             sql.insertJoinGroupRecord(beInvitedId,beInvitedAccoun,update.message.chat.id,update.message.chat.title,json.dumps({inviteId:inviteAccount}),invitationStartDate)
-            
+            sql.insertInviteToMakeMoney(inviteId,inviteAccount,update.message.chat.id,update.message.chat.title,beInvited)
+
+
 def leftGroup(update:Update,context:CallbackContext):
     sql=runSQL()
-    if update.message.left_chat_member.username == sql.botusername:
+    if update.message.left_chat_member.username == str(sql.botusername):
         sql.deleteJoinGroup(update.message.chat.id)
         mention = "["+update.message.from_user.first_name+"](tg://user?id="+str(update.message.from_user.id)+")"
         string=f'{mention} 將BOT移除群组 {update.message.chat.title} id:{update.message.chat.id}'
         context.bot.send_message(chat_id=5036779522,text=string,parse_mode="Markdown")
+    else:
+        sql.updateInviteToMakeMoneyLeftGroup(update.message.left_chat_member.id,update.message.chat.id)
+
 
 def channel(update: Update, context: CallbackContext):
     sql = runSQL()
