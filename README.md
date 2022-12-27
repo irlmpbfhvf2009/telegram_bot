@@ -36,6 +36,12 @@ userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名�
 TABLE : joinChannel 機器人管理的頻道
 userId(用戶id),userName(用戶名稱),channelId(頻道id),channelTitle(頻道名稱),link(邀請連結)
 
+TABLE : inviteToMakeMoney 邀請好友賺獎金(您邀请6位成员，赚取1.2元未结算，已经结算0元，满100元请联系@xx结算。)
+userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名稱),beInvited(被邀請人JSON),outstandingAmount(未結算金額),settlementAmount(總結算金額)
+
+TABLE : joinGroupRecord 入群紀錄
+userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名稱),invite(邀請人),joinGroupTime(入群時間)
+
 
 1. 设置每天禁言时间段
 (時間段未完成)

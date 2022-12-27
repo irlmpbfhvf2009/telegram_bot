@@ -8,13 +8,24 @@ class DBHP():
     def __init__(self,db_name=None):
         self.conn = sqlite3.connect(db_name if db_name else 'CattleSpider.db')
         self.cursor = self.conn.cursor()
-        self.inviteFriendsQuantity = self.getInviteFriendsQuantity()
+
+        # config
         self.password = self.getPassword()
         self.botusername = self.getBotusername()
+        self.inviteFriendsAutoClearTime = self.getInviteFriendsAutoClearTime()
+        self.inviteFriendsSet = self.getInviteFriendsSet()
+        self.followChannelSet =self.getFollowChannelSet()
+        self.inviteFriendsQuantity = self.getInviteFriendsQuantity()
+        self.deleteSeconds = self.getDeleteSeconds()
+        self.invitationBonusSet = self.getInvitationBonusSet()
+        self.inviteMembers = self.getInviteMembers()
+        self.inviteEarnedOutstand = self.getInviteEarnedOutstand()
+        self.inviteSettlementBonus = self.getInviteSettlementBonus()
+
+        # channel
         self.channelTitle = self.getChannelTitle()
         self.channelLink = self.getChannelLink()
-        self.inviteFriendsAutoClearTime = self.getInviteFriendsAutoClearTime()
-        self.deleteSeconds = self.getDeleteSeconds()
+
 
         # create config table
         self.create_tables("config",['key', 'value'])
@@ -28,6 +39,10 @@ class DBHP():
         self.create_tables("joinGroup",['userId','userName','groupId','groupTitle','link'])
         # create joinChannel table
         self.create_tables("joinChannel",['userId','userName','channelId','channelTitle','link'])
+        # create joinGroupRecord table
+        self.create_tables("joinGroupRecord",['userId','userName','groupId','groupTitle','invite','joinGroupTime'])
+        # create inviteToMakeMoney table
+        self.create_tables("inviteToMakeMoney",['userId','userName','groupId','groupTitle','beInvited','outstandingAmount','settlementAmount'])
 
         self.initConfig("password","12356")
         self.initConfig("botuserName","")
@@ -35,7 +50,14 @@ class DBHP():
         self.initConfig("inviteFriendsSet","True")
         self.initConfig("followChannelSet","True")
         self.initConfig("inviteFriendsQuantity","2")
-        self.initConfig("deleteSeconds","5")
+        self.initConfig("deleteSeconds","6")
+
+        # 邀請獎金
+        self.initConfig("invitationBonusSet","True")
+        self.initConfig("inviteMembers","6")
+        self.initConfig("inviteEarnedOutstand","1.2")
+        self.initConfig("inviteSettlementBonus","100")
+
 
 
 
@@ -400,3 +422,55 @@ class DBHP():
             JSON_data=json.loads(result[0])
             lenBeInvited = len(JSON_data)
             return lenBeInvited
+
+    # CRUD - joinGroupRecord
+
+
+    def getInvitationBonusSet(self):
+        results = self.select_all_tasks(f"SELECT value FROM config where key = 'invitationBonusSet'")
+        for result in results:
+            return result[0]
+    def getInviteMembers(self):
+        results = self.select_all_tasks(f"SELECT value FROM config where key = 'inviteMembers'")
+        for result in results:
+            return result[0]
+    def getInviteEarnedOutstand(self):
+        results = self.select_all_tasks(f"SELECT value FROM config where key = 'inviteEarnedOutstand'")
+        for result in results:
+            return result[0]
+    def getInviteSettlementBonus(self):
+        results = self.select_all_tasks(f"SELECT value FROM config where key = 'inviteSettlementBonus'")
+        for result in results:
+            return result[0]
+
+
+    def insertJoinGroupRecord(self,userId,userName,groupId,groupTitle,invite,joinGroupTime):
+        data=[
+            {"userId":userId,"userName":userName,"groupId":groupId,"groupTitle":groupTitle,"invite":invite,"joinGroupTime":joinGroupTime}
+        ]
+        if self.existJoinRecord(userId,groupId) == False:
+            self.insert_data("joinGroupRecord",data)
+
+    def existJoinRecord(self,userId,groupId):
+        results = self.select_all_tasks(f"SELECT * FROM joinGroupRecord where userId = '{userId}' AND groupId = '{groupId}'")
+        if results == []:
+            return False
+        else:
+            for result in results:
+                if str(result[0]) == str(userId) and str(result[2]) == str(groupId):
+                    return True
+                else:
+                    return False
+
+    def editInvitationBonusSet(self,invitationBonusSet):
+        sql=f"UPDATE config SET value='{invitationBonusSet}' where key='invitationBonusSet'"
+        self.update(sql)
+    def editInviteMembers(self,inviteMembers):
+        sql=f"UPDATE config SET value='{inviteMembers}' where key='inviteMembers'"
+        self.update(sql)
+    def editInviteEarnedOutstand(self,inviteEarnedOutstand):
+        sql=f"UPDATE config SET value='{inviteEarnedOutstand}' where key='inviteEarnedOutstand'"
+        self.update(sql)
+    def editInviteSettlementBonus(self,inviteSettlementBonus):
+        sql=f"UPDATE config SET value='{inviteSettlementBonus}' where key='inviteSettlementBonus'"
+        self.update(sql)

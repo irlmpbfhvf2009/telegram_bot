@@ -35,14 +35,22 @@ class Keyboard:
         self.inviteFriendsMenu=InlineKeyboardMarkup([
                 [InlineKeyboardButton(inlinekeyboardDict['inviteFriends']['openInviteFriends'], callback_data=inlinekeyboardDict['inviteFriends']['cd_openInviteFriends'])],
                 [InlineKeyboardButton(inlinekeyboardDict['inviteFriends']['closeInviteFriends'], callback_data=inlinekeyboardDict['inviteFriends']['cd_closeInviteFriends'])],
-                [InlineKeyboardButton(inlinekeyboardDict['inviteFriends']['deleteMsgForSecond'], callback_data=inlinekeyboardDict['inviteFriends']['cd_deleteMsgForSecond'])],
                 [InlineKeyboardButton(inlinekeyboardDict['inviteFriends']['setInviteFriendsQuantity'], callback_data=inlinekeyboardDict['inviteFriends']['cd_setInviteFriendsQuantity'])],
+                [InlineKeyboardButton(inlinekeyboardDict['inviteFriends']['deleteMsgForSecond'], callback_data=inlinekeyboardDict['inviteFriends']['cd_deleteMsgForSecond'])],
                 [InlineKeyboardButton(inlinekeyboardDict['inviteFriends']['setInviteFriendsAutoClearTime'], callback_data=inlinekeyboardDict['inviteFriends']['cd_setInviteFriendsAutoClearTime'])]
             ])
         self.followChannelMenu=InlineKeyboardMarkup([
                 [InlineKeyboardButton(inlinekeyboardDict['followChannel']['openFollowChannel'], callback_data=inlinekeyboardDict['followChannel']['cd_openFollowChannel'])],
                 [InlineKeyboardButton(inlinekeyboardDict['followChannel']['closeFollowChannel'], callback_data=inlinekeyboardDict['followChannel']['cd_closeFollowChannel'])],
                 [InlineKeyboardButton(inlinekeyboardDict['followChannel']['deleteMsgForSecond'], callback_data=inlinekeyboardDict['followChannel']['cd_deleteMsgForSecond'])]
+            ])
+
+        self.InvitationStatisticsSettlementBonusMenu=InlineKeyboardMarkup([
+                [InlineKeyboardButton(inlinekeyboardDict['InvitationStatisticsSettlementBonus']['openInvitationBonusSet'], callback_data=inlinekeyboardDict['InvitationStatisticsSettlementBonus']['cd_openInvitationBonusSet'])],
+                [InlineKeyboardButton(inlinekeyboardDict['InvitationStatisticsSettlementBonus']['closeInvitationBonusSet'], callback_data=inlinekeyboardDict['InvitationStatisticsSettlementBonus']['cd_closeInvitationBonusSet'])],
+                [InlineKeyboardButton(inlinekeyboardDict['InvitationStatisticsSettlementBonus']['setInviteMembers'], callback_data=inlinekeyboardDict['InvitationStatisticsSettlementBonus']['cd_setInviteMembers'])],
+                [InlineKeyboardButton(inlinekeyboardDict['InvitationStatisticsSettlementBonus']['setInviteEarnedOutstand'], callback_data=inlinekeyboardDict['InvitationStatisticsSettlementBonus']['cd_setInviteEarnedOutstand'])],
+                [InlineKeyboardButton(inlinekeyboardDict['InvitationStatisticsSettlementBonus']['setInviteSettlementBonus'], callback_data=inlinekeyboardDict['InvitationStatisticsSettlementBonus']['cd_setInviteSettlementBonus'])]
             ])
 
         # wordFlow
@@ -55,6 +63,7 @@ class Keyboard:
         self.paramSet = keyBoardDict['wordFlow']['paramSet']
         self.inviteFriendsSet = keyBoardDict['wordFlow']['inviteFriendsSet']
         self.followChannelSet = keyBoardDict['wordFlow']['followChannelSet']
+        self.InvitationStatisticsSettlementBonus= keyBoardDict['wordFlow']['InvitationStatisticsSettlementBonus']
         self.homeScreen = keyBoardDict['work']['homeScreen']
         self.banToAllPost = keyBoardDict['work']['banToAllPost']
         self.userSet = keyBoardDict['work']['userSet']
@@ -76,6 +85,14 @@ class Keyboard:
         self.cd_openFollowChannel=inlinekeyboardDict['followChannel']['cd_openFollowChannel']
         self.cd_closeFollowChannel=inlinekeyboardDict['followChannel']['cd_closeFollowChannel']
         self.cd_deleteMsgForSecond=inlinekeyboardDict['followChannel']['cd_deleteMsgForSecond']
+
+        # invitationBonus
+        self.cd_openInvitationBonusSet=inlinekeyboardDict['InvitationStatisticsSettlementBonus']['cd_openInvitationBonusSet']
+        self.cd_closeInvitationBonusSet=inlinekeyboardDict['InvitationStatisticsSettlementBonus']['cd_closeInvitationBonusSet']
+        self.cd_setInviteMembers=inlinekeyboardDict['InvitationStatisticsSettlementBonus']['cd_setInviteMembers']
+        self.cd_setInviteEarnedOutstand=inlinekeyboardDict['InvitationStatisticsSettlementBonus']['cd_setInviteEarnedOutstand']
+        self.cd_setInviteSettlementBonus=inlinekeyboardDict['InvitationStatisticsSettlementBonus']['cd_setInviteSettlementBonus']
+
 
         # common
         self.goBack= keyBoardDict['common']['goBack']

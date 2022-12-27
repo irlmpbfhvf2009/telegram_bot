@@ -10,5 +10,4 @@ class BotConfig:
         self.updater = Updater(config['Telegram-BOT']['token'])
         self.dispatcher = self.updater.dispatcher
         self.botusername = sql.botusername
-        self.deleteSeconds = config['Telegram-BOT']['deleteSeconds']
 

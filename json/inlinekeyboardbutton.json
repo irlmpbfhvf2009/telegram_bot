@@ -9,14 +9,21 @@
     "inviteFriends":{
         "openInviteFriends":"开启 [邀请好友限制发言]","cd_openInviteFriends":"cd_openInviteFriends",
         "closeInviteFriends":"关闭 [邀请好友限制发言]","cd_closeInviteFriends":"cd_closeInviteFriends",
-        "deleteMsgForSecond":"未达标自动删除系统消息(秒)","cd_deleteMsgForSecond":"cd_deleteMsgForSecond",
-        "setInviteFriendsQuantity":"设置邀请指定人数","cd_setInviteFriendsQuantity":"cd_setInviteFriendsQuantity",
-        "setInviteFriendsAutoClearTime":"设置几天数为一个周期(0为不重置)","cd_setInviteFriendsAutoClearTime":"cd_setInviteFriendsAutoClearTime"
+        "deleteMsgForSecond":"设定 [未达标自动删除系统消息(秒)]","cd_deleteMsgForSecond":"cd_deleteMsgForSecond",
+        "setInviteFriendsQuantity":"设定 [邀请指定人数]","cd_setInviteFriendsQuantity":"cd_setInviteFriendsQuantity",
+        "setInviteFriendsAutoClearTime":"设定 [几天数为一个周期(0为不重置)]","cd_setInviteFriendsAutoClearTime":"cd_setInviteFriendsAutoClearTime"
     },
     "followChannel":{
         "openFollowChannel":"开启 [关注频道限制发言]","cd_openFollowChannel":"cd_openFollowChannel",
         "closeFollowChannel":"关闭 [关注频道限制发言]","cd_closeFollowChannel":"cd_closeFollowChannel",
-        "deleteMsgForSecond":"未达标自动删除系统消息(秒)","cd_deleteMsgForSecond":"cd_deleteMsgForSecond"
+        "deleteMsgForSecond":"设定 [未达标自动删除系统消息(秒)]","cd_deleteMsgForSecond":"cd_deleteMsgForSecond"
+    },
+    "InvitationStatisticsSettlementBonus":{
+        "openInvitationBonusSet":"开启 [邀请奖金功能]","cd_openInvitationBonusSet":"cd_openInvitationBonusSet",
+        "closeInvitationBonusSet":"关闭 [邀请奖金功能]","cd_closeInvitationBonusSet":"cd_closeInvitationBonusSet",
+        "setInviteMembers":"设定 [每邀请(n人)以赚取奖金]","cd_setInviteMembers":"cd_setInviteMembers",
+        "setInviteEarnedOutstand":"设定 [邀请达标赚取(n元)奖金]","cd_setInviteEarnedOutstand":"cd_setInviteEarnedOutstand",
+        "setInviteSettlementBonus":"设定 [满(n元)结算奖金]","cd_setInviteSettlementBonus":"cd_setInviteSettlementBonus"
     },
 
     

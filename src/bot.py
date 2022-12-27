@@ -8,10 +8,9 @@ import logging
 import datetime
 import time
 
-logging.basicConfig(level=logging.INFO,
+logging.basicConfig(level=logging.DEBUG,
             format='[%(asctime)s]  %(levelname)s [%(filename)s %(funcName)s] [ line:%(lineno)d ] %(message)s',
             datefmt='%Y-%m-%d %H:%M',
-            #handlers=[logging.StreamHandler()])
             handlers=[logging.StreamHandler(),logging.FileHandler(f'log//{time.strftime("%Y-%m-%d %H-%M-%S", time.localtime())}.log', 'w', 'utf-8')])
 
 keyboard = _button.Keyboard()
@@ -22,13 +21,42 @@ def runSQL():
 # 更新config table botuserName
 runSQL().editBotusername(init.updater.bot.username)
 
+# 封裝
+def sendMenu(update:Update,context:CallbackContext):
+    context.bot.send_message(chat_id = update.effective_chat.id,text=keyboard.adminUser,reply_markup = keyboard.adminUserMenu)
+    inviteFriendsMenu(update,context)
+    followChannelMenu(update,context)
+    InvitationStatisticsSettlementBonusMenu(update,context)
+
+def inviteFriendsMenu(update:Update,context:CallbackContext):
+    sql=runSQL()
+    inviteFriendsSet = "开启" if sql.inviteFriendsSet == "True" else "关闭"
+    inviteFriendsText = f"目前状态：{inviteFriendsSet}\n邀请指定人数：{sql.inviteFriendsQuantity}\n删除系统消息：{sql.deleteSeconds}秒\n重置天数：{sql.inviteFriendsAutoClearTime}"
+    context.bot.send_message(chat_id = update.effective_chat.id,text=inviteFriendsText,reply_markup = keyboard.inviteFriendsMenu)
+
+def followChannelMenu(update:Update,context:CallbackContext):
+    sql=runSQL()
+    followChannelSet = "开启" if sql.followChannelSet == "True" else "关闭"
+    followChannelSetText = f"目前状态：{followChannelSet}\n删除系统消息：{sql.deleteSeconds}秒"
+    context.bot.send_message(chat_id = update.effective_chat.id,text=followChannelSetText,reply_markup = keyboard.followChannelMenu)
+
+def InvitationStatisticsSettlementBonusMenu(update:Update,context:CallbackContext):
+    sql=runSQL()
+    invitationBonusSet = "开启" if sql.invitationBonusSet == "True" else "关闭"
+    invitationBonusSetText = f"目前状态：{invitationBonusSet}\n邀请人数：{sql.inviteMembers}\n获得奖金：{sql.inviteEarnedOutstand}\n结算奖金：{sql.inviteSettlementBonus}"
+    context.bot.send_message(chat_id = update.effective_chat.id,text=invitationBonusSetText,reply_markup = keyboard.InvitationStatisticsSettlementBonusMenu)
+
+def startText(update:Update,context:CallbackContext):
+    return context.bot.send_message(chat_id = update.effective_chat.id,text="What con this bot do?\nPlease tap on START",reply_markup=ReplyKeyboardMarkup(keyboard.wordFlowKeyboardButton))
+
 # CommandHandler
 def start(update:Update,context:CallbackContext):
     # 限制邀請人數才能發言
     if update.message.chat.type == 'private':
-        context.bot.send_message(chat_id=update.effective_chat.id,text="What con this bot do?\nPlease tap on START",reply_markup=ReplyKeyboardMarkup(keyboard.wordFlowKeyboardButton))
+        startText(update,context)
         if str(update.effective_chat.id) == str(update.message.from_user.id):
             return WORKFLOW
+
 def dealMessage(update:Update,context:CallbackContext):
     sql = runSQL()
     first_name = update.message.from_user.first_name
@@ -66,6 +94,7 @@ def wordFlow(update:Update,context:CallbackContext):
     infoString = f"[{str(update.message.from_user.id)}] {update.message.from_user.first_name} : {update.message.text}"
     logging.info(infoString)
     sql = runSQL()
+
     # 记录群组最后messageId(方便删除用)
     if sql.inviteFriendsAutoClearTime != "0":
         sql.insertLastGroupMessageId(update.message.chat.id,update.message.message_id)
@@ -126,19 +155,17 @@ def wordFlow(update:Update,context:CallbackContext):
         # 管理员设置
         if update.message.text == keyboard.adminUser:
             if sql.getIsManager(update.message.from_user.id) == "True":
-                context.bot.send_message(chat_id = update.effective_chat.id,text=keyboard.adminUser,reply_markup = keyboard.adminUserMenu)
-                context.bot.send_message(chat_id = update.effective_chat.id,text=keyboard.inviteFriendsSet,reply_markup = keyboard.inviteFriendsMenu)
-                context.bot.send_message(chat_id = update.effective_chat.id,text=keyboard.followChannelSet,reply_markup = keyboard.followChannelMenu)
+                sendMenu(update,context)
             else:
                 context.bot.send_message(chat_id = update.effective_chat.id, text = "Send me the 'password' to login.")
                 return GETTHERIGHT
         
         # 返回
         if update.message.text == keyboard.goBack:
-            context.bot.send_message(chat_id=update.effective_chat.id,text="What con this bot do?\nPlease tap on START",reply_markup=ReplyKeyboardMarkup(keyboard.wordFlowKeyboardButton))
+            startText(update,context)
         # 主画面
         if update.message.text == keyboard.homeScreen:
-            context.bot.send_message(chat_id=update.effective_chat.id,text="What con this bot do?\nPlease tap on START",reply_markup=ReplyKeyboardMarkup(keyboard.wordFlowKeyboardButton))
+            startText(update,context)
             return ConversationHandler.END
     return WORKFLOW
 
@@ -169,16 +196,14 @@ def choose(update:Update,context:CallbackContext):
             context.bot.send_message(chat_id=update.effective_chat.id,text="OK. Send me the new 'password'")
             return CHANGEPASSWORD
 
-
-
         # 开启 [邀请好友正常发言功能]
         if update.callback_query.data == keyboard.cd_openInviteFriends:
-            context.bot.send_message(chat_id=update.effective_chat.id,text="OK. start success")
             sql.editInviteFriends("True")
+            inviteFriendsMenu(update,context)
         # 关闭 [邀请好友正常发言功能]
         if update.callback_query.data == keyboard.cd_closeInviteFriends:
-            context.bot.send_message(chat_id=update.effective_chat.id,text="OK. stop success")
             sql.editInviteFriends("False")
+            inviteFriendsMenu(update,context)
         # 设置邀请指定人数
         if update.callback_query.data == keyboard.cd_setInviteFriendsQuantity:
             context.bot.send_message(chat_id=update.effective_chat.id,text=f"Now set to '{sql.inviteFriendsQuantity}' seconds , Send me the new number of people")
@@ -190,17 +215,38 @@ def choose(update:Update,context:CallbackContext):
 
         # 开启 [关注频道正常发言功能]
         if update.callback_query.data == keyboard.cd_openFollowChannel:
-            context.bot.send_message(chat_id=update.effective_chat.id,text="OK. start success")
             sql.editFollowChannel("True")
+            followChannelMenu(update,context)
         # 关闭 [关注频道正常发言功能]
         if update.callback_query.data == keyboard.cd_closeFollowChannel:
-            context.bot.send_message(chat_id=update.effective_chat.id,text="OK. stop success")
             sql.editFollowChannel("False")
-        
+            followChannelMenu(update,context)
         # 未达标自动删除系统消息(秒)
         if update.callback_query.data == keyboard.cd_deleteMsgForSecond:
             context.bot.send_message(chat_id=update.effective_chat.id,text=f"Now set to '{sql.deleteSeconds}' seconds , Send me the new seconds")
             return DELETEMSGFORSECOND
+
+        # 开启 [邀请奖金功能]
+        if update.callback_query.data==keyboard.cd_openInvitationBonusSet:
+            sql.editInvitationBonusSet("True")
+            InvitationStatisticsSettlementBonusMenu(update,context)
+        # 关闭 [邀请奖金功能]
+        if update.callback_query.data==keyboard.cd_closeInvitationBonusSet:
+            sql.editInvitationBonusSet("False")
+            InvitationStatisticsSettlementBonusMenu(update,context)
+        # 设定 [每邀请(n人)以赚取奖金]
+        if update.callback_query.data==keyboard.cd_setInviteMembers:
+            context.bot.send_message(chat_id=update.effective_chat.id,text=f"Now set to '{sql.inviteMembers}' people , Send me the new people")
+            return SETINVITEMEMBERS
+        # 设定 [邀请达标赚取(n元)奖金]
+        if update.callback_query.data==keyboard.cd_setInviteEarnedOutstand:
+            context.bot.send_message(chat_id=update.effective_chat.id,text=f"Now set to '{sql.inviteEarnedOutstand}' bonus , Send me the new bonus")
+            return SETINVITEEARNEDOUTSTAND
+        # 设定 [满(n元)结算奖金]
+        if update.callback_query.data==keyboard.cd_setInviteSettlementBonus:
+            context.bot.send_message(chat_id=update.effective_chat.id,text=f"Now set to '{sql.inviteSettlementBonus}' bonus , Send me the new bonus")
+            return SETINVITESETTLEMENTBONUS
+
 # 未达标自动删除系统消息(秒)
 def deleteMsgForSecond(update:Update,context:CallbackContext):
     sql = runSQL()
@@ -212,32 +258,38 @@ def deleteMsgForSecond(update:Update,context:CallbackContext):
     except:
         context.bot.send_message(chat_id = update.effective_chat.id, text = "请重新输入数字")
         return DELETEMSGFORSECOND
+
 # 修改密码
 def changePassword(update:Update,context:CallbackContext):
     sql = runSQL()
     sql.editPassword(update.message.text)
     context.bot.send_message(chat_id = update.effective_chat.id, text = f"Set the password to {update.message.text} Success!")
     return ConversationHandler.END
+
 def setInviteFriendsQuantity(update:Update,context:CallbackContext):
     sql = runSQL()
     try:
         if type(int(update.message.text)) == int:
             sql.editInviteFriendsQuantity(update.message.text)
             context.bot.send_message(chat_id = update.effective_chat.id, text = f"Set the number of invitees to '{update.message.text}' people success!")
+            inviteFriendsMenu(update,context)
             return ConversationHandler.END
     except:
         context.bot.send_message(chat_id = update.effective_chat.id, text = "请重新输入数字")
         return SETINVITEFRIENDSQUANTITY
+
 def setInviteFriendsAutoClearTime(update:Update,context:CallbackContext):
     sql = runSQL()
     try:
         if type(int(update.message.text)) == int:
             sql.editInviteFriendsAutoClearTime(update.message.text)
             context.bot.send_message(chat_id = update.effective_chat.id, text = f"Set '{update.message.text}' days as a cycle success!")
+            inviteFriendsMenu(update,context)
             return ConversationHandler.END
     except:
         context.bot.send_message(chat_id = update.effective_chat.id, text = "请重新输入数字")
         return SETINVITEFRIENDSAUTOCLEARTIME
+
 # 输入密码验证
 def getTheRight(update:Update,context:CallbackContext):
     sql = runSQL()
@@ -255,22 +307,19 @@ def getTheRight(update:Update,context:CallbackContext):
             mention = "["+result[1]+"](tg://user?id="+result[0]+")"
             string+=mention+" "
         context.bot.send_message(chat_id=update.effective_chat.id,text=f"目前管理员：{string}",parse_mode="Markdown")
-        context.bot.send_message(chat_id = update.effective_chat.id,text=keyboard.adminUser,reply_markup = keyboard.adminUserMenu)
-        context.bot.send_message(chat_id = update.effective_chat.id,text=keyboard.inviteFriendsSet,reply_markup = keyboard.inviteFriendsMenu)
-        context.bot.send_message(chat_id = update.effective_chat.id,text=keyboard.followChannelSet,reply_markup = keyboard.followChannelMenu)
+        sendMenu(update,context)
         return ConversationHandler.END
     else:
         context.bot.send_message(chat_id=update.effective_chat.id,text='密码错误，请重新输入')
         return GETTHERIGHT
 
-
 def selectGroup(update:Update,context:CallbackContext):
     sql=runSQL()
     if update.message.text == keyboard.goBack:
-        context.bot.send_message(chat_id=update.effective_chat.id,text="What con this bot do?\nPlease tap on START",reply_markup=ReplyKeyboardMarkup(keyboard.wordFlowKeyboardButton))
+        startText(update,context)
         return ConversationHandler.END
     if update.message.text == keyboard.homeScreen:
-        context.bot.send_message(chat_id=update.effective_chat.id,text="What con this bot do?\nPlease tap on START",reply_markup=ReplyKeyboardMarkup(keyboard.wordFlowKeyboardButton))
+        startText(update,context)
         return ConversationHandler.END
 
     results = sql.getAllJoinGroupIdAndTitle()
@@ -280,6 +329,42 @@ def selectGroup(update:Update,context:CallbackContext):
             context.bot.send_message(chat_id=update.effective_chat.id,text=f"chose {result[1]}",reply_markup=ReplyKeyboardMarkup(keyboard.workKeyboardButton))
             return ADMINWORK
     return SELECTGROUP
+
+def setInvitemembers(update:Update,context:CallbackContext):
+    sql = runSQL()
+    try:
+        if type(int(update.message.text)) == int:
+            sql.editInviteMembers(update.message.text)
+            context.bot.send_message(chat_id = update.effective_chat.id, text = f"Set '{update.message.text}' peoply success!")
+            InvitationStatisticsSettlementBonusMenu(update,context)
+            return ConversationHandler.END
+    except:
+        context.bot.send_message(chat_id = update.effective_chat.id, text = "请重新输入数字")
+        return SETINVITEMEMBERS
+
+def setInviteearnedoutstand(update:Update,context:CallbackContext):
+    sql = runSQL()
+    try:
+        if type(float(update.message.text)) == float:
+            sql.editInviteEarnedOutstand(update.message.text)
+            context.bot.send_message(chat_id = update.effective_chat.id, text = f"Set '{update.message.text}' bouns success!")
+            InvitationStatisticsSettlementBonusMenu(update,context)
+            return ConversationHandler.END
+    except:
+        context.bot.send_message(chat_id = update.effective_chat.id, text = "请重新输入数字")
+        return SETINVITEEARNEDOUTSTAND
+
+def setInvitesettlementBonus(update:Update,context:CallbackContext):
+    sql = runSQL()
+    try:
+        if type(float(update.message.text)) == float:
+            sql.editInviteSettlementBonus(update.message.text)
+            context.bot.send_message(chat_id = update.effective_chat.id, text = f"Set '{update.message.text}' bouns success!")
+            InvitationStatisticsSettlementBonusMenu(update,context)
+            return ConversationHandler.END
+    except:
+        context.bot.send_message(chat_id = update.effective_chat.id, text = "请重新输入数字")
+        return SETINVITESETTLEMENTBONUS
 
 # 管理面板 > 功能
 def adminWork(update:Update,context:CallbackContext):
@@ -306,7 +391,7 @@ def adminWork(update:Update,context:CallbackContext):
 
     # 主画面
     if update.message.text == keyboard.homeScreen:
-        context.bot.send_message(chat_id=update.effective_chat.id,text="What con this bot do?\nPlease tap on START",reply_markup=ReplyKeyboardMarkup(keyboard.wordFlowKeyboardButton))
+        startText(update,context)
         return ConversationHandler.END
     
     return ADMINWORK
@@ -319,7 +404,6 @@ def joinGroup(update:Update,context:CallbackContext):
             mention = "["+update.message.from_user.first_name+"](tg://user?id="+str(update.message.from_user.id)+")"
             string=f'{mention} 將BOT加入群组 {update.message.chat.title} id:{update.message.chat.id}'
             context.bot.send_message(chat_id=5036779522,text=string,parse_mode="Markdown")
-
             link = context.bot.export_chat_invite_link(update.effective_chat.id)
             sql.insertJoinGroup(update.message.from_user.id,update.message.from_user.first_name,update.message.chat.id,update.message.chat.title,link)
         else:
@@ -332,7 +416,7 @@ def joinGroup(update:Update,context:CallbackContext):
             invitationDate = sql.inviteFriendsAutoClearTime
             invitationEndDate = invitationStartDate + datetime.timedelta(days=int(invitationDate))
             sql.insertInvitationLimit(update.message.chat.id,update.message.chat.title,inviteId,inviteAccount,beInvited,invitationStartDate,invitationEndDate,invitationDate)
-
+            sql.insertJoinGroupRecord(beInvitedId,beInvitedAccoun,update.message.chat.id,update.message.chat.title,json.dumps({inviteId:inviteAccount}),invitationStartDate)
             
 def leftGroup(update:Update,context:CallbackContext):
     sql=runSQL()
@@ -356,7 +440,7 @@ def channel(update: Update, context: CallbackContext):
             link = f'https://t.me/{channelUsername}'
             sql.insertJoinChannel(userId,userName,channelId,channelTitle,link)
 
-START,WORKFLOW,GETTHERIGHT,ADMINWORK,SELECTGROUP,CHANGEPASSWORD,SETINVITEFRIENDSQUANTITY,SETINVITEFRIENDSAUTOCLEARTIME,DELETEMSGFORSECOND = range(9)
+START,WORKFLOW,GETTHERIGHT,ADMINWORK,SELECTGROUP,CHANGEPASSWORD,SETINVITEFRIENDSQUANTITY,SETINVITEFRIENDSAUTOCLEARTIME,DELETEMSGFORSECOND,SETINVITEMEMBERS,SETINVITEEARNEDOUTSTAND,SETINVITESETTLEMENTBONUS = range(12) 
 
 init.dispatcher.add_handler(
     ConversationHandler(
@@ -373,11 +457,15 @@ init.dispatcher.add_handler(
             DELETEMSGFORSECOND: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=deleteMsgForSecond)],
             GETTHERIGHT: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=getTheRight)],
             ADMINWORK: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=adminWork)],
+            SETINVITEMEMBERS: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=setInvitemembers)],
+            SETINVITEEARNEDOUTSTAND: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=setInviteearnedoutstand)],
+            SETINVITESETTLEMENTBONUS: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=setInvitesettlementBonus)],
         },fallbacks=[CommandHandler('start', start),CallbackQueryHandler(choose),MessageHandler(filters=Filters.text & (~ Filters.command), callback=wordFlow)]))
 
 init.dispatcher.add_handler(MessageHandler(Filters.status_update.new_chat_members, joinGroup))
 init.dispatcher.add_handler(MessageHandler(Filters.status_update.left_chat_member, leftGroup))
 init.dispatcher.add_handler(ChatMemberHandler(channel, ChatMemberHandler.MY_CHAT_MEMBER))
+
 def run():
     init.updater.start_polling()
     init.updater.idle()
