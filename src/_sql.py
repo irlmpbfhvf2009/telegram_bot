@@ -507,16 +507,19 @@ class DBHP():
             JSON_data[key] = value
         self.update(f"UPDATE inviteToMakeMoney SET beInvited = '{json.dumps(JSON_data)}' WHERE userId = '{userId}' AND groupId = '{groupId}'")
     
-    def getInviteToMakeMoneyBeInvited(self,groupId):
-        results = self.select_all_tasks(f"SELECT beInvited FROM inviteToMakeMoney where groupId = '{groupId}'")
+    def editInviteToMakeMoneyBeInvited(self,userId,groupId,data):
+        self.update(f"UPDATE inviteToMakeMoney SET beInvited = '{data}' WHERE userId = '{userId}' AND groupId = '{groupId}'")
+    
+    def getInviteToMakeMoney(self,groupId):
+        results = self.select_all_tasks(f"SELECT * FROM inviteToMakeMoney where groupId = '{groupId}'")
         return results
 
+
     def updateInviteToMakeMoneyLeftGroup(self,beInvitedId,groupId):
-        results = self.getInviteToMakeMoneyBeInvited(groupId)
+        results = self.getInviteToMakeMoney(groupId)
         for result in results:
-            for key,value in json.loads(result[0]).items():
-                print(key)
-                print(beInvitedId)
+            beInvited = json.loads(result[4])
+            for key,value in json.loads(result[4]).items():
                 if str(key) == str(beInvitedId):
-                    print('asdasdasdasd')
-                    return True
+                    del beInvited[key]
+                    self.editInviteToMakeMoneyBeInvited(result[0],result[2],json.dumps(beInvited))
