@@ -1,1 +1,2 @@
+-- SQLite
 select * from joinGroupRecord
