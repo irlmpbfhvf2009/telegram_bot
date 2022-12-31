@@ -15,9 +15,9 @@ class Keyboard:
                             
 
         self.workKeyboardButton=[
-                            [KeyboardButton(keyBoardDict['work']['userSet'])],
-                            [KeyboardButton(keyBoardDict['work']['banToAllPost']),KeyboardButton(keyBoardDict['work']['groupMsgClear'])],
-                            [KeyboardButton(keyBoardDict['work']['adSettings']),KeyboardButton(keyBoardDict['work']['analysisDay'])],
+                            [KeyboardButton(keyBoardDict['work']['userSet']),KeyboardButton(keyBoardDict['work']['banToAllPost'])],
+                            [KeyboardButton(keyBoardDict['work']['analysisDay']),KeyboardButton(keyBoardDict['work']['groupMsgClear'])],
+                            [KeyboardButton(keyBoardDict['work']['adSettings']),KeyboardButton(keyBoardDict['work']['InvitationStatisticsSettlementBonus'])],
                             [KeyboardButton(keyBoardDict['work']['homeScreen'])]
                         ]
                                 
@@ -35,14 +35,11 @@ class Keyboard:
         self.inviteFriendsMenu=InlineKeyboardMarkup([
                 [InlineKeyboardButton(inlinekeyboardDict['inviteFriends']['openInviteFriends'], callback_data=inlinekeyboardDict['inviteFriends']['cd_openInviteFriends'])],
                 [InlineKeyboardButton(inlinekeyboardDict['inviteFriends']['closeInviteFriends'], callback_data=inlinekeyboardDict['inviteFriends']['cd_closeInviteFriends'])],
-                [InlineKeyboardButton(inlinekeyboardDict['inviteFriends']['setInviteFriendsQuantity'], callback_data=inlinekeyboardDict['inviteFriends']['cd_setInviteFriendsQuantity'])],
-                [InlineKeyboardButton(inlinekeyboardDict['inviteFriends']['deleteMsgForSecond'], callback_data=inlinekeyboardDict['inviteFriends']['cd_deleteMsgForSecond'])],
-                [InlineKeyboardButton(inlinekeyboardDict['inviteFriends']['setInviteFriendsAutoClearTime'], callback_data=inlinekeyboardDict['inviteFriends']['cd_setInviteFriendsAutoClearTime'])]
-            ])
-        self.followChannelMenu=InlineKeyboardMarkup([
                 [InlineKeyboardButton(inlinekeyboardDict['followChannel']['openFollowChannel'], callback_data=inlinekeyboardDict['followChannel']['cd_openFollowChannel'])],
                 [InlineKeyboardButton(inlinekeyboardDict['followChannel']['closeFollowChannel'], callback_data=inlinekeyboardDict['followChannel']['cd_closeFollowChannel'])],
-                [InlineKeyboardButton(inlinekeyboardDict['followChannel']['deleteMsgForSecond'], callback_data=inlinekeyboardDict['followChannel']['cd_deleteMsgForSecond'])]
+                [InlineKeyboardButton(inlinekeyboardDict['inviteFriends']['setInviteFriendsQuantity'], callback_data=inlinekeyboardDict['inviteFriends']['cd_setInviteFriendsQuantity'])],
+                [InlineKeyboardButton(inlinekeyboardDict['inviteFriends']['deleteMsgForSecond'], callback_data=inlinekeyboardDict['inviteFriends']['cd_deleteMsgForSecond'])],
+                [InlineKeyboardButton(inlinekeyboardDict['inviteFriends']['setInviteFriendsAutoClearTime'], callback_data=inlinekeyboardDict['inviteFriends']['cd_setInviteFriendsAutoClearTime'])],
             ])
 
         self.InvitationStatisticsSettlementBonusMenu=InlineKeyboardMarkup([
@@ -63,11 +60,14 @@ class Keyboard:
         self.paramSet = keyBoardDict['wordFlow']['paramSet']
         self.inviteFriendsSet = keyBoardDict['wordFlow']['inviteFriendsSet']
         self.followChannelSet = keyBoardDict['wordFlow']['followChannelSet']
-        self.InvitationStatisticsSettlementBonus= keyBoardDict['wordFlow']['InvitationStatisticsSettlementBonus']
-        self.homeScreen = keyBoardDict['work']['homeScreen']
-        self.banToAllPost = keyBoardDict['work']['banToAllPost']
-        self.userSet = keyBoardDict['work']['userSet']
-        self.groupMsgClear= keyBoardDict['work']['groupMsgClear']
+
+        self.homeScreen = keyBoardDict['work']['homeScreen'] #主画面
+        self.banToAllPost = keyBoardDict['work']['banToAllPost'] #禁言功能
+        self.userSet = keyBoardDict['work']['userSet'] #用户设置
+        self.groupMsgClear= keyBoardDict['work']['groupMsgClear'] #清除训席
+        self.adSettings= keyBoardDict['work']['adSettings'] #广告设置
+        self.analysisDay= keyBoardDict['work']['analysisDay'] #分析当日
+        self.InvitationStatisticsSettlementBonus= keyBoardDict['work']['InvitationStatisticsSettlementBonus'] #分析当日
 
         # adminUser
         self.cd_findAllAdmin=inlinekeyboardDict['adminUser']['cd_findAllAdmin']

@@ -8,16 +8,16 @@
         "adminUser":"管理员设置",
         "paramSet":"参数设定",
         "inviteFriendsSet":"邀请好友发言权",
-        "followChannelSet":"关注频道发言权",
-        "InvitationStatisticsSettlementBonus":"邀请统计结算奖金"
+        "followChannelSet":"关注频道发言权"
     },
     "work":
     {
-        "userSet":"用戶设置",
-        "banToAllPost":"禁言功能",
-        "groupMsgClear":"群组信息清空",
-        "adSettings":"广告设置",
-        "analysisDay":"分析当日",
+        "userSet":"用戶设置(未开发)",
+        "banToAllPost":"禁言功能(未开放)",
+        "groupMsgClear":"群组信息清空(未开放)",
+        "adSettings":"广告设置(未开放)",
+        "analysisDay":"分析当日(未开发)",
+        "InvitationStatisticsSettlementBonus":"邀请统计结算奖金",
         "homeScreen":"主画面"
     },
     "common":

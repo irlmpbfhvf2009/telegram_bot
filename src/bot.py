@@ -30,20 +30,15 @@ runSQL().editBotusername(init.updater.bot.username)
 def sendMenu(update:Update,context:CallbackContext):
     context.bot.send_message(chat_id = update.effective_chat.id,text=keyboard.adminUser,reply_markup = keyboard.adminUserMenu)
     inviteFriendsMenu(update,context)
-    followChannelMenu(update,context)
     InvitationStatisticsSettlementBonusMenu(update,context)
 
 def inviteFriendsMenu(update:Update,context:CallbackContext):
     sql=runSQL()
     inviteFriendsSet = "开启" if sql.inviteFriendsSet == "True" else "关闭"
-    inviteFriendsText = f"目前状态：{inviteFriendsSet}\n邀请指定人数：{sql.inviteFriendsQuantity}\n删除系统消息：{sql.deleteSeconds}秒\n重置天数：{sql.inviteFriendsAutoClearTime}"
-    context.bot.send_message(chat_id = update.effective_chat.id,text=inviteFriendsText,reply_markup = keyboard.inviteFriendsMenu)
-
-def followChannelMenu(update:Update,context:CallbackContext):
-    sql=runSQL()
     followChannelSet = "开启" if sql.followChannelSet == "True" else "关闭"
-    followChannelSetText = f"目前状态：{followChannelSet}\n删除系统消息：{sql.deleteSeconds}秒"
-    context.bot.send_message(chat_id = update.effective_chat.id,text=followChannelSetText,reply_markup = keyboard.followChannelMenu)
+    followChannelSetText = f"目前状态(关注频道)：{followChannelSet}\n"
+    inviteFriendsText = f"目前状态(邀请好友)：{inviteFriendsSet}\n{followChannelSetText}邀请指定人数：{sql.inviteFriendsQuantity}\n删除系统消息：{sql.deleteSeconds}秒\n重置天数：{sql.inviteFriendsAutoClearTime}"
+    context.bot.send_message(chat_id = update.effective_chat.id,text=inviteFriendsText,reply_markup = keyboard.inviteFriendsMenu)
 
 def InvitationStatisticsSettlementBonusMenu(update:Update,context:CallbackContext):
     sql=runSQL()
@@ -140,7 +135,8 @@ def wordFlow(update:Update,context:CallbackContext):
                 context.bot.send_message(chat_id=update.effective_chat.id,text=f"Please select a group",reply_markup=ReplyKeyboardMarkup(selectGroupKeyboardButton()))
                 return SELECTGROUP
             else:
-                context.bot.send_message(chat_id=update.effective_chat.id,text="you don't have permission")
+                context.bot.send_message(chat_id = update.effective_chat.id, text = "You are not an administrator\nSend me the 'password' to login.")
+                return GETTHERIGHT
 
         # 支援团队列表
         if update.message.text == keyboard.supportGroup:
@@ -165,9 +161,23 @@ def wordFlow(update:Update,context:CallbackContext):
             if sql.getIsManager(update.message.from_user.id) == "True":
                 sendMenu(update,context)
             else:
-                context.bot.send_message(chat_id = update.effective_chat.id, text = "Send me the 'password' to login.")
+                context.bot.send_message(chat_id = update.effective_chat.id, text = "You are not an administrator\nSend me the 'password' to login.")
                 return GETTHERIGHT
-        
+        # 邀请统计结算奖金
+        if update.message.text == keyboard.InvitationStatisticsSettlementBonus:
+            if sql.getIsManager(update.message.from_user.id) == "True":
+                results = sql.getInviteToMakeMoney(update.message.chat.id)
+                print(results)
+                for result in results:
+                    print(111)
+                    text = f"用户名:{result[1]} 邀请{len(json.loads(result[4]))}人 未结算金额:{result[5]} 总结算金额:{result[6]}"
+                    print(111)
+                    context.bot.send_message(chat_id=update.message.chat.id,text=text)
+                    
+                context.bot.send_message(chat_id=update.message.chat.id,text=keyboard.InvitationStatisticsSettlementBonus)
+            else:
+                context.bot.send_message(chat_id = update.effective_chat.id, text = "You are not an administrator\nSend me the 'password' to login.")
+                return GETTHERIGHT
         # 返回
         if update.message.text == keyboard.goBack:
             startText(update,context)
@@ -224,11 +234,9 @@ def choose(update:Update,context:CallbackContext):
         # 开启 [关注频道正常发言功能]
         if update.callback_query.data == keyboard.cd_openFollowChannel:
             sql.editFollowChannel("True")
-            followChannelMenu(update,context)
         # 关闭 [关注频道正常发言功能]
         if update.callback_query.data == keyboard.cd_closeFollowChannel:
             sql.editFollowChannel("False")
-            followChannelMenu(update,context)
         # 未达标自动删除系统消息(秒)
         if update.callback_query.data == keyboard.cd_deleteMsgForSecond:
             context.bot.send_message(chat_id=update.effective_chat.id,text=f"Now set to '{sql.deleteSeconds}' seconds , Send me the new seconds")
@@ -389,13 +397,24 @@ def adminWork(update:Update,context:CallbackContext):
                 except Exception as error:
                     print(f'Message_id does not exist: {new_message_id} - {error}')
                     new_message_id = new_message_id - 1
-        context.job_queue.run_once(start_clearmsg,1, context='')
+        #context.job_queue.run_once(start_clearmsg,1, context='')
+        context.bot.send_message(chat_id=update.message.chat.id,text="未开放功能")
     # 用戶設置
     if update.message.text == keyboard.userSet:
-        ...
+        context.bot.send_message(chat_id=update.message.chat.id,text="未开放功能")
     # 禁言系统
     if update.message.text == keyboard.banToAllPost:
-        ...
+        context.bot.send_message(chat_id=update.message.chat.id,text="未开放功能")
+    # 分析当日
+    if update.message.text == keyboard.analysisDay:
+        context.bot.send_message(chat_id=update.message.chat.id,text="未开发")
+    # 广告设置
+    if update.message.text == keyboard.adSettings:
+        context.bot.send_message(chat_id=update.message.chat.id,text="未开放")
+    # 邀请统计结算奖金
+    if update.message.text == keyboard.InvitationStatisticsSettlementBonus:
+        context.bot.send_message(chat_id=update.message.chat.id,text="开发中")
+
 
     # 主画面
     if update.message.text == keyboard.homeScreen:
