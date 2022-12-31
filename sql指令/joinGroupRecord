@@ -1,2 +1,3 @@
 -- SQLite
 select * from joinGroupRecord
+delete from joinGroupRecord

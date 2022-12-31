@@ -1,5 +1,6 @@
 import sqlite3
 import json
+from decimal import Decimal
 
 '''
 sqlite3數據操作封裝
@@ -40,7 +41,7 @@ class DBHP():
         # create joinChannel table
         self.create_tables("joinChannel",['userId','userName','channelId','channelTitle','link'])
         # create joinGroupRecord table
-        self.create_tables("joinGroupRecord",['userId','userName','groupId','groupTitle','invite','joinGroupTime'])
+        self.create_tables("joinGroupRecord",['userId','userName','groupId','groupTitle','inviteId','inviteName','joinGroupTime'])
         # create inviteToMakeMoney table
         self.create_tables("inviteToMakeMoney",['userId','userName','groupId','groupTitle','beInvited','outstandingAmount','settlementAmount'])
 
@@ -54,7 +55,7 @@ class DBHP():
 
         # 邀請獎金
         self.initConfig("invitationBonusSet","True")
-        self.initConfig("inviteMembers","6")
+        self.initConfig("inviteMembers","1")
         self.initConfig("inviteEarnedOutstand","1.2")
         self.initConfig("inviteSettlementBonus","100")
 
@@ -444,9 +445,9 @@ class DBHP():
             return result[0]
 
 
-    def insertJoinGroupRecord(self,userId,userName,groupId,groupTitle,invite,joinGroupTime):
+    def insertJoinGroupRecord(self,userId,userName,groupId,groupTitle,inviteId,inviteName,joinGroupTime):
         data=[
-            {"userId":userId,"userName":userName,"groupId":groupId,"groupTitle":groupTitle,"invite":invite,"joinGroupTime":joinGroupTime}
+            {"userId":userId,"userName":userName,"groupId":groupId,"groupTitle":groupTitle,"inviteId":inviteId,"inviteName":inviteName,"joinGroupTime":joinGroupTime}
         ]
         if self.existJoinRecord(userId,groupId) == False:
             self.insert_data("joinGroupRecord",data)
@@ -461,6 +462,7 @@ class DBHP():
                     return True
                 else:
                     return False
+
 
     def editInvitationBonusSet(self,invitationBonusSet):
         sql=f"UPDATE config SET value='{invitationBonusSet}' where key='invitationBonusSet'"
@@ -487,14 +489,28 @@ class DBHP():
                 else:
                     return False
 
-    def insertInviteToMakeMoney(self,userId,userName,groupId,groupTitle,beInvited):
+    def existJoinRecordTotInviteToMakeMoney(self,inviteId,groupId,userId):
+        results = self.select_all_tasks(f"SELECT * FROM joinGroupRecord where userId = '{userId}' AND groupId = '{groupId}' AND inviteId ='{inviteId}'")
+        if results == []:
+            return False
+        else:
+            for result in results:
+                if str(result[0]) == str(userId) and str(result[2]) == str(groupId) and str(result[4])== str(inviteId):
+                    return True
+                else:
+                    return False
+
+    def insertInviteToMakeMoney(self,userId,userName,groupId,groupTitle,beInvited,beInvitedId):
         data=[
-            {"userId":userId,"userName":userName,"groupId":groupId,"groupTitle":groupTitle,"beInvited":beInvited,"outstandingAmount":"","settlementAmount":""}
+            {"userId":userId,"userName":userName,"groupId":groupId,"groupTitle":groupTitle,"beInvited":beInvited,"outstandingAmount":"0","settlementAmount":"0"}
         ]
+        if self.existJoinRecordTotInviteToMakeMoney(userId,groupId,beInvitedId)==True:
+            return
         if self.existInviteToMakeMoney(userId,groupId) == False:
             self.insert_data("inviteToMakeMoney",data)
         else:
             self.updateInviteToMakeMoneyBeInvited(userId,groupId,data)
+            self.updateInviteToMakeMoneyOutstandingAmount(userId,groupId)
 
     def updateInviteToMakeMoneyBeInvited(self,userId,groupId,data):
         results = self.select_all_tasks(f"SELECT beInvited FROM inviteToMakeMoney where userId = '{userId}' AND groupId = '{groupId}'")
@@ -507,6 +523,30 @@ class DBHP():
             JSON_data[key] = value
         self.update(f"UPDATE inviteToMakeMoney SET beInvited = '{json.dumps(JSON_data)}' WHERE userId = '{userId}' AND groupId = '{groupId}'")
     
+    def updateInviteToMakeMoneyOutstandingAmount(self,userId,groupId):
+        bouns = self.bounsCount(userId,groupId)
+        results = self.select_all_tasks(f"SELECT * FROM joinGroupRecord where groupId = '{groupId}'")
+
+        self.update(f"UPDATE inviteToMakeMoney SET outstandingAmount = '{bouns}' WHERE userId = '{userId}' AND groupId = '{groupId}'")
+    
+
+
+    def bounsCount(self,userId,groupId):
+        inviteEarnedOutstand = self.inviteEarnedOutstand
+        inviteMembers = int(self.inviteMembers)
+        beInvitedLen =int(self.getInviteToMakeMoneyBeInvitedLen(userId,groupId))
+        if beInvitedLen < inviteMembers:
+            return "0"
+        elif beInvitedLen == inviteMembers:
+            return inviteEarnedOutstand
+        elif beInvitedLen > inviteMembers:
+            bouns = Decimal('0')
+            while(beInvitedLen >= inviteMembers): 
+                beInvitedLen=beInvitedLen-inviteMembers
+                bouns+=Decimal(inviteEarnedOutstand)
+                print(bouns)
+        return str(bouns)
+
     def editInviteToMakeMoneyBeInvited(self,userId,groupId,data):
         self.update(f"UPDATE inviteToMakeMoney SET beInvited = '{data}' WHERE userId = '{userId}' AND groupId = '{groupId}'")
     
@@ -514,6 +554,10 @@ class DBHP():
         results = self.select_all_tasks(f"SELECT * FROM inviteToMakeMoney where groupId = '{groupId}'")
         return results
 
+    def getInviteToMakeMoneyBeInvitedLen(self,userId,groupId):
+        results = self.select_all_tasks(f"SELECT beInvited FROM inviteToMakeMoney where userId = '{userId}' AND groupId = '{groupId}'")
+        for result in results:
+            return len(json.loads(result[0]))
 
     def updateInviteToMakeMoneyLeftGroup(self,beInvitedId,groupId):
         results = self.getInviteToMakeMoney(groupId)
@@ -523,3 +567,10 @@ class DBHP():
                 if str(key) == str(beInvitedId):
                     del beInvited[key]
                     self.editInviteToMakeMoneyBeInvited(result[0],result[2],json.dumps(beInvited))
+                    self.updateInviteToMakeMoneyOutstandingAmount(result[0],result[2])
+    
+    def getSettlementAmount(self,userId,groupId):
+        results = self.select_all_tasks(f"SELECT settlementAmount FROM inviteToMakeMoney where userId = '{userId}' AND groupId = '{groupId}'")
+        for result in results:
+            return result[0]
+

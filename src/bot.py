@@ -83,16 +83,15 @@ def dealMessage(update:Update,context:CallbackContext):
             if first_name != "Telegram":
                 if catchChannel() == False:
                     if sql.messageLimitToInviteFriends(update.message.from_user.id,update.message.chat.id) == False:
-                        ...
-                        #context.bot.delete_message(chat_id=update.effective_chat.id,message_id=update.message.message_id)
-                        #messagea = context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需要邀请{len}位好友后可以正常发言",parse_mode="Markdown").message_id
-                        #context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messagea)
+                        context.bot.delete_message(chat_id=update.effective_chat.id,message_id=update.message.message_id)
+                        messagea = context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需要邀请{len}位好友后可以正常发言",parse_mode="Markdown").message_id
+                        context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messagea)
         try:
             if context.bot.get_chat_member(int(sql.getChannelId()[0]),update.effective_user.id).status =="left":
                 if sql.getFollowChannelSet() == "True":
                     channelmark = "[@"+sql.channelLink[13:]+"]("+sql.channelLink+")"
-                    #messagec = context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需关注频道{channelmark}后可以正常发言",parse_mode="Markdown").message_id
-                    #context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messagec)
+                    messagec = context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需关注频道{channelmark}后可以正常发言",parse_mode="Markdown").message_id
+                    context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messagec)
         except Exception as e:
             print("機器人尚未加入頻道"+str(e))
 # MessageHandler 第一层msg监听
@@ -425,8 +424,20 @@ def joinGroup(update:Update,context:CallbackContext):
             invitationDate = sql.inviteFriendsAutoClearTime
             invitationEndDate = invitationStartDate + datetime.timedelta(days=int(invitationDate))
             sql.insertInvitationLimit(update.message.chat.id,update.message.chat.title,inviteId,inviteAccount,beInvited,invitationStartDate,invitationEndDate,invitationDate)
-            sql.insertJoinGroupRecord(beInvitedId,beInvitedAccoun,update.message.chat.id,update.message.chat.title,json.dumps({inviteId:inviteAccount}),invitationStartDate)
-            sql.insertInviteToMakeMoney(inviteId,inviteAccount,update.message.chat.id,update.message.chat.title,beInvited)
+            sql.insertInviteToMakeMoney(inviteId,inviteAccount,update.message.chat.id,update.message.chat.title,beInvited,beInvitedId)
+            
+            inviteEarnedOutstand = sql.bounsCount(inviteId,update.message.chat.id)
+            settlementAmount = sql.getSettlementAmount(inviteId,update.message.chat.id)
+            len = sql.getInviteToMakeMoneyBeInvitedLen(inviteId,update.message.chat.id)
+            if sql.existJoinRecordTotInviteToMakeMoney(inviteId,update.message.chat.id,beInvitedId)==True:
+                text = "(重复邀请不列入计算)"
+            else:
+                a = "@kk"
+                b = 5036779522
+                mention = "["+a+"](tg://user?id="+str(b)+")"
+                text=f"您邀请{len}位成员，赚取{inviteEarnedOutstand}元未结算，已经结算{settlementAmount}元，满{sql.inviteSettlementBonus}元请联系{mention}结算。"
+            sql.insertJoinGroupRecord(beInvitedId,beInvitedAccoun,update.message.chat.id,update.message.chat.title,inviteId,inviteAccount,invitationStartDate)
+            context.bot.send_message(chat_id=update.message.chat.id,text=text,parse_mode="Markdown")
 
 
 def leftGroup(update:Update,context:CallbackContext):

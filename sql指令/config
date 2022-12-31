@@ -5,3 +5,4 @@
 SELECT * from config;
 
 
+UPDATE config SET value = '2' WHERE key = 'inviteMembers'
