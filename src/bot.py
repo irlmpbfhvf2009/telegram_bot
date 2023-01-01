@@ -12,7 +12,7 @@ log_directory = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))+"\lo
 if not os.path.exists(log_directory):
     os.makedirs(log_directory)
 
-logging.basicConfig(level=logging.DEBUG,
+logging.basicConfig(level=logging.INFO,
             format='[%(asctime)s]  %(levelname)s [%(filename)s %(funcName)s] [ line:%(lineno)d ] %(message)s',
             datefmt='%Y-%m-%d %H:%M',
             handlers=[logging.StreamHandler(),logging.FileHandler(f'log//{time.strftime("%Y-%m-%d %H-%M-%S", time.localtime())}.log', 'w', 'utf-8')])
@@ -59,7 +59,7 @@ def start(update:Update,context:CallbackContext):
 def dealMessage(update:Update,context:CallbackContext):
     sql = runSQL()
     first_name = update.message.from_user.first_name
-    mention = "["+first_name+"](tg://user?id="+str(update.message.from_user.id)+")"
+    mention = "[@"+first_name+"：](tg://user?id="+str(update.message.from_user.id)+")"
     len = sql.getDynamicInviteFriendsQuantity(update.message.from_user.id)
 
     def catchChannel():
@@ -73,21 +73,41 @@ def dealMessage(update:Update,context:CallbackContext):
         context.bot.delete_message(chat_id=update.effective_chat.id,message_id=context.job.context)
 
     if sql.getIsManager(update.effective_user.id) == "False" or sql.getManager(update.effective_user.id) is None:
-        if sql.getInviteFriendsSet() == "True":
-            if first_name != "Telegram":
-                if catchChannel() == False:
-                    if sql.messageLimitToInviteFriends(update.message.from_user.id,update.message.chat.id) == False:
-                        context.bot.delete_message(chat_id=update.effective_chat.id,message_id=update.message.message_id)
-                        messagea = context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需要邀请{len}位好友后可以正常发言",parse_mode="Markdown").message_id
-                        context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messagea)
-        try:
-            if context.bot.get_chat_member(int(sql.getChannelId()[0]),update.effective_user.id).status =="left":
-                if sql.getFollowChannelSet() == "True":
-                    channelmark = "[@"+sql.channelLink[13:]+"]("+sql.channelLink+")"
-                    messagec = context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需关注频道{channelmark}后可以正常发言",parse_mode="Markdown").message_id
-                    context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messagec)
-        except Exception as e:
-            print("機器人尚未加入頻道"+str(e))
+        if first_name != "Telegram":
+            if catchChannel() == False:
+                rightToSpeak = True
+                inviteFriendsText=""
+                followChannelText=""
+                autoClearTimeText=""
+                invitationBonusText=""
+                if sql.inviteFriendsAutoClearTime != "0" and sql.getInviteFriendsSet() == "True":
+                    autoClearTimeText = f"要在{sql.inviteFriendsAutoClearTime}天内"
+                if sql.getInviteFriendsSet() == "True":
+                        if sql.invitationBonusSet =="True":
+                            invitationBonusText = f"(邀请{sql.inviteMembers}人可赚{sql.inviteEarnedOutstand}元)"
+                        if sql.messageLimitToInviteFriends(update.message.from_user.id,update.message.chat.id) == False:
+                            rightToSpeak = False
+                            inviteFriendsText = f"邀请{len}人进群{invitationBonusText}"
+                            #messagea = context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需要邀请{len}位好友后可以正常发言",parse_mode="Markdown").message_id
+                            #context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messagea)
+                try:
+                    if context.bot.get_chat_member(int(sql.getChannelId()[0]),update.effective_user.id).status =="left":
+                        if sql.getFollowChannelSet() == "True":
+                            rightToSpeak = False
+                            channelmark = "[@"+sql.channelLink[13:]+"]("+sql.channelLink+")"
+                            if sql.getInviteFriendsSet() == "True":
+                                followChannelText = f"并关注频道 {channelmark}"
+                            elif sql.getInviteFriendsSet() == "False":
+                                followChannelText = f"关注频道 {channelmark}"
+                            #messagec = context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需关注频道{channelmark}后可以正常发言",parse_mode="Markdown").message_id
+                            #context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messagec)
+                except Exception as e:
+                    print("機器人尚未加入頻道"+str(e))
+                if rightToSpeak == False:
+                    context.bot.delete_message(chat_id=update.effective_chat.id,message_id=update.message.message_id)
+                    messageId = context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}{autoClearTimeText}{inviteFriendsText}{followChannelText}后才能发言",parse_mode="Markdown",disable_web_page_preview=True).message_id
+                    context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messageId)
+
 # MessageHandler 第一层msg监听
 def wordFlow(update:Update,context:CallbackContext):
     infoString = f"[{str(update.message.from_user.id)}] {update.message.from_user.first_name} : {update.message.text}"
@@ -481,10 +501,10 @@ def joinGroup(update:Update,context:CallbackContext):
                 mention = "["+a+"](tg://user?id="+str(b)+")"
                 text=f"您邀请{len}位成员，赚取{inviteEarnedOutstand}元未结算，已经结算{settlementAmount}元，满{sql.inviteSettlementBonus}元请联系{mention}结算。"
             sql.insertJoinGroupRecord(beInvitedId,beInvitedAccoun,update.message.chat.id,update.message.chat.title,inviteId,inviteAccount,invitationStartDate)
-            messagId = context.bot.send_message(chat_id=update.message.chat.id,text=text,parse_mode="Markdown").message_id
+            #messagId = context.bot.send_message(chat_id=update.message.chat.id,text=text,parse_mode="Markdown").message_id
             def deleteMsgToSeconds(context: CallbackContext):
                 context.bot.delete_message(chat_id=update.effective_chat.id,message_id=context.job.context)
-            context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messagId)
+            #context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messagId)
 
 def leftGroup(update:Update,context:CallbackContext):
     sql=runSQL()

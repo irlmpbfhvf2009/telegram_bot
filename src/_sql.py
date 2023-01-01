@@ -360,7 +360,7 @@ class DBHP():
         for result in results:
             endTime = result[6]
             if endTime < time:
-                self.update(f"UPDATE invitationLimit SET beInvited='',invitationStartDate='',invitationEndDate='',invitationDate='{self.inviteFriendsQuantity}' where inviteId = '{result[2]}' AND groupId='{result[0]}' ")
+                self.update(f"UPDATE invitationLimit SET beInvited='',invitationStartDate='',invitationEndDate='',invitationDate='{self.inviteFriendsAutoClearTime}' where inviteId = '{result[2]}' AND groupId='{result[0]}' ")
 
     def getInvitationEndDate(self,inviteId,groupId):
         results = self.select_all_tasks(f"SELECT invitationEndDate FROM invitationLimit where inviteId = '{inviteId}' AND groupId = '{groupId}'")
