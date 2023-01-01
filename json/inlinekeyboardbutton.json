@@ -23,7 +23,8 @@
         "closeInvitationBonusSet":"关闭 [邀请奖金功能]","cd_closeInvitationBonusSet":"cd_closeInvitationBonusSet",
         "setInviteMembers":"设定 [每邀请(n人)以赚取奖金]","cd_setInviteMembers":"cd_setInviteMembers",
         "setInviteEarnedOutstand":"设定 [邀请达标赚取(n元)奖金]","cd_setInviteEarnedOutstand":"cd_setInviteEarnedOutstand",
-        "setInviteSettlementBonus":"设定 [满(n元)结算奖金]","cd_setInviteSettlementBonus":"cd_setInviteSettlementBonus"
+        "setInviteSettlementBonus":"设定 [满(n元)结算奖金]","cd_setInviteSettlementBonus":"cd_setInviteSettlementBonus",
+        "setContactPerson":"设定 [联系人]","cd_setContactPerson":"cd_setContactPerson"
     },
 
     

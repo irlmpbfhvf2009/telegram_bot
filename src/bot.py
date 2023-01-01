@@ -42,8 +42,10 @@ def inviteFriendsMenu(update:Update,context:CallbackContext):
 def InvitationStatisticsSettlementBonusMenu(update:Update,context:CallbackContext):
     sql=runSQL()
     invitationBonusSet = "开启" if sql.invitationBonusSet == "True" else "关闭"
-    invitationBonusSetText = f"目前状态：{invitationBonusSet}\n邀请人数：{sql.inviteMembers}\n获得奖金：{sql.inviteEarnedOutstand}\n结算奖金：{sql.inviteSettlementBonus}"
-    context.bot.send_message(chat_id = update.effective_chat.id,text=invitationBonusSetText,reply_markup = keyboard.InvitationStatisticsSettlementBonusMenu)
+    jsonContactPerson = json.loads(sql.contactPerson)
+    contactPerson = "["+jsonContactPerson['contactPersonUsername']+"](tg://user?id="+jsonContactPerson['contactPersonId']+")"
+    invitationBonusSetText = f"目前状态：{invitationBonusSet}\n邀请人数：{sql.inviteMembers}\n获得奖金：{sql.inviteEarnedOutstand}\n结算奖金：{sql.inviteSettlementBonus}\n联系人：{contactPerson}"
+    context.bot.send_message(chat_id = update.effective_chat.id,text=invitationBonusSetText,reply_markup = keyboard.InvitationStatisticsSettlementBonusMenu,parse_mode="Markdown")
 
 def startText(update:Update,context:CallbackContext):
     return context.bot.send_message(chat_id = update.effective_chat.id,text="What con this bot do?\nPlease tap on START",reply_markup=ReplyKeyboardMarkup(keyboard.wordFlowKeyboardButton))
@@ -85,7 +87,8 @@ def dealMessage(update:Update,context:CallbackContext):
                     autoClearTimeText = f"要在{sql.inviteFriendsAutoClearTime}天内"
                 if sql.getInviteFriendsSet() == "True":
                         if sql.invitationBonusSet =="True":
-                            mentionForKK = "[@kk](tg://user?id="+str(986843522)+")"
+                            contactPerson = json.loads(sql.contactPerson)
+                            mentionForKK = "["+contactPerson['contactPersonUsername']+"](tg://user?id="+contactPerson['contactPersonId']+")"
                             fromUserId = str(update.message.from_user.id)
                             try:
                                 inviteEarnedOutstand = sql.bounsCount(fromUserId,update.message.chat.id)
@@ -93,7 +96,9 @@ def dealMessage(update:Update,context:CallbackContext):
                             except TypeError:
                                 sql.insertInviteToMakeMoney(update.message.from_user.id,update.message.from_user.first_name,update.message.chat.id,update.message.chat.title,"{}","")
                                 inviteEarnedOutstand = sql.bounsCount(fromUserId,update.message.chat.id)
-                            invitationBonusText = f"(邀请{sql.inviteMembers}人可赚{sql.inviteEarnedOutstand}元{inviteEarnedOutstandText}，满{sql.inviteSettlementBonus}元请联系{mentionForKK})"
+                            inviteToMakeMoneyBeInvitedLen = sql.getInviteToMakeMoneyBeInvitedLen(update.message.from_user.id,update.message.chat.id)
+                            lenght = int(sql.inviteMembers)-inviteToMakeMoneyBeInvitedLen
+                            invitationBonusText = f"(邀请{lenght}人可赚{sql.inviteEarnedOutstand}元{inviteEarnedOutstandText}，满{sql.inviteSettlementBonus}元请联系{mentionForKK})"
                         if sql.messageLimitToInviteFriends(update.message.from_user.id,update.message.chat.id) == False:
                             rightToSpeak = False
                             inviteFriendsText = f"邀请{len}人进群{invitationBonusText}"
@@ -289,6 +294,18 @@ def choose(update:Update,context:CallbackContext):
         if update.callback_query.data==keyboard.cd_setInviteSettlementBonus:
             context.bot.send_message(chat_id=update.effective_chat.id,text=f"Now set to '{sql.inviteSettlementBonus}' bonus , Send me the new bonus")
             return SETINVITESETTLEMENTBONUS
+        # 设定 [联系人]
+        if update.callback_query.data==keyboard.cd_setContactPerson:
+            userid=str(update.callback_query.from_user.id)
+            username=update.callback_query.from_user.first_name
+            contactPerson = "[@"+username+"](tg://user?id="+userid+")"
+            data = json.dumps({"contactPersonId":userid,"contactPersonUsername":"@"+username})
+            sql.editContactPerson(data)
+            query = update.callback_query
+            query.delete_message()
+            InvitationStatisticsSettlementBonusMenu(update,context)
+            context.bot.send_message(chat_id=update.effective_chat.id,text=f"联系人设定为{contactPerson}",parse_mode="Markdown",disable_web_page_preview=True)
+            
     # 結算獎金
     try:
         jsonData = json.loads(update.callback_query.data)
@@ -427,6 +444,7 @@ def setInvitesettlementBonus(update:Update,context:CallbackContext):
     except:
         context.bot.send_message(chat_id = update.effective_chat.id, text = "请重新输入数字")
         return SETINVITESETTLEMENTBONUS
+
 
 # 管理面板 > 功能
 def adminWork(update:Update,context:CallbackContext):

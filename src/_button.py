@@ -47,7 +47,8 @@ class Keyboard:
                 [InlineKeyboardButton(inlinekeyboardDict['InvitationStatisticsSettlementBonus']['closeInvitationBonusSet'], callback_data=inlinekeyboardDict['InvitationStatisticsSettlementBonus']['cd_closeInvitationBonusSet'])],
                 [InlineKeyboardButton(inlinekeyboardDict['InvitationStatisticsSettlementBonus']['setInviteMembers'], callback_data=inlinekeyboardDict['InvitationStatisticsSettlementBonus']['cd_setInviteMembers'])],
                 [InlineKeyboardButton(inlinekeyboardDict['InvitationStatisticsSettlementBonus']['setInviteEarnedOutstand'], callback_data=inlinekeyboardDict['InvitationStatisticsSettlementBonus']['cd_setInviteEarnedOutstand'])],
-                [InlineKeyboardButton(inlinekeyboardDict['InvitationStatisticsSettlementBonus']['setInviteSettlementBonus'], callback_data=inlinekeyboardDict['InvitationStatisticsSettlementBonus']['cd_setInviteSettlementBonus'])]
+                [InlineKeyboardButton(inlinekeyboardDict['InvitationStatisticsSettlementBonus']['setInviteSettlementBonus'], callback_data=inlinekeyboardDict['InvitationStatisticsSettlementBonus']['cd_setInviteSettlementBonus'])],
+                [InlineKeyboardButton(inlinekeyboardDict['InvitationStatisticsSettlementBonus']['setContactPerson'], callback_data=inlinekeyboardDict['InvitationStatisticsSettlementBonus']['cd_setContactPerson'])]
             ])
 
         # wordFlow
@@ -67,7 +68,7 @@ class Keyboard:
         self.groupMsgClear= keyBoardDict['work']['groupMsgClear'] #清除训席
         self.adSettings= keyBoardDict['work']['adSettings'] #广告设置
         self.analysisDay= keyBoardDict['work']['analysisDay'] #分析当日
-        self.InvitationStatisticsSettlementBonus= keyBoardDict['work']['InvitationStatisticsSettlementBonus'] #分析当日
+        self.InvitationStatisticsSettlementBonus= keyBoardDict['work']['InvitationStatisticsSettlementBonus'] #奖金分配
 
         # adminUser
         self.cd_findAllAdmin=inlinekeyboardDict['adminUser']['cd_findAllAdmin']
@@ -92,7 +93,7 @@ class Keyboard:
         self.cd_setInviteMembers=inlinekeyboardDict['InvitationStatisticsSettlementBonus']['cd_setInviteMembers']
         self.cd_setInviteEarnedOutstand=inlinekeyboardDict['InvitationStatisticsSettlementBonus']['cd_setInviteEarnedOutstand']
         self.cd_setInviteSettlementBonus=inlinekeyboardDict['InvitationStatisticsSettlementBonus']['cd_setInviteSettlementBonus']
-
+        self.cd_setContactPerson=inlinekeyboardDict['InvitationStatisticsSettlementBonus']['cd_setContactPerson']
 
         # common
         self.goBack= keyBoardDict['common']['goBack']

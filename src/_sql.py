@@ -22,7 +22,7 @@ class DBHP():
         self.inviteMembers = self.getInviteMembers()
         self.inviteEarnedOutstand = self.getInviteEarnedOutstand()
         self.inviteSettlementBonus = self.getInviteSettlementBonus()
-
+        self.contactPerson = self.getContactPerson()
         # channel
         self.channelTitle = self.getChannelTitle()
         self.channelLink = self.getChannelLink()
@@ -58,6 +58,7 @@ class DBHP():
         self.initConfig("inviteMembers","6")
         self.initConfig("inviteEarnedOutstand","1.2")
         self.initConfig("inviteSettlementBonus","100")
+        self.initConfig("contactPerson","{\"contactPersonId\":\"986843522\",\"contactPersonUsername\":\"@kk\"}")
 
 
 
@@ -189,7 +190,15 @@ class DBHP():
         results = self.select_all_tasks("SELECT * FROM config WHERE key = 'inviteFriendsQuantity'")
         for result in results:
             return result[1]
-            
+
+    def getContactPerson(self):
+        results = self.select_all_tasks(f"SELECT value FROM config where key = 'contactPerson'")
+        for result in results:
+            return result[0]
+
+    def editContactPerson(self,contactPerson):
+        sql=f"UPDATE config SET value='{contactPerson}' where key='contactPerson'"
+        self.update(sql)
     def editPassword(self,password):
         sql=f"UPDATE config SET value='{password}' where key='password'"
         self.update(sql)
