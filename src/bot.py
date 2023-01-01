@@ -7,7 +7,6 @@ from src import _sql
 import logging
 import datetime
 import time
-
 import os
 log_directory = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))+"\log"
 if not os.path.exists(log_directory):
@@ -163,21 +162,6 @@ def wordFlow(update:Update,context:CallbackContext):
             else:
                 context.bot.send_message(chat_id = update.effective_chat.id, text = "You are not an administrator\nSend me the 'password' to login.")
                 return GETTHERIGHT
-        # 邀请统计结算奖金
-        if update.message.text == keyboard.InvitationStatisticsSettlementBonus:
-            if sql.getIsManager(update.message.from_user.id) == "True":
-                results = sql.getInviteToMakeMoney(update.message.chat.id)
-                print(results)
-                for result in results:
-                    print(111)
-                    text = f"用户名:{result[1]} 邀请{len(json.loads(result[4]))}人 未结算金额:{result[5]} 总结算金额:{result[6]}"
-                    print(111)
-                    context.bot.send_message(chat_id=update.message.chat.id,text=text)
-                    
-                context.bot.send_message(chat_id=update.message.chat.id,text=keyboard.InvitationStatisticsSettlementBonus)
-            else:
-                context.bot.send_message(chat_id = update.effective_chat.id, text = "You are not an administrator\nSend me the 'password' to login.")
-                return GETTHERIGHT
         # 返回
         if update.message.text == keyboard.goBack:
             startText(update,context)
@@ -217,10 +201,14 @@ def choose(update:Update,context:CallbackContext):
         # 开启 [邀请好友正常发言功能]
         if update.callback_query.data == keyboard.cd_openInviteFriends:
             sql.editInviteFriends("True")
+            query = update.callback_query
+            query.delete_message()
             inviteFriendsMenu(update,context)
         # 关闭 [邀请好友正常发言功能]
         if update.callback_query.data == keyboard.cd_closeInviteFriends:
             sql.editInviteFriends("False")
+            query = update.callback_query
+            query.delete_message()
             inviteFriendsMenu(update,context)
         # 设置邀请指定人数
         if update.callback_query.data == keyboard.cd_setInviteFriendsQuantity:
@@ -234,9 +222,15 @@ def choose(update:Update,context:CallbackContext):
         # 开启 [关注频道正常发言功能]
         if update.callback_query.data == keyboard.cd_openFollowChannel:
             sql.editFollowChannel("True")
+            query = update.callback_query
+            query.delete_message()
+            inviteFriendsMenu(update,context)
         # 关闭 [关注频道正常发言功能]
         if update.callback_query.data == keyboard.cd_closeFollowChannel:
             sql.editFollowChannel("False")
+            query = update.callback_query
+            query.delete_message()
+            inviteFriendsMenu(update,context)
         # 未达标自动删除系统消息(秒)
         if update.callback_query.data == keyboard.cd_deleteMsgForSecond:
             context.bot.send_message(chat_id=update.effective_chat.id,text=f"Now set to '{sql.deleteSeconds}' seconds , Send me the new seconds")
@@ -245,10 +239,14 @@ def choose(update:Update,context:CallbackContext):
         # 开启 [邀请奖金功能]
         if update.callback_query.data==keyboard.cd_openInvitationBonusSet:
             sql.editInvitationBonusSet("True")
+            query = update.callback_query
+            query.delete_message()
             InvitationStatisticsSettlementBonusMenu(update,context)
         # 关闭 [邀请奖金功能]
         if update.callback_query.data==keyboard.cd_closeInvitationBonusSet:
             sql.editInvitationBonusSet("False")
+            query = update.callback_query
+            query.delete_message()
             InvitationStatisticsSettlementBonusMenu(update,context)
         # 设定 [每邀请(n人)以赚取奖金]
         if update.callback_query.data==keyboard.cd_setInviteMembers:
@@ -262,7 +260,26 @@ def choose(update:Update,context:CallbackContext):
         if update.callback_query.data==keyboard.cd_setInviteSettlementBonus:
             context.bot.send_message(chat_id=update.effective_chat.id,text=f"Now set to '{sql.inviteSettlementBonus}' bonus , Send me the new bonus")
             return SETINVITESETTLEMENTBONUS
+    # 結算獎金
+    try:
+        jsonData = json.loads(update.callback_query.data)
+        if type(jsonData)==dict:
+            for key,value in jsonData.items():
+                userId = key
+                groupId = value
+                sql.earnBonus(userId,groupId)
 
+                sql = runSQL()
+                results = sql.getInviteToMakeMoneyEarnBonus(userId,groupId)
+                for result in results:
+                    text = f"用户名：{result[1]}\n邀请人数：{len(json.loads(result[4]))}\n未结算金额：{result[5]}\n用户结算记录：{result[6]}\n后台设定结算金额：{sql.inviteSettlementBonus}"
+
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('已结算', callback_data='none')]])
+                query = update.callback_query
+                query.edit_message_text(text)
+                query.edit_message_reply_markup(reply_markup)
+    except:
+        ...
 # 未达标自动删除系统消息(秒)
 def deleteMsgForSecond(update:Update,context:CallbackContext):
     sql = runSQL()
@@ -413,9 +430,17 @@ def adminWork(update:Update,context:CallbackContext):
         context.bot.send_message(chat_id=update.message.chat.id,text="未开放")
     # 邀请统计结算奖金
     if update.message.text == keyboard.InvitationStatisticsSettlementBonus:
-        context.bot.send_message(chat_id=update.message.chat.id,text="开发中")
-
-
+   
+        results = sql.getInviteToMakeMoney(chat_id)
+        for result in results:
+            sql=runSQL()
+            text = f"用户名：{result[1]}\n邀请人数：{len(json.loads(result[4]))}\n未结算金额：{result[5]}\n用户结算记录：{result[6]}\n后台设定结算金额：{sql.inviteSettlementBonus}"
+            if float(result[5]) >= float(sql.inviteSettlementBonus):
+                data = json.dumps({result[0]:result[2]})
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('结算(清空数据)', callback_data=data)]])
+            else:
+                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('未达标', callback_data='none')]])
+            context.bot.send_message(chat_id=update.effective_chat.id,text=text,reply_markup=reply_markup)
     # 主画面
     if update.message.text == keyboard.homeScreen:
         startText(update,context)
@@ -452,12 +477,14 @@ def joinGroup(update:Update,context:CallbackContext):
                 text = "(重复邀请不列入计算)"
             else:
                 a = "@kk"
-                b = 5036779522
+                b = 986843522
                 mention = "["+a+"](tg://user?id="+str(b)+")"
                 text=f"您邀请{len}位成员，赚取{inviteEarnedOutstand}元未结算，已经结算{settlementAmount}元，满{sql.inviteSettlementBonus}元请联系{mention}结算。"
             sql.insertJoinGroupRecord(beInvitedId,beInvitedAccoun,update.message.chat.id,update.message.chat.title,inviteId,inviteAccount,invitationStartDate)
-            context.bot.send_message(chat_id=update.message.chat.id,text=text,parse_mode="Markdown")
-
+            messagId = context.bot.send_message(chat_id=update.message.chat.id,text=text,parse_mode="Markdown").message_id
+            def deleteMsgToSeconds(context: CallbackContext):
+                context.bot.delete_message(chat_id=update.effective_chat.id,message_id=context.job.context)
+            context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messagId)
 
 def leftGroup(update:Update,context:CallbackContext):
     sql=runSQL()

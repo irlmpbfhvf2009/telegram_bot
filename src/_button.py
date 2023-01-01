@@ -15,9 +15,9 @@ class Keyboard:
                             
 
         self.workKeyboardButton=[
-                            [KeyboardButton(keyBoardDict['work']['userSet']),KeyboardButton(keyBoardDict['work']['banToAllPost'])],
-                            [KeyboardButton(keyBoardDict['work']['analysisDay']),KeyboardButton(keyBoardDict['work']['groupMsgClear'])],
-                            [KeyboardButton(keyBoardDict['work']['adSettings']),KeyboardButton(keyBoardDict['work']['InvitationStatisticsSettlementBonus'])],
+                            [KeyboardButton(keyBoardDict['work']['InvitationStatisticsSettlementBonus'])],
+                            [KeyboardButton(keyBoardDict['work']['userSet']),KeyboardButton(keyBoardDict['work']['banToAllPost']),KeyboardButton(keyBoardDict['work']['analysisDay'])],
+                            [KeyboardButton(keyBoardDict['work']['groupMsgClear']),KeyboardButton(keyBoardDict['work']['adSettings'])],
                             [KeyboardButton(keyBoardDict['work']['homeScreen'])]
                         ]
                                 

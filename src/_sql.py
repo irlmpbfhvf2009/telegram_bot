@@ -55,7 +55,7 @@ class DBHP():
 
         # 邀請獎金
         self.initConfig("invitationBonusSet","True")
-        self.initConfig("inviteMembers","1")
+        self.initConfig("inviteMembers","6")
         self.initConfig("inviteEarnedOutstand","1.2")
         self.initConfig("inviteSettlementBonus","100")
 
@@ -502,7 +502,7 @@ class DBHP():
 
     def insertInviteToMakeMoney(self,userId,userName,groupId,groupTitle,beInvited,beInvitedId):
         data=[
-            {"userId":userId,"userName":userName,"groupId":groupId,"groupTitle":groupTitle,"beInvited":beInvited,"outstandingAmount":"0","settlementAmount":"0"}
+            {"userId":userId,"userName":userName,"groupId":groupId,"groupTitle":groupTitle,"beInvited":beInvited,"outstandingAmount":self.inviteEarnedOutstand,"settlementAmount":"0"}
         ]
         if self.existJoinRecordTotInviteToMakeMoney(userId,groupId,beInvitedId)==True:
             return
@@ -573,4 +573,23 @@ class DBHP():
         results = self.select_all_tasks(f"SELECT settlementAmount FROM inviteToMakeMoney where userId = '{userId}' AND groupId = '{groupId}'")
         for result in results:
             return result[0]
+    
+    def getInviteToMakeMoneyEarnBonus(self,userId,groupId):
+        results = self.select_all_tasks(f"SELECT * FROM inviteToMakeMoney where groupId = '{groupId}' AND userId = '{userId}'")
+        return results
+
+    def earnBonus(self,userId,groupId):
+        results = self.getInviteToMakeMoneyEarnBonus(userId,groupId)
+        for result in results:
+            outstandingAmount = Decimal(result[5]) - Decimal(self.inviteSettlementBonus)
+            settlementAmount = Decimal(result[6]) + Decimal(self.inviteSettlementBonus)
+            beInvited="{}"
+            self.update(f"UPDATE inviteToMakeMoney SET outstandingAmount = '{outstandingAmount}' WHERE userId = '{userId}' AND groupId = '{groupId}'")
+            self.update(f"UPDATE inviteToMakeMoney SET settlementAmount = '{settlementAmount}' WHERE userId = '{userId}' AND groupId = '{groupId}'")
+            self.update(f"UPDATE inviteToMakeMoney SET beInvited = '{beInvited}' WHERE userId = '{userId}' AND groupId = '{groupId}'")
+
+            print(result)
+
+
+
 
