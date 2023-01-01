@@ -525,8 +525,7 @@ class DBHP():
     
     def updateInviteToMakeMoneyOutstandingAmount(self,userId,groupId):
         bouns = self.bounsCount(userId,groupId)
-        results = self.select_all_tasks(f"SELECT * FROM joinGroupRecord where groupId = '{groupId}'")
-
+        #results = self.select_all_tasks(f"SELECT * FROM joinGroupRecord where groupId = '{groupId}'")
         self.update(f"UPDATE inviteToMakeMoney SET outstandingAmount = '{bouns}' WHERE userId = '{userId}' AND groupId = '{groupId}'")
     
 

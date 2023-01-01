@@ -80,11 +80,20 @@ def dealMessage(update:Update,context:CallbackContext):
                 followChannelText=""
                 autoClearTimeText=""
                 invitationBonusText=""
+                inviteEarnedOutstandText=""
                 if sql.inviteFriendsAutoClearTime != "0" and sql.getInviteFriendsSet() == "True":
                     autoClearTimeText = f"要在{sql.inviteFriendsAutoClearTime}天内"
                 if sql.getInviteFriendsSet() == "True":
                         if sql.invitationBonusSet =="True":
-                            invitationBonusText = f"(邀请{sql.inviteMembers}人可赚{sql.inviteEarnedOutstand}元)"
+                            mentionForKK = "[@kk](tg://user?id="+str(986843522)+")"
+                            fromUserId = str(update.message.from_user.id)
+                            try:
+                                inviteEarnedOutstand = sql.bounsCount(fromUserId,update.message.chat.id)
+                                inviteEarnedOutstandText = f"，未结算{inviteEarnedOutstand}元"
+                            except TypeError:
+                                sql.insertInviteToMakeMoney(update.message.from_user.id,update.message.from_user.first_name,update.message.chat.id,update.message.chat.title,"{}","")
+                                inviteEarnedOutstand = sql.bounsCount(fromUserId,update.message.chat.id)
+                            invitationBonusText = f"(邀请{sql.inviteMembers}人可赚{sql.inviteEarnedOutstand}元{inviteEarnedOutstandText}，满{sql.inviteSettlementBonus}元请联系{mentionForKK})"
                         if sql.messageLimitToInviteFriends(update.message.from_user.id,update.message.chat.id) == False:
                             rightToSpeak = False
                             inviteFriendsText = f"邀请{len}人进群{invitationBonusText}"

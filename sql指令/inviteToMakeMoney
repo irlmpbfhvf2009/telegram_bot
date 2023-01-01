@@ -1,4 +1,6 @@
--- delete from config --;
+-- delete from inviteToMakeMoney --;
 
 
 select * from inviteToMakeMoney
+
+delete from inviteToMakeMoney
