@@ -1,0 +1,57 @@
+[2023-01-02 15:37]  INFO [base.py start] [ line:166 ] Scheduler started
+[2023-01-02 15:37]  INFO [bot.py wordFlow] [ line:136 ] [5036779522] Leo : 1
+[2023-01-02 15:37]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:37]  INFO [bot.py wordFlow] [ line:136 ] [5407751234] Nolan : yt669
+https://t.me/+3hUeQje7AAQwYzJi
+[2023-01-02 15:37]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:38]  INFO [bot.py wordFlow] [ line:136 ] [5851564125] 晓柔 : None
+[2023-01-02 15:38]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:38:14 UTC], next run at: 2023-01-02 07:38:14 UTC)" (scheduled at 2023-01-02 07:38:14.270446+00:00)
+[2023-01-02 15:38]  INFO [base.py remove_job] [ line:627 ] Removed job f518e13d1be042208ce4be9204364648
+[2023-01-02 15:38]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:38]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:38:14 UTC], next run at: 2023-01-02 07:38:14 UTC)" executed successfully
+[2023-01-02 15:38]  INFO [bot.py wordFlow] [ line:136 ] [1327563714] Xiao Hai : None
+[2023-01-02 15:38]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:38]  INFO [bot.py wordFlow] [ line:136 ] [5407751234] Nolan : yt669
+https://t.me/+3hUeQje7AAQwYzJi
+[2023-01-02 15:38]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:38]  INFO [base.py remove_job] [ line:627 ] Removed job 3ed488a334954e42a6246389faef128b
+[2023-01-02 15:38]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:38:48 UTC], next run at: 2023-01-02 07:38:48 UTC)" (scheduled at 2023-01-02 07:38:48.863962+00:00)
+[2023-01-02 15:38]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:38:48 UTC], next run at: 2023-01-02 07:38:48 UTC)" executed successfully
+[2023-01-02 15:39]  INFO [base.py remove_job] [ line:627 ] Removed job 8ba83f79f25b405d8663a8721519a0cc
+[2023-01-02 15:39]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:39:04 UTC], next run at: 2023-01-02 07:39:04 UTC)" (scheduled at 2023-01-02 07:39:04.445813+00:00)
+[2023-01-02 15:39]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:39:04 UTC], next run at: 2023-01-02 07:39:04 UTC)" executed successfully
+[2023-01-02 15:39]  INFO [bot.py wordFlow] [ line:136 ] [1912012420] FOCUS-Beauty : None
+[2023-01-02 15:39]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:39]  INFO [base.py remove_job] [ line:627 ] Removed job bbecbe21a46a4ac5a3324b6cff669da4
+[2023-01-02 15:39]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:39:21 UTC], next run at: 2023-01-02 07:39:21 UTC)" (scheduled at 2023-01-02 07:39:21.242156+00:00)
+[2023-01-02 15:39]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:39:21 UTC], next run at: 2023-01-02 07:39:21 UTC)" executed successfully
+[2023-01-02 15:39]  INFO [base.py remove_job] [ line:627 ] Removed job f590a577ea794160a0f6978f5c6dfc00
+[2023-01-02 15:39]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:39:23 UTC], next run at: 2023-01-02 07:39:23 UTC)" (scheduled at 2023-01-02 07:39:23.946097+00:00)
+[2023-01-02 15:39]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:39:23 UTC], next run at: 2023-01-02 07:39:23 UTC)" executed successfully
+[2023-01-02 15:39]  INFO [bot.py wordFlow] [ line:136 ] [5837371133] Delmar : yt669
+https://t.me/+eNP3WD3uEtJkYjUx
+[2023-01-02 15:39]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:40]  INFO [base.py remove_job] [ line:627 ] Removed job b3a0280bd5894575883a821ac399b3f4
+[2023-01-02 15:40]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:40:04 UTC], next run at: 2023-01-02 07:40:04 UTC)" (scheduled at 2023-01-02 07:40:04.277627+00:00)
+[2023-01-02 15:40]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:40:04 UTC], next run at: 2023-01-02 07:40:04 UTC)" executed successfully
+[2023-01-02 15:40]  INFO [base.py remove_job] [ line:627 ] Removed job b1062579989045dc940bfbc979c27eaf
+[2023-01-02 15:40]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:40:40 UTC], next run at: 2023-01-02 07:40:40 UTC)" (scheduled at 2023-01-02 07:40:40.522182+00:00)
+[2023-01-02 15:40]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:40:40 UTC], next run at: 2023-01-02 07:40:40 UTC)" executed successfully
+[2023-01-02 15:40]  INFO [bot.py wordFlow] [ line:136 ] [998272414] 无铭 （有喝不渴 ) 小吃 奶茶 饮品 : None
+[2023-01-02 15:40]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:41]  INFO [bot.py wordFlow] [ line:136 ] [5982455983] Olga : 想买车房私我
+[2023-01-02 15:41]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:41]  INFO [bot.py wordFlow] [ line:136 ] [5407751234] Nolan : yt669
+https://t.me/+3hUeQje7AAQwYzJi
+[2023-01-02 15:41]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:41]  INFO [base.py remove_job] [ line:627 ] Removed job c73d8726b79d4b65a0f94410ef035377
+[2023-01-02 15:41]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:41:47 UTC], next run at: 2023-01-02 07:41:47 UTC)" (scheduled at 2023-01-02 07:41:47.371044+00:00)
+[2023-01-02 15:41]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:41:47 UTC], next run at: 2023-01-02 07:41:47 UTC)" executed successfully
+[2023-01-02 15:41]  INFO [base.py remove_job] [ line:627 ] Removed job 4c72cedc88dc4572a4b0ebf13778981f
+[2023-01-02 15:41]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:41:52 UTC], next run at: 2023-01-02 07:41:52 UTC)" (scheduled at 2023-01-02 07:41:52.289310+00:00)
+[2023-01-02 15:41]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:41:52 UTC], next run at: 2023-01-02 07:41:52 UTC)" executed successfully
+[2023-01-02 15:42]  INFO [base.py remove_job] [ line:627 ] Removed job 2743eca50e064e0bb3648581ed872647
+[2023-01-02 15:42]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:42:01 UTC], next run at: 2023-01-02 07:42:01 UTC)" (scheduled at 2023-01-02 07:42:01.544739+00:00)
+[2023-01-02 15:42]  INFO [bot.py wordFlow] [ line:136 ] [5807660963] 星仔归来 : None
+[2023-01-02 15:42]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:42:01 UTC], next run at: 2023-01-02 07:42:01 UTC)" executed successfully
+[2023-01-02 15:42]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"

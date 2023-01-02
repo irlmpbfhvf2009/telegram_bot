@@ -1,3 +1,10 @@
--- SQLite
+-- SQLite   ("joinGroup",['userId','userName','groupId','groupTitle','link'])
 
 select * from joinGroup
+
+INSERT INTO joinGroup (userId,userName,groupId,groupTitle,link)
+VALUES('986843522','tt18666','-1001736994958','亚太金紫檀-御龙湾工作交流','https://t.me/yt669');
+
+
+INSERT INTO joinGroup (userId,userName,groupId,groupTitle,link)
+VALUES('986843522','tt18666','-1001656080671','缅甸亚泰水沟谷-工作交流','https://t.me/ok799');

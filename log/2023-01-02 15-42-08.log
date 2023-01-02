@@ -1,0 +1,51 @@
+[2023-01-02 15:42]  INFO [base.py start] [ line:166 ] Scheduler started
+[2023-01-02 15:42]  INFO [bot.py wordFlow] [ line:137 ] [5036779522] Leo : 1
+[2023-01-02 15:42]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:42]  INFO [bot.py wordFlow] [ line:137 ] [5971334966] 诗 : ☃️恒丰   集团⛄️🫶   💥💥公司大量招人了 💥💥接赔付 ！ 小白， 缅华， 泰华，中国人 ！
+    【不压不扣 不禁足 不签合同 】
+🤪不需要有经验 会电脑 会打字 就可以了🤪
+
+☃️出入款/客服；7000—12000  加奖金 🌈
+
+☃️养号；6000-10000 每个月+500🌈
+
+☃️人事：8000-10000  3个任务 多招都得🌈  
+
+☃️吵群员；8000—10000 加提出团队的千分之四🌈
+
+☃️色粉推广；8000–10000 加提出🌈
+
+☃️数据员；8000—10000每个月+500 🌈
+ 
+☃️语音客服；8000—10000 加奖金🌈
+ 
+☃️接粉员；8000-10000 加奖金🌈
+
+☃️话务员；8000-12000封顶 每个月+500 🌈
+
+☃️资源部；8000—10000封顶每个月+500 🌈
+  
+财务会计统计：底薪8000--12000每个月+500
+  快过年了 祝大家   兔年送只兔，🐰全家乐悠悠。兔脚为你开财路，兔耳为你撞鸿运，兔背为你驮康寿.  ☃️❄️🥰😊   
+飞机    @xiaokeai33333
+[2023-01-02 15:42]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:42]  ERROR [updater.py _network_loop_retry] [ line:664 ] Error while getting Updates: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[2023-01-02 15:42]  ERROR [dispatcher.py dispatch_error] [ line:821 ] No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\ext\updater.py", line 651, in _network_loop_retry
+    if not action_cb():
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\ext\updater.py", line 602, in polling_action_cb
+    updates = self.bot.get_updates(
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\ext\extbot.py", line 226, in get_updates
+    updates = super().get_updates(
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\bot.py", line 133, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\bot.py", line 3057, in get_updates
+    self._post(
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\bot.py", line 298, in _post
+    return self.request.post(
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\utils\request.py", line 361, in post
+    result = self._request_wrapper(
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\utils\request.py", line 283, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running

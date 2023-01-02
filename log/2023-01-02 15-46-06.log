@@ -1,0 +1,263 @@
+[2023-01-02 15:46]  INFO [base.py start] [ line:166 ] Scheduler started
+[2023-01-02 15:46]  INFO [bot.py wordFlow] [ line:137 ] [5863746135] Nishanth : 你好as
+[2023-01-02 15:46]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:46]  ERROR [dispatcher.py dispatch_error] [ line:821 ] No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\ext\conversationhandler.py", line 627, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\USER\Desktop\酷寶\python程式\telegram_BOT\src\bot.py", line 136, in wordFlow
+    infoString = f"[{str(update.message.from_user.id)}] {update.message.from_user.first_name} : {update.message.text}"
+AttributeError: 'NoneType' object has no attribute 'from_user'
+[2023-01-02 15:46]  INFO [bot.py wordFlow] [ line:137 ] [5598751304] 走投无路. : Hi
+[2023-01-02 15:46]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:46]  ERROR [dispatcher.py dispatch_error] [ line:821 ] No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\ext\conversationhandler.py", line 627, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\USER\Desktop\酷寶\python程式\telegram_BOT\src\bot.py", line 136, in wordFlow
+    infoString = f"[{str(update.message.from_user.id)}] {update.message.from_user.first_name} : {update.message.text}"
+AttributeError: 'NoneType' object has no attribute 'from_user'
+[2023-01-02 15:46]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:46:59 UTC], next run at: 2023-01-02 07:46:59 UTC)" (scheduled at 2023-01-02 07:46:59.463261+00:00)
+[2023-01-02 15:46]  INFO [base.py remove_job] [ line:627 ] Removed job 092daa426dc245ef9bd26a14e79a56a6
+[2023-01-02 15:46]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:46:59 UTC], next run at: 2023-01-02 07:46:59 UTC)" executed successfully
+[2023-01-02 15:47]  INFO [base.py remove_job] [ line:627 ] Removed job d14a00e80e124914954d29af0a6388ea
+[2023-01-02 15:47]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:47:00 UTC], next run at: 2023-01-02 07:47:00 UTC)" (scheduled at 2023-01-02 07:47:00.702757+00:00)
+[2023-01-02 15:47]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:47:00 UTC], next run at: 2023-01-02 07:47:00 UTC)" executed successfully
+[2023-01-02 15:47]  INFO [bot.py wordFlow] [ line:137 ] [5459470348] 金钱豹 《转账请语音》 : 一道进算来支实力车队，量大管饱
+450981
+[2023-01-02 15:47]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:47]  INFO [bot.py wordFlow] [ line:137 ] [5407751234] Nolan : yt669
+https://t.me/+3hUeQje7AAQwYzJi
+[2023-01-02 15:47]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:47]  INFO [bot.py wordFlow] [ line:137 ] [5959685113] 一路向北 : None
+[2023-01-02 15:47]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:47]  INFO [bot.py wordFlow] [ line:137 ] [5705757723] Chwas : 你好24
+[2023-01-02 15:47]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:47]  ERROR [dispatcher.py dispatch_error] [ line:821 ] No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\ext\conversationhandler.py", line 627, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\USER\Desktop\酷寶\python程式\telegram_BOT\src\bot.py", line 136, in wordFlow
+    infoString = f"[{str(update.message.from_user.id)}] {update.message.from_user.first_name} : {update.message.text}"
+AttributeError: 'NoneType' object has no attribute 'from_user'
+[2023-01-02 15:48]  INFO [base.py remove_job] [ line:627 ] Removed job b00baec163a64dc99d98e3143d4658c6
+[2023-01-02 15:48]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:48:04 UTC], next run at: 2023-01-02 07:48:04 UTC)" (scheduled at 2023-01-02 07:48:04.615435+00:00)
+[2023-01-02 15:48]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:48:04 UTC], next run at: 2023-01-02 07:48:04 UTC)" executed successfully
+[2023-01-02 15:48]  INFO [base.py remove_job] [ line:627 ] Removed job 47000f8e72294e179ac0aab17581701c
+[2023-01-02 15:48]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:48:17 UTC], next run at: 2023-01-02 07:48:17 UTC)" (scheduled at 2023-01-02 07:48:17.931049+00:00)
+[2023-01-02 15:48]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:48:17 UTC], next run at: 2023-01-02 07:48:17 UTC)" executed successfully
+[2023-01-02 15:48]  INFO [base.py remove_job] [ line:627 ] Removed job bf5efb8b12b54171bbc42f567d3f7be9
+[2023-01-02 15:48]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:48:24 UTC], next run at: 2023-01-02 07:48:24 UTC)" (scheduled at 2023-01-02 07:48:24.556955+00:00)
+[2023-01-02 15:48]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:48:24 UTC], next run at: 2023-01-02 07:48:24 UTC)" executed successfully
+[2023-01-02 15:48]  INFO [base.py remove_job] [ line:627 ] Removed job ca14c8b4cfd54e57b2143dc3f5265771
+[2023-01-02 15:48]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:48:41 UTC], next run at: 2023-01-02 07:48:41 UTC)" (scheduled at 2023-01-02 07:48:41.068648+00:00)
+[2023-01-02 15:48]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:48:41 UTC], next run at: 2023-01-02 07:48:41 UTC)" executed successfully
+[2023-01-02 15:50]  INFO [bot.py wordFlow] [ line:137 ] [5817289413] 温柔 : 🎄不签合同🎄不压押金🎄不压身份证 
+❄️❄️❄️小白带薪培训❄️❄️❄️
+☃️人事底薪 7000-10000☃️（每月递增500）☃️
+☃️3个任务（超任务1200人民币）☃️⏰（上班北京时间11：00~8：00 ）⏰
+
+☃️推广底薪 7000-10000每月递增500 ☃️ (10000封顶)☃️
+☃️推广提成2-10%⏰上班北京时间11:00到23:00）⏰下午休息一个小时☃️工作无压力，给一个月适应期，做一天有一天工资☃️
+☃️模式简单，☃️公司统一优质资源，#信誉盘☃️
+
+☃️其他福利待遇  ☃️
+☃️全勤奖2500泰铢 （每个月15号发工资）☃️
+☃️每月1号补贴生活费2000泰铢☃️
+☃️满半年带薪休假15天，☃️不休息奖5000人民币☃️
+☃️全年领13薪☃️
+生日当天有生日礼金 2000泰铢。过年有红包☃️，
+ ☃️全年包吃住，宿舍5-6人一☃️间，☃️ 公司提供宿舍用品、有热水器，空调，宿舍有保姆定期打扫卫生。☃️
+☃️公司不禁足【可外宿】☃️
+    ✈️飞机：@palae11111🫧
+公司地址：❄️❄️伦邦大厦五楼❄️❄️
+[2023-01-02 15:50]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:50]  INFO [bot.py wordFlow] [ line:137 ] [5817289413] 温柔 : 🎄不签合同🎄不压押金🎄不压身份证 
+❄️❄️❄️小白带薪培训❄️❄️❄️
+☃️人事底薪 7000-10000☃️（每月递增500）☃️
+☃️3个任务（超任务1200人民币）☃️⏰（上班北京时间11：00~8：00 ）⏰
+
+☃️推广底薪 7000-10000每月递增500 ☃️ (10000封顶)☃️
+☃️推广提成2-10%⏰上班北京时间11:00到23:00）⏰下午休息一个小时☃️工作无压力，给一个月适应期，做一天有一天工资☃️
+☃️模式简单，☃️公司统一优质资源，#信誉盘☃️
+
+☃️其他福利待遇  ☃️
+☃️全勤奖2500泰铢 （每个月15号发工资）☃️
+☃️每月1号补贴生活费2000泰铢☃️
+☃️满半年带薪休假15天，☃️不休息奖5000人民币☃️
+☃️全年领13薪☃️
+生日当天有生日礼金 2000泰铢。过年有红包☃️，
+ ☃️全年包吃住，宿舍5-6人一☃️间，☃️ 公司提供宿舍用品、有热水器，空调，宿舍有保姆定期打扫卫生。☃️
+☃️公司不禁足【可外宿】☃️
+    ✈️飞机：@palae11111🫧
+公司地址：❄️❄️伦邦大厦五楼❄️❄️
+[2023-01-02 15:50]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:51]  INFO [bot.py wordFlow] [ line:137 ] [5036779522] Leo : 管理员设置
+[2023-01-02 15:51]  INFO [base.py remove_job] [ line:627 ] Removed job dc01dc1cd87a458abe6de8cafef2b016
+[2023-01-02 15:51]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:51:32 UTC], next run at: 2023-01-02 07:51:32 UTC)" (scheduled at 2023-01-02 07:51:32.349772+00:00)
+[2023-01-02 15:51]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:51:32 UTC], next run at: 2023-01-02 07:51:32 UTC)" executed successfully
+[2023-01-02 15:51]  INFO [base.py remove_job] [ line:627 ] Removed job 28e49275d2c2492485677a0f801811f2
+[2023-01-02 15:51]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:51:47 UTC], next run at: 2023-01-02 07:51:47 UTC)" (scheduled at 2023-01-02 07:51:47.069102+00:00)
+[2023-01-02 15:51]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:51:47 UTC], next run at: 2023-01-02 07:51:47 UTC)" executed successfully
+[2023-01-02 15:51]  INFO [bot.py wordFlow] [ line:137 ] [5036779522] Leo : 支援团队列表
+[2023-01-02 15:51]  INFO [bot.py wordFlow] [ line:137 ] [5873063573] arr ming《HR》 : 👉《LG》公司大量招人了  接赔付 ！ 小白， 缅华， 泰华，中国人！！
+ 👉👉 【不压不扣 不禁足 不签合同 】 不需要有经验。 会电脑 会打字 就可以了
+
+🍇    在线客服    8000-10000 上班12个小时。月休1天
+
+🍇     接粉员     8000-10000 上班12个小时。月休1天＋提成
+
+🍇     吵大群    8000-10000 上班12个小时。月休1天 提          成整团队千分之5
+
+🍇    色粉空降快杀【推广 】  8000-10000上班12个小时。  ＋提成
+
+🍇     人事     8000-10000元。三个任务上班8小时。  月休2天
+
+🍇      出入款：8000-12000 +奖金
+
+🍇     资源部：8000-10000+奖金
+
+ 🍇     财务：8000-12000 +奖金
+
+员工福利待遇：
+1，一年14薪，做满12个月多领1个月的底薪，每半年15天带薪休假，不休息多领半个月底薪；
+2，每月员工1号发生活补贴 3000泰铢
+3，每月部门团建聚餐2次；
+4，公司员工生日当天红包3000泰铢/人，
+5 ，全勤奖：当月无请假，休假，无迟到
+ 员工可获全勤奖励1500
+6，宿舍女孩子5-6人一间，男孩子6人一间，优秀员工可申请夫妻房和主管单间。  
+
+飞机号✅@xiao7461
+地址：水沟谷 亚太城    🍇🍇
+[2023-01-02 15:52]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:52]  INFO [bot.py wordFlow] [ line:137 ] [5863746135] Nishanth : 你好to
+[2023-01-02 15:52]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:52]  ERROR [dispatcher.py dispatch_error] [ line:821 ] No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\ext\conversationhandler.py", line 627, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\USER\Desktop\酷寶\python程式\telegram_BOT\src\bot.py", line 136, in wordFlow
+    infoString = f"[{str(update.message.from_user.id)}] {update.message.from_user.first_name} : {update.message.text}"
+AttributeError: 'NoneType' object has no attribute 'from_user'
+[2023-01-02 15:52]  INFO [base.py remove_job] [ line:627 ] Removed job 4479608cc326424b9956c57899ca5960
+[2023-01-02 15:52]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:52:51 UTC], next run at: 2023-01-02 07:52:51 UTC)" (scheduled at 2023-01-02 07:52:51.188277+00:00)
+[2023-01-02 15:52]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:52:51 UTC], next run at: 2023-01-02 07:52:51 UTC)" executed successfully
+[2023-01-02 15:52]  INFO [base.py remove_job] [ line:627 ] Removed job 2586844d4edb4d16a62d3e842f1815c9
+[2023-01-02 15:52]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:52:53 UTC], next run at: 2023-01-02 07:52:53 UTC)" (scheduled at 2023-01-02 07:52:53.591074+00:00)
+[2023-01-02 15:52]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:52:53 UTC], next run at: 2023-01-02 07:52:53 UTC)" executed successfully
+[2023-01-02 15:53]  INFO [bot.py wordFlow] [ line:137 ] [1482737126] 寻鹤（合作共赢） : 国内纯私人年号  私人粉号😍😍😍
+八天白，满月白，八天/满月18味使命绑卡👍👍👍
+12-19手机/ID格式sm圈设备收藏混合带制服，高质量，稳得一批 
+西亚/印尼3🈷️/新加坡8天 日本1-2天/40-70天/美国1-3🈷️越南1-3🈷️泰国半🈷️半年/ 马来/香港私人号半年-8年 大量 🤩🤩🤩
+香港/蒙古/美国/乌克兰 当天短信🈶🤪🤪🤪
+
+企业v  QQ星星月亮太阳双太 
+私人单太双太 蝙蝠长期有货
+
+欢迎咨询合作！🔥🔥🔥
+[2023-01-02 15:53]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:53]  INFO [bot.py wordFlow] [ line:137 ] [5817289413] 温柔 : 🎄不签合同🎄不压押金🎄不压身份证 
+❄️❄️❄️小白带薪培训❄️❄️❄️
+☃️人事底薪 7000-10000☃️（每月递增500）☃️
+☃️3个任务（超任务1200人民币）☃️⏰（上班北京时间11：00~8：00 ）⏰
+
+☃️推广底薪 7000-10000每月递增500 ☃️ (10000封顶)☃️
+☃️推广提成2-10%⏰上班北京时间11:00到23:00）⏰下午休息一个小时☃️工作无压力，给一个月适应期，做一天有一天工资☃️
+☃️模式简单，☃️公司统一优质资源，#信誉盘☃️
+
+☃️其他福利待遇  ☃️
+☃️全勤奖2500泰铢 （每个月15号发工资）☃️
+☃️每月1号补贴生活费2000泰铢☃️
+☃️满半年带薪休假15天，☃️不休息奖5000人民币☃️
+☃️全年领13薪☃️
+生日当天有生日礼金 2000泰铢。过年有红包☃️，
+ ☃️全年包吃住，宿舍5-6人一☃️间，☃️ 公司提供宿舍用品、有热水器，空调，宿舍有保姆定期打扫卫生。☃️
+☃️公司不禁足【可外宿】☃️
+    ✈️飞机：@palae11111🫧
+公司地址：❄️❄️伦邦大厦五楼❄️❄️
+[2023-01-02 15:53]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:53]  INFO [base.py remove_job] [ line:627 ] Removed job b4198e00e184460bb4c5956685b67f58
+[2023-01-02 15:53]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:53:51 UTC], next run at: 2023-01-02 07:53:51 UTC)" (scheduled at 2023-01-02 07:53:51.887423+00:00)
+[2023-01-02 15:53]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:53:51 UTC], next run at: 2023-01-02 07:53:51 UTC)" executed successfully
+[2023-01-02 15:53]  INFO [bot.py wordFlow] [ line:137 ] [5783062883] 上校 : 出 体育 劫持   股民  数据  相亲    六合 色粉  约炮  CPA  交友粉   博彩
+[2023-01-02 15:54]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:54]  INFO [bot.py wordFlow] [ line:137 ] [5725549557] 紫 : 🎄不签合同🎄不压押金🎄不压身份证 
+❄️❄️❄️小白带薪培训❄️❄️❄️
+☃️人事底薪 7000-10000☃️（每月递增500）☃️
+☃️3个任务（超任务1200人民币）☃️⏰（上班北京时间11：00~8：00 ）⏰
+
+☃️推广底薪 7000-10000每月递增500 ☃️ (10000封顶)☃️
+☃️推广提成2-10%⏰上班北京时间11:00到23:00）⏰下午休息一个小时☃️工作无压力，给一个月适应期，做一天有一天工资☃️
+☃️模式简单，☃️公司统一优质资源，#信誉盘☃️
+
+☃️其他福利待遇  ☃️
+☃️全勤奖2500泰铢 （每个月15号发工资）☃️
+☃️每月1号补贴生活费2000泰铢☃️
+☃️满半年带薪休假15天，☃️不休息奖5000人民币☃️
+☃️全年领13薪☃️
+生日当天有生日礼金 2000泰铢。过年有红包☃️，
+ ☃️全年包吃住，宿舍5-6人一☃️间，☃️ 公司提供宿舍用品、有热水器，空调，宿舍有保姆定期打扫卫生。☃️
+☃️公司不禁足【可外宿】☃️
+    ✈️飞机：@palae11111🫧
+公司地址：❄️❄️伦邦大厦五楼❄️❄️
+[2023-01-02 15:54]  INFO [base.py remove_job] [ line:627 ] Removed job e09c45257f04415fac29c7c5ce00a3ca
+[2023-01-02 15:54]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:54:02 UTC], next run at: 2023-01-02 07:54:02 UTC)" (scheduled at 2023-01-02 07:54:02.964438+00:00)
+[2023-01-02 15:54]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:54:02 UTC], next run at: 2023-01-02 07:54:02 UTC)" executed successfully
+[2023-01-02 15:54]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:54]  INFO [bot.py wordFlow] [ line:137 ] [5817289413] 温柔 : 🎄不签合同🎄不压押金🎄不压身份证 
+❄️❄️❄️小白带薪培训❄️❄️❄️
+☃️人事底薪 7000-10000☃️（每月递增500）☃️
+☃️3个任务（超任务1200人民币）☃️⏰（上班北京时间11：00~8：00 ）⏰
+
+☃️推广底薪 7000-10000每月递增500 ☃️ (10000封顶)☃️
+☃️推广提成2-10%⏰上班北京时间11:00到23:00）⏰下午休息一个小时☃️工作无压力，给一个月适应期，做一天有一天工资☃️
+☃️模式简单，☃️公司统一优质资源，#信誉盘☃️
+
+☃️其他福利待遇  ☃️
+☃️全勤奖2500泰铢 （每个月15号发工资）☃️
+☃️每月1号补贴生活费2000泰铢☃️
+☃️满半年带薪休假15天，☃️不休息奖5000人民币☃️
+☃️全年领13薪☃️
+生日当天有生日礼金 2000泰铢。过年有红包☃️，
+ ☃️全年包吃住，宿舍5-6人一☃️间，☃️ 公司提供宿舍用品、有热水器，空调，宿舍有保姆定期打扫卫生。☃️
+☃️公司不禁足【可外宿】☃️
+    ✈️飞机：@palae11111🫧
+公司地址：❄️❄️伦邦大厦五楼❄️❄️
+[2023-01-02 15:54]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:54]  ERROR [updater.py _network_loop_retry] [ line:664 ] Error while getting Updates: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+[2023-01-02 15:54]  ERROR [dispatcher.py dispatch_error] [ line:821 ] No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\ext\updater.py", line 651, in _network_loop_retry
+    if not action_cb():
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\ext\updater.py", line 602, in polling_action_cb
+    updates = self.bot.get_updates(
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\ext\extbot.py", line 226, in get_updates
+    updates = super().get_updates(
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\bot.py", line 133, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\bot.py", line 3057, in get_updates
+    self._post(
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\bot.py", line 298, in _post
+    return self.request.post(
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\utils\request.py", line 361, in post
+    result = self._request_wrapper(
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\utils\request.py", line 283, in _request_wrapper
+    raise Conflict(message)
+telegram.error.Conflict: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running

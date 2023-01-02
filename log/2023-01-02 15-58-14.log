@@ -1,0 +1,81 @@
+[2023-01-02 15:58]  INFO [base.py start] [ line:166 ] Scheduler started
+[2023-01-02 15:58]  INFO [bot.py wordFlow] [ line:139 ] [5982178093] 天美 : 🧣以下岗位想详细了解 请私信联系了解🧣
+
+🍓数据员         8000-10000🧨
+🍓客服女         8000-12000🧨
+🍓人事             8000-10000🧨
+🍓出入款         8000-12000🧨
+🍓财务              8000-12000🧨
+🍓出入款财务 8000-12000🧨
+🍓语音客服     8000-10000🧨
+🍓接粉员         8000-10000🧨
+🍓吵群              6000-10000🧨
+🍓推广              8000-10000🧨
+🍓养号              6000-10000🧨
+
+飞机✈️ ：@xiaokeai9900   🍬
+地址🏠：水沟谷 亚太
+[2023-01-02 15:58]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:58]  INFO [bot.py wordFlow] [ line:139 ] [5644070072] 发仔 : None
+[2023-01-02 15:58]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:58]  INFO [bot.py wordFlow] [ line:139 ] [5036779522] Leo : None
+[2023-01-02 15:59]  INFO [bot.py wordFlow] [ line:139 ] [5526827249] 星尘小姐 : None
+[2023-01-02 15:59]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 15:59]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:59:22 UTC], next run at: 2023-01-02 07:59:22 UTC)" (scheduled at 2023-01-02 07:59:22.060462+00:00)
+[2023-01-02 15:59]  INFO [base.py remove_job] [ line:627 ] Removed job 36966d6bf926417a91a1ca517f99bb9c
+[2023-01-02 15:59]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:59:22 UTC], next run at: 2023-01-02 07:59:22 UTC)" executed successfully
+[2023-01-02 15:59]  INFO [base.py remove_job] [ line:627 ] Removed job c808d55a012b42cfb7d365078cfde45d
+[2023-01-02 15:59]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:59:25 UTC], next run at: 2023-01-02 07:59:25 UTC)" (scheduled at 2023-01-02 07:59:25.643920+00:00)
+[2023-01-02 15:59]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:59:25 UTC], next run at: 2023-01-02 07:59:25 UTC)" executed successfully
+[2023-01-02 16:00]  INFO [bot.py wordFlow] [ line:139 ] [5863746135] Nishanth : 你好sx
+[2023-01-02 16:00]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 16:00]  ERROR [dispatcher.py dispatch_error] [ line:821 ] No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\ext\dispatcher.py", line 557, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\ext\conversationhandler.py", line 627, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\USER\AppData\Local\Programs\Python\Python310\lib\site-packages\telegram\ext\handler.py", line 199, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\USER\Desktop\酷寶\python程式\telegram_BOT\src\bot.py", line 136, in wordFlow
+    print(update.message.chat.id)
+AttributeError: 'NoneType' object has no attribute 'chat'
+[2023-01-02 16:00]  INFO [base.py remove_job] [ line:627 ] Removed job 24b1e5d0b4a043569bc60454062cfbfb
+[2023-01-02 16:00]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 08:00:06 UTC], next run at: 2023-01-02 08:00:06 UTC)" (scheduled at 2023-01-02 08:00:06.115392+00:00)
+[2023-01-02 16:00]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 08:00:06 UTC], next run at: 2023-01-02 08:00:06 UTC)" executed successfully
+[2023-01-02 16:00]  INFO [bot.py wordFlow] [ line:139 ] [5959685113] 一路向北 : None
+[2023-01-02 16:00]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 16:00]  INFO [bot.py wordFlow] [ line:139 ] [5974521489] 小趴菜 : None
+[2023-01-02 16:00]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 16:00]  INFO [bot.py wordFlow] [ line:139 ] [5725549557] 紫 : 🎄不签合同🎄不压押金🎄不压身份证 
+❄️❄️❄️小白带薪培训❄️❄️❄️
+☃️人事底薪 7000-10000☃️（每月递增500）☃️
+☃️3个任务（超任务1200人民币）☃️⏰（上班北京时间11：00~8：00 ）⏰
+
+☃️推广底薪 7000-10000每月递增500 ☃️ (10000封顶)☃️
+☃️推广提成2-10%⏰上班北京时间11:00到23:00）⏰下午休息一个小时☃️工作无压力，给一个月适应期，做一天有一天工资☃️
+☃️模式简单，☃️公司统一优质资源，#信誉盘☃️
+
+☃️其他福利待遇  ☃️
+☃️全勤奖2500泰铢 （每个月15号发工资）☃️
+☃️每月1号补贴生活费2000泰铢☃️
+☃️满半年带薪休假15天，☃️不休息奖5000人民币☃️
+☃️全年领13薪☃️
+生日当天有生日礼金 2000泰铢。过年有红包☃️，
+ ☃️全年包吃住，宿舍5-6人一☃️间，☃️ 公司提供宿舍用品、有热水器，空调，宿舍有保姆定期打扫卫生。☃️
+☃️公司不禁足【可外宿】☃️
+    ✈️飞机：@palae11111🫧
+公司地址：❄️❄️伦邦大厦五楼❄️❄️
+[2023-01-02 16:00]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
+[2023-01-02 16:00]  INFO [base.py remove_job] [ line:627 ] Removed job b99186efcdf74217872712db4cb3e1ee
+[2023-01-02 16:00]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 08:00:54 UTC], next run at: 2023-01-02 08:00:54 UTC)" (scheduled at 2023-01-02 08:00:54.226997+00:00)
+[2023-01-02 16:00]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 08:00:54 UTC], next run at: 2023-01-02 08:00:54 UTC)" executed successfully
+[2023-01-02 16:01]  INFO [base.py remove_job] [ line:627 ] Removed job 04fd218c77f148e2b6c544e658630017
+[2023-01-02 16:01]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 08:01:14 UTC], next run at: 2023-01-02 08:01:14 UTC)" (scheduled at 2023-01-02 08:01:14.893465+00:00)
+[2023-01-02 16:01]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 08:01:14 UTC], next run at: 2023-01-02 08:01:14 UTC)" executed successfully
+[2023-01-02 16:01]  INFO [base.py remove_job] [ line:627 ] Removed job 666b986d3ba748cfb884786ac206626d
+[2023-01-02 16:01]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 08:01:20 UTC], next run at: 2023-01-02 08:01:20 UTC)" (scheduled at 2023-01-02 08:01:20.318348+00:00)
+[2023-01-02 16:01]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 08:01:20 UTC], next run at: 2023-01-02 08:01:20 UTC)" executed successfully
+[2023-01-02 16:01]  INFO [base.py remove_job] [ line:627 ] Removed job 552388941bf547c3a82b8f3e6989daad
+[2023-01-02 16:01]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 08:01:34 UTC], next run at: 2023-01-02 08:01:34 UTC)" (scheduled at 2023-01-02 08:01:34.683327+00:00)
+[2023-01-02 16:01]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 08:01:34 UTC], next run at: 2023-01-02 08:01:34 UTC)" executed successfully

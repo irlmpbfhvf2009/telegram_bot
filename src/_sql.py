@@ -423,9 +423,9 @@ class DBHP():
         return False
 
     def getDynamicInviteFriendsQuantity(self,userId):
-        results = self.select_all_tasks(f"SELECT beInvited FROM invitationLimit where inviteId = \"{userId}\"")
+        results = self.select_all_tasks(f"SELECT beInvited FROM invitationLimit where inviteId = '{userId}'")
         if results == []:
-            return self.inviteFriendsQuantity
+            return 0
         for result in results:
             if result[0] == '':
                 return self.inviteFriendsQuantity
@@ -552,7 +552,6 @@ class DBHP():
             while(beInvitedLen >= inviteMembers): 
                 beInvitedLen=beInvitedLen-inviteMembers
                 bouns+=Decimal(inviteEarnedOutstand)
-                print(bouns)
         return str(bouns)
 
     def editInviteToMakeMoneyBeInvited(self,userId,groupId,data):
@@ -566,6 +565,8 @@ class DBHP():
         results = self.select_all_tasks(f"SELECT beInvited FROM inviteToMakeMoney where userId = '{userId}' AND groupId = '{groupId}'")
         for result in results:
             return len(json.loads(result[0]))
+        if results == []:
+            return 0
 
     def updateInviteToMakeMoneyLeftGroup(self,beInvitedId,groupId):
         results = self.getInviteToMakeMoney(groupId)
@@ -595,8 +596,6 @@ class DBHP():
             self.update(f"UPDATE inviteToMakeMoney SET outstandingAmount = '{outstandingAmount}' WHERE userId = '{userId}' AND groupId = '{groupId}'")
             self.update(f"UPDATE inviteToMakeMoney SET settlementAmount = '{settlementAmount}' WHERE userId = '{userId}' AND groupId = '{groupId}'")
             self.update(f"UPDATE inviteToMakeMoney SET beInvited = '{beInvited}' WHERE userId = '{userId}' AND groupId = '{groupId}'")
-
-            print(result)
 
 
 

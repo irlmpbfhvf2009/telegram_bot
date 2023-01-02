@@ -62,7 +62,6 @@ def dealMessage(update:Update,context:CallbackContext):
     sql = runSQL()
     first_name = update.message.from_user.first_name
     mention = "[@"+first_name+"：](tg://user?id="+str(update.message.from_user.id)+")"
-    len = sql.getDynamicInviteFriendsQuantity(update.message.from_user.id)
 
     def catchChannel():
         try:
@@ -87,8 +86,9 @@ def dealMessage(update:Update,context:CallbackContext):
                     autoClearTimeText = f"要在{sql.inviteFriendsAutoClearTime}天内"
                 if sql.getInviteFriendsSet() == "True":
                         if sql.invitationBonusSet =="True":
-                            contactPerson = json.loads(sql.contactPerson)
-                            mentionForKK = "["+contactPerson['contactPersonUsername']+"](tg://user?id="+contactPerson['contactPersonId']+")"
+
+
+
                             fromUserId = str(update.message.from_user.id)
                             try:
                                 inviteEarnedOutstand = sql.bounsCount(fromUserId,update.message.chat.id)
@@ -97,13 +97,26 @@ def dealMessage(update:Update,context:CallbackContext):
                                 sql.insertInviteToMakeMoney(update.message.from_user.id,update.message.from_user.first_name,update.message.chat.id,update.message.chat.title,"{}","")
                                 inviteEarnedOutstand = sql.bounsCount(fromUserId,update.message.chat.id)
                             inviteToMakeMoneyBeInvitedLen = sql.getInviteToMakeMoneyBeInvitedLen(update.message.from_user.id,update.message.chat.id)
-                            lenght = int(sql.inviteMembers)-inviteToMakeMoneyBeInvitedLen
-                            invitationBonusText = f"(邀请{lenght}人可赚{sql.inviteEarnedOutstand}元{inviteEarnedOutstandText}，满{sql.inviteSettlementBonus}元请联系{mentionForKK})"
+                            if inviteToMakeMoneyBeInvitedLen == 0:
+                                lenght = int(sql.inviteMembers)
+                            elif inviteToMakeMoneyBeInvitedLen > int(sql.inviteMembers):
+                                lenght = int(sql.inviteMembers) % inviteToMakeMoneyBeInvitedLen
+                            elif inviteToMakeMoneyBeInvitedLen < int(sql.inviteMembers):
+                                lenght = int(sql.inviteMembers)-inviteToMakeMoneyBeInvitedLen
+                            elif inviteToMakeMoneyBeInvitedLen == int(sql.inviteMembers):
+                                lenght = sql.inviteMembers
+                            jsonContactPerson = json.loads(sql.contactPerson)
+                            contactPerson = "["+jsonContactPerson['contactPersonUsername']+"](tg://user?id="+str(jsonContactPerson['contactPersonId'])+")"
+                            invitationBonusText = f"(邀请{lenght}人可赚{sql.inviteEarnedOutstand}元{inviteEarnedOutstandText}，满{sql.inviteSettlementBonus}元请联系 {contactPerson} )"
+
                         if sql.messageLimitToInviteFriends(update.message.from_user.id,update.message.chat.id) == False:
                             rightToSpeak = False
-                            inviteFriendsText = f"邀请{len}人进群{invitationBonusText}"
-                            #messagea = context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需要邀请{len}位好友后可以正常发言",parse_mode="Markdown").message_id
-                            #context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messagea)
+                            
+                            len = int(sql.inviteFriendsQuantity) - int(sql.getDynamicInviteFriendsQuantity(update.message.from_user.id))
+                            inviteFriendsText = f"{autoClearTimeText}邀请{str(len)}人进群"
+                            if int(sql.getDynamicInviteFriendsQuantity(update.message.from_user.id)) > int(sql.inviteFriendsQuantity):
+                                rightToSpeak = True
+                                inviteFriendsText = ""
                 try:
                     if context.bot.get_chat_member(int(sql.getChannelId()[0]),update.effective_user.id).status =="left":
                         if sql.getFollowChannelSet() == "True":
@@ -113,17 +126,17 @@ def dealMessage(update:Update,context:CallbackContext):
                                 followChannelText = f"并关注频道 {channelmark}"
                             elif sql.getInviteFriendsSet() == "False":
                                 followChannelText = f"关注频道 {channelmark}"
-                            #messagec = context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}：您需关注频道{channelmark}后可以正常发言",parse_mode="Markdown").message_id
-                            #context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messagec)
                 except Exception as e:
                     print("機器人尚未加入頻道"+str(e))
                 if rightToSpeak == False:
                     context.bot.delete_message(chat_id=update.effective_chat.id,message_id=update.message.message_id)
-                    messageId = context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}{autoClearTimeText}{inviteFriendsText}{followChannelText}后才能发言",parse_mode="Markdown",disable_web_page_preview=True).message_id
+                    messageId = context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}{inviteFriendsText}{invitationBonusText}{followChannelText}后才能发言",parse_mode="Markdown",disable_web_page_preview=True).message_id
                     context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messageId)
 
 # MessageHandler 第一层msg监听
 def wordFlow(update:Update,context:CallbackContext):
+    print(update.message.chat.id)
+    print(update.message.chat.title)
     infoString = f"[{str(update.message.from_user.id)}] {update.message.from_user.first_name} : {update.message.text}"
     logging.info(infoString)
     sql = runSQL()
@@ -226,7 +239,8 @@ def choose(update:Update,context:CallbackContext):
     else:
         # 查看密码
         if update.callback_query.data == keyboard.cd_passwordCheck:
-            context.bot.send_message(chat_id=update.effective_chat.id,text='password : '+sql.password)
+            ...
+            #context.bot.send_message(chat_id=update.effective_chat.id,text='password : '+sql.password)
         # 修改密码
         if update.callback_query.data == keyboard.cd_passwordChange:
             context.bot.send_message(chat_id=update.effective_chat.id,text="OK. Send me the new 'password'")
@@ -297,7 +311,7 @@ def choose(update:Update,context:CallbackContext):
         # 设定 [联系人]
         if update.callback_query.data==keyboard.cd_setContactPerson:
             userid=str(update.callback_query.from_user.id)
-            username=update.callback_query.from_user.first_name
+            username=update.callback_query.from_user.username
             contactPerson = "[@"+username+"](tg://user?id="+userid+")"
             data = json.dumps({"contactPersonId":userid,"contactPersonUsername":"@"+username})
             sql.editContactPerson(data)
@@ -333,6 +347,7 @@ def deleteMsgForSecond(update:Update,context:CallbackContext):
         if type(int(update.message.text)) == int:
             sql.editDeleteSeconds(update.message.text)
             context.bot.send_message(chat_id = update.effective_chat.id, text = f"Set the seconds to '{update.message.text}' success!")
+            inviteFriendsMenu(update,context)
             return ConversationHandler.END
     except:
         context.bot.send_message(chat_id = update.effective_chat.id, text = "请重新输入数字")
@@ -523,15 +538,14 @@ def joinGroup(update:Update,context:CallbackContext):
             if sql.existJoinRecordTotInviteToMakeMoney(inviteId,update.message.chat.id,beInvitedId)==True:
                 text = "(重复邀请不列入计算)"
             else:
-                a = "@kk"
-                b = 986843522
-                mention = "["+a+"](tg://user?id="+str(b)+")"
-                text=f"您邀请{len}位成员，赚取{inviteEarnedOutstand}元未结算，已经结算{settlementAmount}元，满{sql.inviteSettlementBonus}元请联系{mention}结算。"
+                jsonContactPerson = json.loads(sql.contactPerson)
+                contactPerson = "["+jsonContactPerson['contactPersonUsername']+"](tg://user?id="+str(jsonContactPerson['contactPersonId'])+")"
+                text=f"您邀请{len}位成员，赚取{inviteEarnedOutstand}元未结算，已经结算{settlementAmount}元，满{sql.inviteSettlementBonus}元请联系 {contactPerson} 结算。"
             sql.insertJoinGroupRecord(beInvitedId,beInvitedAccoun,update.message.chat.id,update.message.chat.title,inviteId,inviteAccount,invitationStartDate)
-            #messagId = context.bot.send_message(chat_id=update.message.chat.id,text=text,parse_mode="Markdown").message_id
+            messagId = context.bot.send_message(chat_id=update.message.chat.id,text=text,parse_mode="Markdown").message_id
             def deleteMsgToSeconds(context: CallbackContext):
                 context.bot.delete_message(chat_id=update.effective_chat.id,message_id=context.job.context)
-            #context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messagId)
+            context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messagId)
 
 def leftGroup(update:Update,context:CallbackContext):
     sql=runSQL()
