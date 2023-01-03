@@ -2,6 +2,7 @@ pip install -r requirements.txt 載入必要的lib
 config.ini 填入Token
 run main.py 執行機器人
 pyinstaller -F .\main.py 打包
+pyinstaller -F -i .\1.ico .\main.py 打包
 
 _button.py 內連鍵盤封裝
 _config.py 建立參數
