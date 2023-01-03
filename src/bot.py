@@ -324,12 +324,16 @@ def choose(update:Update,context:CallbackContext):
                 sql.setBillingSessionUserId(key)
                 sql.setBillingSessionGroupId(value)
                 results = sql.getInviteToMakeMoneyEarnBonus(key,value)
+                print(4)
                 for result in results:
                     username = result[1]
                     outstandingAmount = result[5]
-                if int(outstandingAmount) <= 0:
-                    context.bot.send_message(chat_id=update.effective_chat.id,text="目前用户未结算金额为0")
-                    return ConversationHandler.END
+                    print(13)
+                    if float(outstandingAmount) <= 0:
+                        context.bot.send_message(chat_id=update.effective_chat.id,text="目前用户未结算金额为0")
+                        print(12)
+                        return ConversationHandler.END
+                print(1)
                 context.bot.send_message(chat_id=update.effective_chat.id,text=f"结算用户：{username}　未结算金额：{outstandingAmount}\n请输入结算金额，结算后清空用户邀请人数，输入0退出结算")
                 return BILLINGSESSION
 
@@ -342,8 +346,9 @@ def choose(update:Update,context:CallbackContext):
                 #query = update.callback_query
                 #query.edit_message_text(text)
                 #query.edit_message_reply_markup(reply_markup)
-    except:
-        ...
+    except Exception as e:
+        print(str(e))
+
 # 未达标自动删除系统消息(秒)
 def deleteMsgForSecond(update:Update,context:CallbackContext):
     sql = runSQL()
@@ -480,7 +485,7 @@ def queryBilling(update:Update,context:CallbackContext):
     results = sql.getInviteToMakeMoneyUserName(username)
     for result in results:
         sql=runSQL()
-        text = f"用户名：{result[1]}\n使用者名称：{result[7]}\n所在群组：{result[3]}\n邀请人数：{len(json.loads(result[4]))}\n未结算金额：{result[5]}\n用户结算记录：{result[6]}\n后台设定结算金额：{sql.inviteSettlementBonus}"
+        text = f"用户名：{result[1]}\n使用者名称：{result[7]}\n所在群组：{result[3]}\n邀请人数：{len(json.loads(result[4]))}\n未结算金额：{result[5]}\n用户结算记录：{result[6]}\n"
 
         data = json.dumps({result[0]:result[2]})
         reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('结算', callback_data=data)]])
@@ -511,7 +516,7 @@ def billing(update:Update,context:CallbackContext):
             results = sql.getInviteToMakeMoneyEarnBonus(userId,groupId)
             for result in results:
                 sql=runSQL()
-                text = f"用户名：{result[1]}\n使用者名称：{result[7]}\n所在群组：{result[3]}\n邀请人数：{len(json.loads(result[4]))} -> {inviteMember}\n未结算金额：{result[5]} -> {outstandingAmountBefore}\n用户结算记录：{result[6]} -> {settlementAmountBefore}\n后台设定结算金额：{sql.inviteSettlementBonus}"
+                text = f"用户名：{result[1]}\n使用者名称：{result[7]}\n所在群组：{result[3]}\n邀请人数：{inviteMember} → {len(json.loads(result[4]))}\n未结算金额：{outstandingAmountBefore} → {result[5]}\n用户结算记录：{settlementAmountBefore} → {result[6]}\n"
                 context.bot.send_message(chat_id=update.effective_chat.id,text=text)
                 context.bot.send_message(chat_id=update.effective_chat.id,text="结算成功")
 
