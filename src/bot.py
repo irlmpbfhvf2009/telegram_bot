@@ -9,11 +9,13 @@ import datetime
 import time
 import os
 
-log_directory = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))+"\log"
+log_directory = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))+"/log"
 configPath = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))+"\config.ini"
 
 if not os.path.exists(log_directory):
+    print("遗失目錄log....請創建目錄log")
     os.makedirs(log_directory)
+    os.system("pause")
 if not os.path.isfile(configPath):
     print("遗失config.ini....")
     token = input("please enter your token : ")
