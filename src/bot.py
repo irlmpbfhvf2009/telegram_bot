@@ -13,7 +13,7 @@ log_directory = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))+"\lo
 if not os.path.exists(log_directory):
     os.makedirs(log_directory)
 
-logging.basicConfig(level=logging.DEBUG,
+logging.basicConfig(level=logging.INFO,
             format='[%(asctime)s]  %(levelname)s [%(filename)s %(funcName)s] [ line:%(lineno)d ] %(message)s',
             datefmt='%Y-%m-%d %H:%M',
             handlers=[logging.StreamHandler(),logging.FileHandler(f'log//{time.strftime("%Y-%m-%d %H-%M-%S", time.localtime())}.log', 'w', 'utf-8')])
@@ -681,7 +681,9 @@ init.dispatcher.add_handler(MessageHandler(Filters.status_update.left_chat_membe
 init.dispatcher.add_handler(ChatMemberHandler(channel, ChatMemberHandler.MY_CHAT_MEMBER))
 
 def run():
+    start = time.time()
     init.updater.start_polling()
-    print(f"BOT : {init.updater.bot.username} 已启动")
+    end = time.time()
+    logging.info(f"BOT : {init.updater.bot.username} 已启动  執行時間：{round((end - start),2)}秒")
     init.updater.idle()
     init.updater.stop()
