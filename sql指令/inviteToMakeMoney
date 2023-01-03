@@ -2,5 +2,8 @@
 
 
 select * from inviteToMakeMoney
+	{"986643915": "fun66happy","986643915": "fun66happy","986643915": "fun66happy","986643915": "fun66happy","986643915": "fun66happy","986643915": "fun66happy"}
+UPDATE inviteToMakeMoney SET outstandingAmount = '201' WHERE userId = '5036779522' AND groupId = '-1001700543954'
+UPDATE inviteToMakeMoney SET beInvited = '{"986643915": "fun66happy","986643914": "fun66happy","9866439": "fun66happy","986643": "fun66happy","98635915": "fun66happy","9864415": "fun66happy"}' WHERE userId = '5036779522' AND groupId = '-1001700543954'
 
 delete from inviteToMakeMoney

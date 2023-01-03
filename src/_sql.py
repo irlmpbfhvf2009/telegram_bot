@@ -44,6 +44,8 @@ class DBHP():
         self.create_tables("joinGroupRecord",['userId','userName','groupId','groupTitle','inviteId','inviteName','joinGroupTime'])
         # create inviteToMakeMoney table
         self.create_tables("inviteToMakeMoney",['userId','userName','groupId','groupTitle','beInvited','outstandingAmount','settlementAmount'])
+        # create billingSession table
+        self.create_tables("billingSession",['key','value'])
 
         self.initConfig("password","12356")
         self.initConfig("botuserName","")
@@ -58,7 +60,10 @@ class DBHP():
         self.initConfig("inviteMembers","6")
         self.initConfig("inviteEarnedOutstand","1.2")
         self.initConfig("inviteSettlementBonus","100")
-        self.initConfig("contactPerson","{\"contactPersonId\":\"986843522\",\"contactPersonUsername\":\"@kk\"}")
+        #self.initConfig("contactPerson","{\"contactPersonId\":\"986843522\",\"contactPersonUsername\":\"@kk\"}")
+        self.initConfig("contactPerson","@aa")
+        self.initBillingSession("userId","")
+        self.initBillingSession("groupId","")
 
 
 
@@ -68,6 +73,11 @@ class DBHP():
         if self.getConfigKey(key) is None:
             data=[{"key":key,"value":value}]
             self.insert_data("config",data)
+
+    def initBillingSession(self,key,value):
+        if self.getBillingSessionKey(key) is None:
+            data=[{"key":key,"value":value}]
+            self.insert_data("billingSession",data)
 
     def tables_in_sqlite_db(self):
         self.cursor = self.conn.execute("SELECT name FROM sqlite_master WHERE type='table';")
@@ -183,6 +193,11 @@ class DBHP():
             return result[0]
     def getConfigKey(self,key):
         sql=f"SELECT * FROM config WHERE key = '{key}'"
+        results = self.select_all_tasks(sql)
+        for result in results:
+            return result[0]
+    def getBillingSessionKey(self,key):
+        sql=f"SELECT * FROM billingSession WHERE key = '{key}'"
         results = self.select_all_tasks(sql)
         for result in results:
             return result[0]
@@ -510,8 +525,9 @@ class DBHP():
                     return False
 
     def insertInviteToMakeMoney(self,userId,userName,groupId,groupTitle,beInvited,beInvitedId):
+
         data=[
-            {"userId":userId,"userName":userName,"groupId":groupId,"groupTitle":groupTitle,"beInvited":beInvited,"outstandingAmount":self.inviteEarnedOutstand,"settlementAmount":"0"}
+            {"userId":userId,"userName":userName,"groupId":groupId,"groupTitle":groupTitle,"beInvited":beInvited,"outstandingAmount":"0","settlementAmount":"0"}
         ]
         if self.existJoinRecordTotInviteToMakeMoney(userId,groupId,beInvitedId)==True:
             return
@@ -560,7 +576,10 @@ class DBHP():
     def getInviteToMakeMoney(self,groupId):
         results = self.select_all_tasks(f"SELECT * FROM inviteToMakeMoney where groupId = '{groupId}'")
         return results
-
+    def getOutstandingAmount(self,userId,groupId):
+        results = self.select_all_tasks(f"SELECT outstandingAmount FROM inviteToMakeMoney where userId = '{userId}' AND groupId = '{groupId}'")
+        for result in results:
+            return result[0]
     def getInviteToMakeMoneyBeInvitedLen(self,userId,groupId):
         results = self.select_all_tasks(f"SELECT beInvited FROM inviteToMakeMoney where userId = '{userId}' AND groupId = '{groupId}'")
         for result in results:
@@ -587,16 +606,31 @@ class DBHP():
         results = self.select_all_tasks(f"SELECT * FROM inviteToMakeMoney where groupId = '{groupId}' AND userId = '{userId}'")
         return results
 
-    def earnBonus(self,userId,groupId):
+    def earnBonus(self,userId,groupId,price):
         results = self.getInviteToMakeMoneyEarnBonus(userId,groupId)
+        p = str(price)
         for result in results:
-            outstandingAmount = Decimal(result[5]) - Decimal(self.inviteSettlementBonus)
-            settlementAmount = Decimal(result[6]) + Decimal(self.inviteSettlementBonus)
+            outstandingAmount = Decimal(result[5]) - Decimal(p)
+            settlementAmount = Decimal(result[6]) + Decimal(p)
             beInvited="{}"
             self.update(f"UPDATE inviteToMakeMoney SET outstandingAmount = '{outstandingAmount}' WHERE userId = '{userId}' AND groupId = '{groupId}'")
             self.update(f"UPDATE inviteToMakeMoney SET settlementAmount = '{settlementAmount}' WHERE userId = '{userId}' AND groupId = '{groupId}'")
             self.update(f"UPDATE inviteToMakeMoney SET beInvited = '{beInvited}' WHERE userId = '{userId}' AND groupId = '{groupId}'")
+   
+    # billingSession
+    def setBillingSessionUserId(self,userId):
+        self.update(f"UPDATE billingSession SET value = '{userId}' WHERE key = 'userId'")
+    def setBillingSessionGroupId(self,groupId):
+        self.update(f"UPDATE billingSession SET value = '{groupId}' WHERE key = 'groupId'")
+    def getBillingSessionUserId(self):
+        results = self.select_all_tasks(f"SELECT value FROM billingSession where key = 'userId'")
+        for result in results:
+            return result[0]
 
+    def getBillingSessionGroupId(self):
+        results = self.select_all_tasks(f"SELECT value FROM billingSession where key = 'groupId'")
+        for result in results:
+            return result[0]
 
 
 

@@ -1,6 +1,0 @@
-[2023-01-02 15:02]  INFO [base.py start] [ line:166 ] Scheduler started
-[2023-01-02 15:02]  INFO [bot.py wordFlow] [ line:139 ] [5036779522] Leo : 1
-[2023-01-02 15:02]  INFO [base.py _real_add_job] [ line:881 ] Added job "deleteMsgToSeconds" to job store "default"
-[2023-01-02 15:02]  INFO [base.py run_job] [ line:123 ] Running job "deleteMsgToSeconds (trigger: date[2023-01-02 07:02:19 UTC], next run at: 2023-01-02 07:02:19 UTC)" (scheduled at 2023-01-02 07:02:19.237047+00:00)
-[2023-01-02 15:02]  INFO [base.py remove_job] [ line:627 ] Removed job 4ffc4bc24ce848189f5045e3437287b7
-[2023-01-02 15:02]  INFO [base.py run_job] [ line:144 ] Job "deleteMsgToSeconds (trigger: date[2023-01-02 07:02:19 UTC], next run at: 2023-01-02 07:02:19 UTC)" executed successfully
