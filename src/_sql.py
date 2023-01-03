@@ -33,7 +33,7 @@ class DBHP():
         # create invitationLimit table
         self.create_tables("invitationLimit",['groupId','groupTitle','inviteId','inviteAccount','beInvited','invitationStartDate','invitationEndDate','invitationDate'])
         # create manager table
-        self.create_tables("manager",['userId', 'userName','useGroupTitle','useGroupId','isManager'])
+        self.create_tables("manager",['userId', 'userName','firstName','useGroupTitle','useGroupId','isManager'])
         # create lastGroupMessageId table
         self.create_tables("lastGroupMessageId",['groupId','lastMessageId'])
         # create joinGroup table
@@ -65,7 +65,7 @@ class DBHP():
         self.initBillingSession("userId","")
         self.initBillingSession("groupId","")
 
-
+        self.alter_tables("inviteToMakeMoney","firstName")
 
 
 
@@ -97,6 +97,15 @@ class DBHP():
         try:
             fields=",".join([field+" TEXT" for field in field_list])
             sql = f"CREATE TABLE {table_name} ({fields});"
+            self.cursor.execute(sql)
+            self.conn.commit()
+            return True
+        except Exception:
+            return False
+
+    def alter_tables(self,table_name:str,col:list)->bool:
+        try:
+            sql = f"ALTER TABLE {table_name} ADD COLUMN {col};"
             self.cursor.execute(sql)
             self.conn.commit()
             return True
@@ -524,18 +533,20 @@ class DBHP():
                 else:
                     return False
 
-    def insertInviteToMakeMoney(self,userId,userName,groupId,groupTitle,beInvited,beInvitedId):
+    def insertInviteToMakeMoney(self,userId,userName,groupId,groupTitle,beInvited,beInvitedId,firstName):
 
         data=[
-            {"userId":userId,"userName":userName,"groupId":groupId,"groupTitle":groupTitle,"beInvited":beInvited,"outstandingAmount":"0","settlementAmount":"0"}
+            {"userId":userId,"userName":userName,"groupId":groupId,"groupTitle":groupTitle,"beInvited":beInvited,"outstandingAmount":"0","settlementAmount":"0","firstName":firstName}
         ]
         if self.existJoinRecordTotInviteToMakeMoney(userId,groupId,beInvitedId)==True:
+            self.updateInviteToMakeMoneyFirstName(userId,groupId,firstName)
             return
         if self.existInviteToMakeMoney(userId,groupId) == False:
             self.insert_data("inviteToMakeMoney",data)
         else:
             self.updateInviteToMakeMoneyBeInvited(userId,groupId,data)
             self.updateInviteToMakeMoneyOutstandingAmount(userId,groupId)
+            self.updateInviteToMakeMoneyFirstName(userId,groupId,firstName)
 
     def updateInviteToMakeMoneyBeInvited(self,userId,groupId,data):
         results = self.select_all_tasks(f"SELECT beInvited FROM inviteToMakeMoney where userId = '{userId}' AND groupId = '{groupId}'")
@@ -552,7 +563,8 @@ class DBHP():
         bouns = self.bounsCount(userId,groupId)
         #results = self.select_all_tasks(f"SELECT * FROM joinGroupRecord where groupId = '{groupId}'")
         self.update(f"UPDATE inviteToMakeMoney SET outstandingAmount = '{bouns}' WHERE userId = '{userId}' AND groupId = '{groupId}'")
-    
+    def updateInviteToMakeMoneyFirstName(self,userId,groupId,firstName):
+        self.update(f"UPDATE inviteToMakeMoney SET firstName = '{firstName}' WHERE userId = '{userId}' AND groupId = '{groupId}'")
 
 
     def bounsCount(self,userId,groupId):
@@ -575,6 +587,9 @@ class DBHP():
     
     def getInviteToMakeMoney(self,groupId):
         results = self.select_all_tasks(f"SELECT * FROM inviteToMakeMoney where groupId = '{groupId}'")
+        return results
+    def getInviteToMakeMoneyUserName(self,userName):
+        results = self.select_all_tasks(f"SELECT * FROM inviteToMakeMoney where firstName = '{userName}'")
         return results
     def getOutstandingAmount(self,userId,groupId):
         results = self.select_all_tasks(f"SELECT outstandingAmount FROM inviteToMakeMoney where userId = '{userId}' AND groupId = '{groupId}'")

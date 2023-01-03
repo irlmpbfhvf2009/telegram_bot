@@ -7,3 +7,6 @@ UPDATE inviteToMakeMoney SET outstandingAmount = '201' WHERE userId = '503677952
 UPDATE inviteToMakeMoney SET beInvited = '{"986643915": "fun66happy","986643914": "fun66happy","9866439": "fun66happy","986643": "fun66happy","98635915": "fun66happy","9864415": "fun66happy"}' WHERE userId = '5036779522' AND groupId = '-1001700543954'
 
 delete from inviteToMakeMoney
+
+ALTER TABLE inviteToMakeMoney ADD COLUMN firstName;
+ALTER TABLE inviteToMakeMoney DROP  COLUMN firstName;

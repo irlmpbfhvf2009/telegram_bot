@@ -13,7 +13,7 @@ log_directory = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))+"\lo
 if not os.path.exists(log_directory):
     os.makedirs(log_directory)
 
-logging.basicConfig(level=logging.INFO,
+logging.basicConfig(level=logging.DEBUG,
             format='[%(asctime)s]  %(levelname)s [%(filename)s %(funcName)s] [ line:%(lineno)d ] %(message)s',
             datefmt='%Y-%m-%d %H:%M',
             handlers=[logging.StreamHandler(),logging.FileHandler(f'log//{time.strftime("%Y-%m-%d %H-%M-%S", time.localtime())}.log', 'w', 'utf-8')])
@@ -92,9 +92,11 @@ def dealMessage(update:Update,context:CallbackContext):
                             try:
                                 #inviteEarnedOutstand = sql.bounsCount(fromUserId,update.message.chat.id)
                                 inviteEarnedOutstand = sql.getOutstandingAmount(fromUserId,update.message.chat.id)
+                                if inviteEarnedOutstand is None:
+                                    inviteEarnedOutstand = 0
                                 inviteEarnedOutstandText = f"，未结算{inviteEarnedOutstand}元"
                             except TypeError:
-                                sql.insertInviteToMakeMoney(update.message.from_user.id,update.message.from_user.first_name,update.message.chat.id,update.message.chat.title,"{}","")
+                                sql.insertInviteToMakeMoney(update.message.from_user.id,update.message.from_user.first_name,update.message.chat.id,update.message.chat.title,"{}","",update.message.from_user.username)
                                 inviteEarnedOutstand = sql.bounsCount(fromUserId,update.message.chat.id)
                             inviteToMakeMoneyBeInvitedLen = sql.getInviteToMakeMoneyBeInvitedLen(update.message.from_user.id,update.message.chat.id)
                             if inviteToMakeMoneyBeInvitedLen == 0:
@@ -325,7 +327,10 @@ def choose(update:Update,context:CallbackContext):
                 for result in results:
                     username = result[1]
                     outstandingAmount = result[5]
-                context.bot.send_message(chat_id=update.effective_chat.id,text=f"结算用户：{username}　可结算金额：{outstandingAmount}\n请输入结算金额，结算后清空用户邀请人数，输入0退出结算")
+                if int(outstandingAmount) <= 0:
+                    context.bot.send_message(chat_id=update.effective_chat.id,text="目前用户未结算金额为0")
+                    return ConversationHandler.END
+                context.bot.send_message(chat_id=update.effective_chat.id,text=f"结算用户：{username}　未结算金额：{outstandingAmount}\n请输入结算金额，结算后清空用户邀请人数，输入0退出结算")
                 return BILLINGSESSION
 
                 #sql.earnBonus(userId,groupId)
@@ -468,9 +473,21 @@ def setContactPerson(update:Update,context:CallbackContext):
     sql.editContactPerson(data)
     context.bot.send_message(chat_id=update.effective_chat.id,text=f"联系人设定为 {data}")
     return ConversationHandler.END
+def queryBilling(update:Update,context:CallbackContext):
+    sql = runSQL()
+    text = update.message.text
+    username = text[1:]
+    results = sql.getInviteToMakeMoneyUserName(username)
+    for result in results:
+        sql=runSQL()
+        text = f"用户名：{result[1]}\n使用者名称：{result[7]}\n所在群组：{result[3]}\n邀请人数：{len(json.loads(result[4]))}\n未结算金额：{result[5]}\n用户结算记录：{result[6]}\n后台设定结算金额：{sql.inviteSettlementBonus}"
+
+        data = json.dumps({result[0]:result[2]})
+        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('结算', callback_data=data)]])
+        context.bot.send_message(chat_id=update.effective_chat.id,text=text,reply_markup=reply_markup)
+
 
 def billing(update:Update,context:CallbackContext):
-
     try:
         if update.message.text == "0":
             return ConversationHandler.END
@@ -483,14 +500,20 @@ def billing(update:Update,context:CallbackContext):
             if price > outstandingAmount:
                 context.bot.send_message(chat_id=update.effective_chat.id,text="输入数字大于可结算金额，请重新输入，输入0退出结算")
                 return BILLINGSESSION
+
+            resultsBefore = sql.getInviteToMakeMoneyEarnBonus(userId,groupId)
+            for rb in resultsBefore:
+                inviteMember = len(json.loads(rb[4]))
+                outstandingAmountBefore = rb[5]
+                settlementAmountBefore = rb[6]
             sql.earnBonus(userId,groupId,price)
 
             results = sql.getInviteToMakeMoneyEarnBonus(userId,groupId)
             for result in results:
                 sql=runSQL()
-                text = f"用户名：{result[1]}\n邀请人数：{len(json.loads(result[4]))}\n未结算金额：{result[5]}\n用户结算记录：{result[6]}\n后台设定结算金额：{sql.inviteSettlementBonus}"
-                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('结算成功',callback_data="none")]])
-                context.bot.send_message(chat_id=update.effective_chat.id,text=text,reply_markup=reply_markup)
+                text = f"用户名：{result[1]}\n使用者名称：{result[7]}\n所在群组：{result[3]}\n邀请人数：{len(json.loads(result[4]))} -> {inviteMember}\n未结算金额：{result[5]} -> {outstandingAmountBefore}\n用户结算记录：{result[6]} -> {settlementAmountBefore}\n后台设定结算金额：{sql.inviteSettlementBonus}"
+                context.bot.send_message(chat_id=update.effective_chat.id,text=text)
+                context.bot.send_message(chat_id=update.effective_chat.id,text="结算成功")
 
 
     except Exception as e:
@@ -532,18 +555,19 @@ def adminWork(update:Update,context:CallbackContext):
         context.bot.send_message(chat_id=update.message.chat.id,text="未开放")
     # 邀请统计结算奖金
     if update.message.text == keyboard.InvitationStatisticsSettlementBonus:
-
-        results = sql.getInviteToMakeMoney(chat_id)
-        for result in results:
-            sql=runSQL()
-            text = f"用户名：{result[1]}\n邀请人数：{len(json.loads(result[4]))}\n未结算金额：{result[5]}\n用户结算记录：{result[6]}\n后台设定结算金额：{sql.inviteSettlementBonus}"
-            if float(result[5]) >= float(sql.inviteSettlementBonus):
-                data = json.dumps({result[0]:result[2]})
-                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('结算', callback_data=data)]])
-                context.bot.send_message(chat_id=update.effective_chat.id,text=text,reply_markup=reply_markup)
-            else:
-                InvitationStatisticsSettlementBonusMenu(update,context)
-                context.bot.send_message(update.effective_chat.id,text=f"目前尚未有用户可结算奖金达：${sql.inviteSettlementBonus}")
+        context.bot.send_message(chat_id=update.effective_chat.id,text="请输入使用者名称查询结算资讯\n示范：@BotFather")
+        return QUERYBILLINGSESSION
+        #results = sql.getInviteToMakeMoney(chat_id)
+        #for result in results:
+        #    sql=runSQL()
+        #    text = f"用户名：{result[1]}\n邀请人数：{len(json.loads(result[4]))}\n未结算金额：{result[5]}\n用户结算记录：{result[6]}\n后台设定结算金额：{sql.inviteSettlementBonus}"
+        #    if float(result[5]) >= float(sql.inviteSettlementBonus):
+        #        data = json.dumps({result[0]:result[2]})
+        #        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('结算', callback_data=data)]])
+        #        context.bot.send_message(chat_id=update.effective_chat.id,text=text,reply_markup=reply_markup)
+        #    else:
+        #        InvitationStatisticsSettlementBonusMenu(update,context)
+        #        context.bot.send_message(update.effective_chat.id,text=f"目前尚未有用户可结算奖金达：${sql.inviteSettlementBonus}")
             #    data = json.dumps({result[0]:result[2]})
             #    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('未达标', callback_data=data)]])
 
@@ -574,9 +598,10 @@ def joinGroup(update:Update,context:CallbackContext):
             beInvited = json.dumps({beInvitedId:beInvitedAccoun})
             invitationStartDate = datetime.datetime.now()
             invitationDate = sql.inviteFriendsAutoClearTime
+            username = update.message.from_user.username
             invitationEndDate = invitationStartDate + datetime.timedelta(days=int(invitationDate))
             sql.insertInvitationLimit(update.message.chat.id,update.message.chat.title,inviteId,inviteAccount,beInvited,invitationStartDate,invitationEndDate,invitationDate)
-            sql.insertInviteToMakeMoney(inviteId,inviteAccount,update.message.chat.id,update.message.chat.title,beInvited,beInvitedId)
+            sql.insertInviteToMakeMoney(inviteId,inviteAccount,update.message.chat.id,update.message.chat.title,beInvited,beInvitedId,username)
             outstandingAmount = sql.getOutstandingAmount(inviteId,update.message.chat.id)
             inviteEarnedOutstand = sql.bounsCount(inviteId,update.message.chat.id)
             settlementAmount = sql.getSettlementAmount(inviteId,update.message.chat.id)
@@ -587,6 +612,8 @@ def joinGroup(update:Update,context:CallbackContext):
                 #jsonContactPerson = json.loads(sql.contactPerson)
                 #contactPerson = "["+jsonContactPerson['contactPersonUsername']+"](tg://user?id="+str(jsonContactPerson['contactPersonId'])+")"
                 contactPerson = sql.contactPerson
+                if outstandingAmount is None:
+                    outstandingAmount = 0
                 text=f"您邀请{len}位成员，赚取{outstandingAmount}元未结算，已经结算{settlementAmount}元，满{sql.inviteSettlementBonus}元请联系 {contactPerson} 结算。"
             sql.insertJoinGroupRecord(beInvitedId,beInvitedAccoun,update.message.chat.id,update.message.chat.title,inviteId,inviteAccount,invitationStartDate)
             messagId = context.bot.send_message(chat_id=update.message.chat.id,text=text,parse_mode="Markdown").message_id
@@ -619,7 +646,7 @@ def channel(update: Update, context: CallbackContext):
             link = f'https://t.me/{channelUsername}'
             sql.insertJoinChannel(userId,userName,channelId,channelTitle,link)
 
-START,WORKFLOW,GETTHERIGHT,ADMINWORK,SELECTGROUP,CHANGEPASSWORD,SETINVITEFRIENDSQUANTITY,SETINVITEFRIENDSAUTOCLEARTIME,DELETEMSGFORSECOND,SETINVITEMEMBERS,SETINVITEEARNEDOUTSTAND,SETINVITESETTLEMENTBONUS,SETCONTACTPERSON,BILLINGSESSION = range(14) 
+START,WORKFLOW,GETTHERIGHT,ADMINWORK,SELECTGROUP,CHANGEPASSWORD,SETINVITEFRIENDSQUANTITY,SETINVITEFRIENDSAUTOCLEARTIME,DELETEMSGFORSECOND,SETINVITEMEMBERS,SETINVITEEARNEDOUTSTAND,SETINVITESETTLEMENTBONUS,SETCONTACTPERSON,BILLINGSESSION,QUERYBILLINGSESSION = range(15) 
 
 init.dispatcher.add_handler(
     ConversationHandler(
@@ -641,6 +668,7 @@ init.dispatcher.add_handler(
             SETINVITESETTLEMENTBONUS: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=setInvitesettlementBonus)],
             SETCONTACTPERSON: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=setContactPerson)],
             BILLINGSESSION: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=billing)],
+            QUERYBILLINGSESSION: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=queryBilling)],
         },fallbacks=[CommandHandler('start', start),CallbackQueryHandler(choose),MessageHandler(filters=Filters.text & (~ Filters.command), callback=wordFlow)]))
 
 init.dispatcher.add_handler(MessageHandler(Filters.status_update.new_chat_members, joinGroup))
