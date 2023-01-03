@@ -10,8 +10,22 @@ import time
 import os
 
 log_directory = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))+"\log"
+configPath = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))+"\config.ini"
+
 if not os.path.exists(log_directory):
     os.makedirs(log_directory)
+if not os.path.isfile(configPath):
+    print("遗失config.ini....")
+    token = input("please enter your token : ")
+    f = open("config.ini","w+")
+    f.close()
+    import configparser
+    config=configparser.ConfigParser()
+    config['Telegram-BOT'] = {}
+    config['Telegram-BOT']['token'] = token
+    with open('config.ini', 'w') as a:
+        config.write(a)
+    a.close()
 
 logging.basicConfig(level=logging.INFO,
             format='[%(asctime)s]  %(levelname)s [%(filename)s %(funcName)s] [ line:%(lineno)d ] %(message)s',
@@ -681,13 +695,7 @@ init.dispatcher.add_handler(MessageHandler(Filters.status_update.left_chat_membe
 init.dispatcher.add_handler(ChatMemberHandler(channel, ChatMemberHandler.MY_CHAT_MEMBER))
 
 def run():
-    logPath = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))+"\log"
-    configPath = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))+"\config.ini"
 
-    if not os.path.isdir(logPath):
-        os.mkdir(logPath)
-    if not os.path.isfile(configPath):
-        print("缺少config.ini檔案")
     start = time.time()
     init.updater.start_polling()
     end = time.time()
