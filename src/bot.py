@@ -8,6 +8,9 @@ import logging
 import datetime
 import time
 import os
+from flask import Flask, request
+
+app = Flask(__name__)
 
 configPath = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))+"\config.ini"
 
@@ -693,7 +696,6 @@ init.dispatcher.add_handler(MessageHandler(Filters.status_update.left_chat_membe
 init.dispatcher.add_handler(ChatMemberHandler(channel, ChatMemberHandler.MY_CHAT_MEMBER))
 
 def run():
-
     start = time.time()
     init.updater.start_polling()
     end = time.time()
