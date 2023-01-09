@@ -1,0 +1,36 @@
+.allbody {
+    height: 844px;
+    width: 390px;
+    margin: 0 auto;
+    background: #51BDA3;
+}
+
+.text {
+    padding-top: 114px;
+    font-size: 40px;
+}
+
+.border {
+    border-radius: 0%;
+}
+.inputStytle{
+    margin-top: 55px;
+    border-radius: 5px 5px 5px 5px;
+    width: 281px;
+    height: 67px;
+    border-style: none;
+}
+.font24{
+    font-size: 24px;
+}
+.text40{
+    border-radius: 5px 5px 5px 5px;
+    color: #51BDA3;
+    font-size: 40px;
+    border-style: none;
+}
+.buttonStytle{
+    width: 135px;
+    height: 80px;
+    margin-top: 46px;
+}
