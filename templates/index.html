@@ -29,19 +29,4 @@
         </div>
     </div>
 </body>
-<script src='/static/sql-wasm.js'></script>
-<script>
-    var fs = require("fs");
-    var filebuffer = fs.readFileSync('telegram-bot.db')
-    var config ={
-        locateFile:filename=>`/static/sql-wasm.js`
-    }
-    initSqlJs(config).then(SQL => {
-        var db = new SQL.Database(filebuffer);
-        var res = db.exec("SELECT * FROM config")
-        console.log(JSON.stringify(res))
-        
-    })
-
-</script>
 </html>
