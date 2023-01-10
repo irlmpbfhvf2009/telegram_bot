@@ -1,0 +1,20 @@
+[2023-01-10 18:12]  INFO [base.py start] [ line:166 ] Scheduler started
+[2023-01-10 18:12]  INFO [_internal.py _log] [ line:224 ] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.66:5000
+[2023-01-10 18:12]  INFO [_internal.py _log] [ line:224 ] [33mPress CTRL+C to quit[0m
+[2023-01-10 18:12]  INFO [bot.py run] [ line:702 ] BOT : CCP5299_BOT 已启动  執行時間：0.21秒
+[2023-01-10 18:12]  INFO [_internal.py _log] [ line:224 ] 127.0.0.1 - - [10/Jan/2023 18:12:34] "GET / HTTP/1.1" 200 -
+[2023-01-10 18:12]  INFO [_internal.py _log] [ line:224 ] 127.0.0.1 - - [10/Jan/2023 18:12:34] "GET /static/all.css HTTP/1.1" 200 -
+[2023-01-10 18:12]  INFO [_internal.py _log] [ line:224 ] 127.0.0.1 - - [10/Jan/2023 18:12:34] "GET /static/img/機器人.png HTTP/1.1" 200 -
+[2023-01-10 18:12]  INFO [_internal.py _log] [ line:224 ] 127.0.0.1 - - [10/Jan/2023 18:12:35] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+[2023-01-10 18:13]  INFO [bot.py wordFlow] [ line:157 ] [5076448983] ke : 如何将我添加到您的群组
+[2023-01-10 18:13]  INFO [bot.py wordFlow] [ line:157 ] [5076448983] ke : 如何将我添加到您的频道
+[2023-01-10 18:13]  INFO [bot.py wordFlow] [ line:157 ] [5076448983] ke : 管理员设置
+[2023-01-10 18:13]  INFO [_internal.py _log] [ line:224 ] 127.0.0.1 - - [10/Jan/2023 18:13:47] "GET / HTTP/1.1" 200 -
+[2023-01-10 18:13]  INFO [_internal.py _log] [ line:224 ] 127.0.0.1 - - [10/Jan/2023 18:13:47] "[36mGET /static/all.css HTTP/1.1[0m" 304 -
+[2023-01-10 18:13]  INFO [_internal.py _log] [ line:224 ] 127.0.0.1 - - [10/Jan/2023 18:13:47] "[36mGET /static/img/機器人.png HTTP/1.1[0m" 304 -
+[2023-01-10 18:14]  INFO [_internal.py _log] [ line:224 ] 127.0.0.1 - - [10/Jan/2023 18:14:28] "GET / HTTP/1.1" 200 -
+[2023-01-10 18:14]  INFO [_internal.py _log] [ line:224 ] 127.0.0.1 - - [10/Jan/2023 18:14:28] "[36mGET /static/all.css HTTP/1.1[0m" 304 -
+[2023-01-10 18:14]  INFO [_internal.py _log] [ line:224 ] 127.0.0.1 - - [10/Jan/2023 18:14:28] "[36mGET /static/img/機器人.png HTTP/1.1[0m" 304 -

@@ -2,11 +2,10 @@
     height: 844px;
     width: 390px;
     margin: 0 auto;
-    background: #51BDA3;
+    background: #2E2F33;
 }
 
 .text {
-    padding-top: 114px;
     font-size: 40px;
 }
 
@@ -29,8 +28,14 @@
     font-size: 40px;
     border-style: none;
 }
-.buttonStytle{
-    width: 135px;
-    height: 80px;
-    margin-top: 46px;
+
+.fz32{
+    padding-top: 60px;
+    color: aliceblue;
+    font-size: 32px;
+}
+.loginbtn{
+    width: 150px;
+    margin-top: 40px;
+    border-radius: 15px 15px 15px 15px;
 }
