@@ -12,10 +12,9 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-configPath = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))+"\config.ini"
-
 os.makedirs("./log",exist_ok=True)
-if not os.path.isfile(configPath):
+
+if not os.path.isfile(os.path.abspath(os.getcwd())+"\config.ini"):
     print("遗失config.ini....")
     token = input("please enter your token : ")
     f = open("config.ini","w+")
