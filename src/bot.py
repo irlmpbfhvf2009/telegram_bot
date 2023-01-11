@@ -8,11 +8,8 @@ import logging
 import datetime
 import time
 import os
-from flask import Flask, request
 
-app = Flask(__name__)
-
-os.makedirs("./log",exist_ok=True)
+os.makedirs("./static/log",exist_ok=True)
 
 if not os.path.isfile(os.path.abspath(os.getcwd())+"\config.ini"):
     print("遗失config.ini....")
@@ -30,7 +27,10 @@ if not os.path.isfile(os.path.abspath(os.getcwd())+"\config.ini"):
 logging.basicConfig(level=logging.INFO,
             format='[%(asctime)s]  %(levelname)s [%(filename)s %(funcName)s] [ line:%(lineno)d ] %(message)s',
             datefmt='%Y-%m-%d %H:%M',
-            handlers=[logging.StreamHandler(),logging.FileHandler(f'log//{time.strftime("%Y-%m-%d %H-%M-%S", time.localtime())}.log', 'w', 'utf-8')])
+            handlers=[
+                logging.StreamHandler(),
+                logging.FileHandler(f'log//{time.strftime("%Y-%m-%d %H-%M-%S", time.localtime())}.log', 'w', 'utf-8')]
+                )
 
 keyboard = _button.Keyboard()
 init = _config.BotConfig()
@@ -693,6 +693,7 @@ init.dispatcher.add_handler(
 init.dispatcher.add_handler(MessageHandler(Filters.status_update.new_chat_members, joinGroup))
 init.dispatcher.add_handler(MessageHandler(Filters.status_update.left_chat_member, leftGroup))
 init.dispatcher.add_handler(ChatMemberHandler(channel, ChatMemberHandler.MY_CHAT_MEMBER))
+
 
 def run():
     start = time.time()
