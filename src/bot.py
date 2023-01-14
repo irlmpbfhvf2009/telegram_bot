@@ -9,7 +9,7 @@ import datetime
 import time
 import os
 
-os.makedirs("./static/log",exist_ok=True)
+os.makedirs("./log",exist_ok=True)
 
 if not os.path.isfile(os.path.abspath(os.getcwd())+"\config.ini"):
     print("遗失config.ini....")

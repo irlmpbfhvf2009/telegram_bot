@@ -1,8 +1,16 @@
 from flask import Flask,render_template,jsonify,request,send_from_directory
 import threading
 from src import bot
+import os ,sys
 
-app = Flask(__name__,template_folder='../templates')
+
+if getattr(sys, 'frozen', False):                                                                                                                                     
+      template_folder = os.path.join(sys.executable, '..','templates')                                                                                                  
+      static_folder = os.path.join(sys.executable, '..','static')                                                                                                       
+      app = Flask(__name__, template_folder = template_folder,static_folder = static_folder)
+else:
+    app = Flask(__name__,template_folder='templates')
+
 
 class FlaskThread(threading.Thread):
     def run(self) -> None:
@@ -17,7 +25,7 @@ class TelegramThread(threading.Thread):
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template(r'index.html')
 
 if __name__ == '__main__':
     flask_thread = FlaskThread()
