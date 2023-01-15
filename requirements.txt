@@ -6,3 +6,4 @@ config==0.5.1
 Flask==2.2.2
 pyinstaller==5.7.0
 pyinstaller-hooks-contrib==2022.14
+gevent==22.10.2

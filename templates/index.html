@@ -17,9 +17,8 @@
 <body>
     
     <div class="allbody">
-        <div class="text text-white text-center">你好!歡迎使用!</div>
         <div class="d-flex justify-content-center ">
-            <img src="/static/img/機器人.png" alt="" class="rounded-circle ">
+            <h6 id="log"></h6>
         </div>
         <div class="d-flex justify-content-center">
             <input type="text" placeholder="請輸入密碼" class="inputStytle text-center font24 shadow">
@@ -29,4 +28,25 @@
         </div>
     </div>
 </body>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script type="text/javascript" >
+    function getLog(){
+        $.ajax({
+            url:'/getLog',
+            type:'get',
+            timeout:10000,
+            success:function (data){
+                var logs="";
+                $.each(data.log_list,function(n,value) {
+                    logs+=value+"<br>"
+                });
+                $('#log').html(logs)
+            },
+            error:function(e){
+                console.log(e)
+            }
+        });
+    }
+    setInterval(getLog,10000)  
+</script>
 </html>
