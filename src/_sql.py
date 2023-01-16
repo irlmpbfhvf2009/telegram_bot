@@ -46,6 +46,8 @@ class DBHP():
         self.create_tables("inviteToMakeMoney",['userId','userName','groupId','groupTitle','beInvited','outstandingAmount','settlementAmount'])
         # create billingSession table
         self.create_tables("billingSession",['key','value'])
+        # create advertise table
+        self.create_tables("advertise",['groupId','advertiseText','advertiseTime'])
 
         self.initConfig("password","12356")
         self.initConfig("botuserName","")

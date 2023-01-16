@@ -338,7 +338,6 @@ def choose(update:Update,context:CallbackContext):
                 sql.setBillingSessionUserId(key)
                 sql.setBillingSessionGroupId(value)
                 results = sql.getInviteToMakeMoneyEarnBonus(key,value)
-                print(4)
                 for result in results:
                     username = result[1]
                     outstandingAmount = result[5]
@@ -347,7 +346,6 @@ def choose(update:Update,context:CallbackContext):
                         context.bot.send_message(chat_id=update.effective_chat.id,text="目前用户未结算金额为0")
                         print(12)
                         return ConversationHandler.END
-                print(1)
                 context.bot.send_message(chat_id=update.effective_chat.id,text=f"结算用户：{username}　未结算金额：{outstandingAmount}\n请输入结算金额，结算后清空用户邀请人数，输入0退出结算")
                 return BILLINGSESSION
 
@@ -559,19 +557,24 @@ def adminWork(update:Update,context:CallbackContext):
                     print(f'Message_id does not exist: {new_message_id} - {error}')
                     new_message_id = new_message_id - 1
         #context.job_queue.run_once(start_clearmsg,1, context='')
-        context.bot.send_message(chat_id=update.message.chat.id,text="未开放功能")
+        context.bot.send_message(chat_id=update.message.chat.id,text="未开放")
     # 用戶設置
     if update.message.text == keyboard.userSet:
-        context.bot.send_message(chat_id=update.message.chat.id,text="未开放功能")
+        context.bot.send_message(chat_id=update.message.chat.id,text="未开放")
     # 禁言系统
     if update.message.text == keyboard.banToAllPost:
-        context.bot.send_message(chat_id=update.message.chat.id,text="未开放功能")
+        context.bot.send_message(chat_id=update.message.chat.id,text="未开放")
     # 分析当日
     if update.message.text == keyboard.analysisDay:
         context.bot.send_message(chat_id=update.message.chat.id,text="未开发")
     # 广告设置
     if update.message.text == keyboard.adSettings:
+        sql = runSQL()
+        groupId = sql.getUseGroupId(update.effective_chat.id)
         context.bot.send_message(chat_id=update.message.chat.id,text="未开放")
+        context.bot.send_message(chat_id=update.effective_chat.id , text=f'广告设置',
+            reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('', callback_data='453543')]]))
+
     # 邀请统计结算奖金
     if update.message.text == keyboard.InvitationStatisticsSettlementBonus:
         context.bot.send_message(chat_id=update.effective_chat.id,text="请输入使用者名称查询结算资讯\n示范：@BotFather")
@@ -622,7 +625,7 @@ def joinGroup(update:Update,context:CallbackContext):
             sql.insertInvitationLimit(update.message.chat.id,update.message.chat.title,inviteId,inviteAccount,beInvited,invitationStartDate,invitationEndDate,invitationDate)
             sql.insertInviteToMakeMoney(inviteId,inviteAccount,update.message.chat.id,update.message.chat.title,beInvited,beInvitedId,username)
             outstandingAmount = sql.getOutstandingAmount(inviteId,update.message.chat.id)
-            inviteEarnedOutstand = sql.bounsCount(inviteId,update.message.chat.id)
+            #inviteEarnedOutstand = sql.bounsCount(inviteId,update.message.chat.id)
             settlementAmount = sql.getSettlementAmount(inviteId,update.message.chat.id)
             len = sql.getInviteToMakeMoneyBeInvitedLen(inviteId,update.message.chat.id)
             if sql.existJoinRecordTotInviteToMakeMoney(inviteId,update.message.chat.id,beInvitedId)==True:

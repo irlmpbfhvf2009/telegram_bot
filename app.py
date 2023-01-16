@@ -19,10 +19,14 @@ def index():
 
 
 
-line_number = [0]
 @app.route("/getLog")
 def get_log():
-    log_data = red_logs()
+    line_number = [0]
+    try:
+        log_data = red_logs()
+    except:
+        return {'log_list' : ''}
+
     if len(log_data) - line_number[0] > 0:
         log_difference = len(log_data) - line_number[0]
         log_list = []
@@ -34,12 +38,6 @@ def get_log():
     }
     line_number.append(len(log_data))
     return _log
-
-
-
-
-#def run() -> None:
-    #app.run(host="0.0.0.0")
 
 def find_new_log():
     dir = os.path.abspath(os.getcwd())+"\log"
@@ -69,6 +67,7 @@ def red_logs():
 
 
 if __name__ == '__main__':
+    #app.run(host="0.0.0.0")
     http_server = WSGIServer(('127.0.0.1', 5000), app)
     print(f"* Running on http://{http_server.address[0]}:{http_server.address[1]}")
     http_server.serve_forever()

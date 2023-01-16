@@ -30,6 +30,7 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <script type="text/javascript" >
+    
     function getLog(){
         $.ajax({
             url:'/getLog',
@@ -41,12 +42,12 @@
                     logs+=value+"<br>"
                 });
                 $('#log').html(logs)
-            },
-            error:function(e){
-                console.log(e)
             }
         });
     }
-    setInterval(getLog,10000)  
+    var interval;
+    getLog();
+    clearInterval(interval);
+    interval = setInterval(getLog,10000)  
 </script>
 </html>
