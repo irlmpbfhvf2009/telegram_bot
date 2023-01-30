@@ -47,7 +47,7 @@ class DBHP():
         # create billingSession table
         self.create_tables("billingSession",['key','value'])
         # create advertise table
-        self.create_tables("advertise",['groupId','advertiseText','advertiseTime'])
+        self.create_tables("advertise",['userId','groupId','groupTitle','advertiseContent','advertiseTime'])
 
         self.initConfig("password","12356")
         self.initConfig("botuserName","")
@@ -310,6 +310,13 @@ class DBHP():
         sql=f"SELECT groupId,groupTitle FROM joinGroup"
         results = self.select_all_tasks(sql)
         return results
+
+    def getGroupTitle(self,groupId):
+        sql=f"SELECT groupTitle FROM joinGroup where groupId='{groupId}'"
+        results = self.select_all_tasks(sql)
+        for result in results:
+            return result[0]
+
     def getJoinGroupLink(self,groupId):
         sql=f"SELECT link FROM joinGroup where groupId='{groupId}'"
         results = self.select_all_tasks(sql)
@@ -649,5 +656,36 @@ class DBHP():
         for result in results:
             return result[0]
 
+    # advertise
+    def getAdvertiseContent(self,groupId):
+        results = self.select_all_tasks(f"SELECT advertiseContent FROM advertise where groupId = '{groupId}'")
+        for result in results:
+            return result[0]
+            
+    def getAdvertiseTime(self,groupId):
+        results = self.select_all_tasks(f"SELECT advertiseTime FROM advertise where groupId = '{groupId}'")
+        for result in results:
+            return result[0]
 
+    def existGroupIdAdvertise(self,groupId):
+        results = self.select_all_tasks(f"SELECT * FROM advertise where groupId = '{groupId}'")
+        if results == []:
+            return False
+        else:
+            for result in results:
+                if str(result[1]) == str(groupId):
+                    return True
+                else:
+                    return False
+    def insertAdvertise(self,userId,groupId,groupTitle,advertiseContent,advertiseTime):
+        data=[
+            {"userId":userId,"groupId":groupId,"groupTitle":groupTitle,"advertiseContent":advertiseContent,"advertiseTime":advertiseTime}
+        ]
+        if self.existGroupIdAdvertise(groupId) == False:
+            self.insert_data("advertise",data)
+
+    def updateAdvertiseTime(self,groupId,advertiseTime):
+        self.update(f"UPDATE advertise SET advertiseTime = '{advertiseTime}' WHERE groupId = '{groupId}'")
+    def updateAdvertiseContent(self,groupId,advertiseContent):
+        self.update(f"UPDATE advertise SET advertiseContent = '{advertiseContent}' WHERE groupId = '{groupId}'")
 

@@ -1,0 +1,5 @@
+-- SQLite
+-- delete from config --;
+
+
+SELECT * from advertise;

@@ -2,29 +2,14 @@ from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton ,Keyboar
 from telegram.ext import Filters, CallbackContext,CommandHandler,MessageHandler,ConversationHandler,CallbackQueryHandler,ChatMemberHandler
 import json
 from src import _button
+from src import _dirs
 from src import _config
 from src import _sql
 import logging
 import datetime
 import time
-import os
 
-os.makedirs("./log",exist_ok=True)
-
-if not os.path.isfile(os.path.abspath(os.getcwd())+"\config.ini"):
-    print("遗失config.ini....")
-    token = input("please enter your token : ")
-    f = open("config.ini","w+")
-    f.close()
-    import configparser
-    config=configparser.ConfigParser()
-    config['Telegram-BOT'] = {}
-    config['Telegram-BOT']['token'] = token
-    with open('config.ini', 'w') as a:
-        config.write(a)
-    a.close()
-
-logging.basicConfig(level=logging.INFO,
+logging.basicConfig(level=logging.DEBUG,
             format='[%(asctime)s]  %(levelname)s [%(filename)s %(funcName)s] [ line:%(lineno)d ] %(message)s',
             datefmt='%Y-%m-%d %H:%M',
             handlers=[
@@ -34,12 +19,15 @@ logging.basicConfig(level=logging.INFO,
 
 keyboard = _button.Keyboard()
 init = _config.BotConfig()
+_dirs.Dirs()
+
 
 def runSQL():
     return _sql.DBHP("telegram-bot.db")
 # 更新config table botuserName
 runSQL().editBotusername(init.updater.bot.username)
 # 封裝
+
 def sendMenu(update:Update,context:CallbackContext):
     context.bot.send_message(chat_id = update.effective_chat.id,text=keyboard.adminUser,reply_markup = keyboard.adminUserMenu)
     inviteFriendsMenu(update,context)
@@ -329,6 +317,30 @@ def choose(update:Update,context:CallbackContext):
             context.bot.send_message(chat_id=update.effective_chat.id,text=f"Now set to '{sql.contactPerson}' , Send me the new user")
             return SETCONTACTPERSON
 
+        if update.callback_query.data=='groupOpenAdvertise':
+            sql=runSQL()
+            groupId=sql.getUseGroupId(update.effective_user.id)
+            advertiseTime = sql.getAdvertiseTime(groupId)
+            advertiseText = sql.getAdvertiseContent(groupId)
+            if (int(advertiseTime)) !=0:
+                def startSendAdvertise(context: CallbackContext):
+                    context.bot.send_message(chat_id = groupId, text = context.job.context)
+                context.job_queue.run_repeating(startSendAdvertise,interval=int(advertiseTime),first=0.0, context=advertiseText,name=groupId)
+
+        if update.callback_query.data=='groupCloseAdvertise':
+            sql=runSQL()
+            groupId=sql.getUseGroupId(update.effective_user.id)
+            current_jobs = context.job_queue.get_jobs_by_name(groupId)
+            for job in current_jobs:
+                job.schedule_removal()
+
+        if update.callback_query.data=='groupSetAdvertiseContent':
+            context.bot.send_message(chat_id=update.effective_chat.id,text=f"OK. Send me the new 'content'.")
+            return GROUPSETADVERTISECONTENT
+        if update.callback_query.data=='groupSetAdvertiseTime':
+            context.bot.send_message(chat_id=update.effective_chat.id,text=f"OK. Send me the new 'time(s)'.")
+            return GROUPSETADVERTISETIME
+
             
     # 結算獎金
     try:
@@ -341,7 +353,6 @@ def choose(update:Update,context:CallbackContext):
                 for result in results:
                     username = result[1]
                     outstandingAmount = result[5]
-                    print(13)
                     if float(outstandingAmount) <= 0:
                         context.bot.send_message(chat_id=update.effective_chat.id,text="目前用户未结算金额为0")
                         print(12)
@@ -503,6 +514,40 @@ def queryBilling(update:Update,context:CallbackContext):
         reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('结算', callback_data=data)]])
         context.bot.send_message(chat_id=update.effective_chat.id,text=text,reply_markup=reply_markup)
 
+#设定广告时间
+def groupSetAdvertiseTime(update:Update,context:CallbackContext):
+    sql = runSQL()
+    groupId=sql.getUseGroupId(update.message.from_user.id)
+    try:
+        if type(int(update.message.text))==int:
+            message = update.message.text
+            sql.updateAdvertiseTime(groupId,message)
+            context.bot.send_message(chat_id = update.effective_chat.id, text = f'time is set to {message}(s)') 
+            context.bot.send_message(chat_id=update.effective_chat.id , text=f'广告设置',
+            reply_markup = InlineKeyboardMarkup(
+                [
+                    [InlineKeyboardButton('开启广告推送', callback_data='groupOpenAdvertise')],
+                    [InlineKeyboardButton('关闭广告推送', callback_data='groupCloseAdvertise')],
+                    [InlineKeyboardButton('设置广告内容', callback_data='groupSetAdvertiseContent')],
+                    [InlineKeyboardButton('设置广告推送时间(秒)', callback_data='groupSetAdvertiseTime')]
+                ]))
+            return ConversationHandler.END
+    except:
+        context.bot.send_message(chat_id = update.effective_chat.id, text = "请重新输入数字")
+        return GROUPSETADVERTISETIME
+
+
+
+#设定广告內容
+def groupSetAdvertiseContent(update:Update,context:CallbackContext):
+    sql = runSQL()
+    groupId=sql.getUseGroupId(update.message.from_user.id)
+    message = update.message.text
+    sql.updateAdvertiseContent(groupId,message)
+    print(message)
+    context.bot.send_message(chat_id=update.effective_chat.id,text=message)
+    #return GROUPSETADVERTISECONTENT
+    return ConversationHandler.END
 
 def billing(update:Update,context:CallbackContext):
     try:
@@ -569,11 +614,18 @@ def adminWork(update:Update,context:CallbackContext):
         context.bot.send_message(chat_id=update.message.chat.id,text="未开发")
     # 广告设置
     if update.message.text == keyboard.adSettings:
-        sql = runSQL()
-        groupId = sql.getUseGroupId(update.effective_chat.id)
-        context.bot.send_message(chat_id=update.message.chat.id,text="未开放")
+        sql=runSQL()
+        groupId = sql.getUseGroupId(update.message.from_user.id)
+        groupTitle=sql.getGroupTitle(groupId)
+        sql.insertAdvertise(update.effective_chat.id,groupId,groupTitle,'','')
         context.bot.send_message(chat_id=update.effective_chat.id , text=f'广告设置',
-            reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton('', callback_data='453543')]]))
+            reply_markup = InlineKeyboardMarkup(
+                [
+                    [InlineKeyboardButton('开启广告推送', callback_data='groupOpenAdvertise')],
+                    [InlineKeyboardButton('关闭广告推送', callback_data='groupCloseAdvertise')],
+                    [InlineKeyboardButton('设置广告内容', callback_data='groupSetAdvertiseContent')],
+                    [InlineKeyboardButton('设置广告推送时间(秒)', callback_data='groupSetAdvertiseTime')]
+                ]))
 
     # 邀请统计结算奖金
     if update.message.text == keyboard.InvitationStatisticsSettlementBonus:
@@ -670,6 +722,9 @@ def channel(update: Update, context: CallbackContext):
 
 START,WORKFLOW,GETTHERIGHT,ADMINWORK,SELECTGROUP,CHANGEPASSWORD,SETINVITEFRIENDSQUANTITY,SETINVITEFRIENDSAUTOCLEARTIME,DELETEMSGFORSECOND,SETINVITEMEMBERS,SETINVITEEARNEDOUTSTAND,SETINVITESETTLEMENTBONUS,SETCONTACTPERSON,BILLINGSESSION,QUERYBILLINGSESSION = range(15) 
 
+# 宣告广告常数
+GROUPSETADVERTISECONTENT,GROUPSETADVERTISETIME=range(2)
+
 init.dispatcher.add_handler(
     ConversationHandler(
         entry_points=[CommandHandler('start', start),
@@ -691,6 +746,10 @@ init.dispatcher.add_handler(
             SETCONTACTPERSON: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=setContactPerson)],
             BILLINGSESSION: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=billing)],
             QUERYBILLINGSESSION: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=queryBilling)],
+
+            # 广告会话
+            GROUPSETADVERTISETIME: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=groupSetAdvertiseTime)],
+            GROUPSETADVERTISECONTENT: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=groupSetAdvertiseContent)],
         },fallbacks=[CommandHandler('start', start),CallbackQueryHandler(choose),MessageHandler(filters=Filters.text & (~ Filters.command), callback=wordFlow)]))
 
 init.dispatcher.add_handler(MessageHandler(Filters.status_update.new_chat_members, joinGroup))
