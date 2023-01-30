@@ -9,6 +9,7 @@ import logging
 import datetime
 import time
 
+_dirs.Dirs()
 logging.basicConfig(level=logging.DEBUG,
             format='[%(asctime)s]  %(levelname)s [%(filename)s %(funcName)s] [ line:%(lineno)d ] %(message)s',
             datefmt='%Y-%m-%d %H:%M',
@@ -19,7 +20,6 @@ logging.basicConfig(level=logging.DEBUG,
 
 keyboard = _button.Keyboard()
 init = _config.BotConfig()
-_dirs.Dirs()
 
 
 def runSQL():
