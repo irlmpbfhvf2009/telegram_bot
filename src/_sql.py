@@ -641,7 +641,7 @@ class DBHP():
             self.update(f"UPDATE inviteToMakeMoney SET settlementAmount = '{settlementAmount}' WHERE userId = '{userId}' AND groupId = '{groupId}'")
             self.update(f"UPDATE inviteToMakeMoney SET beInvited = '{beInvited}' WHERE userId = '{userId}' AND groupId = '{groupId}'")
    
-    # billingSession
+    # CRUD - billingSession
     def setBillingSessionUserId(self,userId):
         self.update(f"UPDATE billingSession SET value = '{userId}' WHERE key = 'userId'")
     def setBillingSessionGroupId(self,groupId):
@@ -656,14 +656,19 @@ class DBHP():
         for result in results:
             return result[0]
 
-    # advertise
+    # CRUD - advertise
     def getAdvertiseContent(self,groupId):
         results = self.select_all_tasks(f"SELECT advertiseContent FROM advertise where groupId = '{groupId}'")
         for result in results:
             return result[0]
-            
+
     def getAdvertiseTime(self,groupId):
         results = self.select_all_tasks(f"SELECT advertiseTime FROM advertise where groupId = '{groupId}'")
+        for result in results:
+            return result[0]
+
+    def getAdvertiseTitle(self,groupId):
+        results = self.select_all_tasks(f"SELECT groupTitle FROM advertise where groupId = '{groupId}'")
         for result in results:
             return result[0]
 

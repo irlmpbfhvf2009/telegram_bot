@@ -31,7 +31,7 @@ runSQL().editBotusername(init.updater.bot.username)
 def sendMenu(update:Update,context:CallbackContext):
     context.bot.send_message(chat_id = update.effective_chat.id,text=keyboard.adminUser,reply_markup = keyboard.adminUserMenu)
     inviteFriendsMenu(update,context)
-    InvitationStatisticsSettlementBonusMenu(update,context)
+    invitationStatisticsSettlementBonusMenu(update,context)
 
 def inviteFriendsMenu(update:Update,context:CallbackContext):
     sql=runSQL()
@@ -41,14 +41,22 @@ def inviteFriendsMenu(update:Update,context:CallbackContext):
     inviteFriendsText = f"目前状态(邀请好友)：{inviteFriendsSet}\n{followChannelSetText}邀请指定人数：{sql.inviteFriendsQuantity}\n删除系统消息：{sql.deleteSeconds}秒\n重置天数：{sql.inviteFriendsAutoClearTime}"
     context.bot.send_message(chat_id = update.effective_chat.id,text=inviteFriendsText,reply_markup = keyboard.inviteFriendsMenu)
 
-def InvitationStatisticsSettlementBonusMenu(update:Update,context:CallbackContext):
+def invitationStatisticsSettlementBonusMenu(update:Update,context:CallbackContext):
     sql=runSQL()
     invitationBonusSet = "开启" if sql.invitationBonusSet == "True" else "关闭"
     #jsonContactPerson = json.loads(sql.contactPerson)
     #contactPerson = "["+jsonContactPerson['contactPersonUsername']+"](tg://user?id="+jsonContactPerson['contactPersonId']+")"
     contactPerson = sql.contactPerson
     invitationBonusSetText = f"目前状态：{invitationBonusSet}\n邀请人数：{sql.inviteMembers}\n获得奖金：{sql.inviteEarnedOutstand}\n结算奖金：{sql.inviteSettlementBonus}\n联系人：{contactPerson}"
-    context.bot.send_message(chat_id = update.effective_chat.id,text=invitationBonusSetText,reply_markup = keyboard.InvitationStatisticsSettlementBonusMenu,parse_mode="Markdown")
+    context.bot.send_message(chat_id = update.effective_chat.id,text=invitationBonusSetText,reply_markup = keyboard.invitationStatisticsSettlementBonusMenu,parse_mode="Markdown")
+
+def advertiseMenu(update:Update,context:CallbackContext,groupId):
+    sql=runSQL()
+    content = sql.getAdvertiseContent(groupId)
+    time = sql.getAdvertiseTime(groupId)
+    title = sql.getAdvertiseTitle(groupId)
+    text = f"使用群组:{title}\n设置秒数:{time}(s)\n内容:{content}"
+    context.bot.send_message(chat_id=update.effective_chat.id , text=text , reply_markup = keyboard.advertiseMenu)
 
 def startText(update:Update,context:CallbackContext):
     return context.bot.send_message(chat_id = update.effective_chat.id,text="What con this bot do?\nPlease tap on START",reply_markup=ReplyKeyboardMarkup(keyboard.wordFlowKeyboardButton))
@@ -293,13 +301,13 @@ def choose(update:Update,context:CallbackContext):
             sql.editInvitationBonusSet("True")
             query = update.callback_query
             query.delete_message()
-            InvitationStatisticsSettlementBonusMenu(update,context)
+            invitationStatisticsSettlementBonusMenu(update,context)
         # 关闭 [邀请奖金功能]
         if update.callback_query.data==keyboard.cd_closeInvitationBonusSet:
             sql.editInvitationBonusSet("False")
             query = update.callback_query
             query.delete_message()
-            InvitationStatisticsSettlementBonusMenu(update,context)
+            invitationStatisticsSettlementBonusMenu(update,context)
         # 设定 [每邀请(n人)以赚取奖金]
         if update.callback_query.data==keyboard.cd_setInviteMembers:
             context.bot.send_message(chat_id=update.effective_chat.id,text=f"Now set to '{sql.inviteMembers}' people , Send me the new people")
@@ -322,10 +330,12 @@ def choose(update:Update,context:CallbackContext):
             groupId=sql.getUseGroupId(update.effective_user.id)
             advertiseTime = sql.getAdvertiseTime(groupId)
             advertiseText = sql.getAdvertiseContent(groupId)
-            if (int(advertiseTime)) !=0:
+            if (int(advertiseTime)) !=0 and advertiseText!="":
                 def startSendAdvertise(context: CallbackContext):
                     context.bot.send_message(chat_id = groupId, text = context.job.context)
                 context.job_queue.run_repeating(startSendAdvertise,interval=int(advertiseTime),first=0.0, context=advertiseText,name=groupId)
+            else:
+                context.bot.send_message(chat_id=update.effective_chat.id,text='内容或秒数未设置')
 
         if update.callback_query.data=='groupCloseAdvertise':
             sql=runSQL()
@@ -333,6 +343,7 @@ def choose(update:Update,context:CallbackContext):
             current_jobs = context.job_queue.get_jobs_by_name(groupId)
             for job in current_jobs:
                 job.schedule_removal()
+            context.bot.send_message(chat_id=update.effective_chat.id,text='停止广告推送')
 
         if update.callback_query.data=='groupSetAdvertiseContent':
             context.bot.send_message(chat_id=update.effective_chat.id,text=f"OK. Send me the new 'content'.")
@@ -462,7 +473,7 @@ def setInvitemembers(update:Update,context:CallbackContext):
         if type(int(update.message.text)) == int:
             sql.editInviteMembers(update.message.text)
             context.bot.send_message(chat_id = update.effective_chat.id, text = f"Set '{update.message.text}' peoply success!")
-            InvitationStatisticsSettlementBonusMenu(update,context)
+            invitationStatisticsSettlementBonusMenu(update,context)
             return ConversationHandler.END
     except:
         context.bot.send_message(chat_id = update.effective_chat.id, text = "请重新输入数字")
@@ -474,7 +485,7 @@ def setInviteearnedoutstand(update:Update,context:CallbackContext):
         if type(float(update.message.text)) == float:
             sql.editInviteEarnedOutstand(update.message.text)
             context.bot.send_message(chat_id = update.effective_chat.id, text = f"Set '{update.message.text}' bouns success!")
-            InvitationStatisticsSettlementBonusMenu(update,context)
+            invitationStatisticsSettlementBonusMenu(update,context)
             return ConversationHandler.END
     except:
         context.bot.send_message(chat_id = update.effective_chat.id, text = "请重新输入数字")
@@ -486,7 +497,7 @@ def setInvitesettlementBonus(update:Update,context:CallbackContext):
         if type(float(update.message.text)) == float:
             sql.editInviteSettlementBonus(update.message.text)
             context.bot.send_message(chat_id = update.effective_chat.id, text = f"Set '{update.message.text}' bouns success!")
-            InvitationStatisticsSettlementBonusMenu(update,context)
+            invitationStatisticsSettlementBonusMenu(update,context)
             return ConversationHandler.END
     except:
         context.bot.send_message(chat_id = update.effective_chat.id, text = "请重新输入数字")
@@ -523,14 +534,15 @@ def groupSetAdvertiseTime(update:Update,context:CallbackContext):
             message = update.message.text
             sql.updateAdvertiseTime(groupId,message)
             context.bot.send_message(chat_id = update.effective_chat.id, text = f'time is set to {message}(s)') 
-            context.bot.send_message(chat_id=update.effective_chat.id , text=f'广告设置',
-            reply_markup = InlineKeyboardMarkup(
-                [
-                    [InlineKeyboardButton('开启广告推送', callback_data='groupOpenAdvertise')],
-                    [InlineKeyboardButton('关闭广告推送', callback_data='groupCloseAdvertise')],
-                    [InlineKeyboardButton('设置广告内容', callback_data='groupSetAdvertiseContent')],
-                    [InlineKeyboardButton('设置广告推送时间(秒)', callback_data='groupSetAdvertiseTime')]
-                ]))
+            advertiseMenu(update,context,groupId)
+            #context.bot.send_message(chat_id=update.effective_chat.id , text=f'广告设置',
+            #reply_markup = InlineKeyboardMarkup(
+            #    [
+            #        [InlineKeyboardButton('开启广告推送', callback_data='groupOpenAdvertise')],
+            #        [InlineKeyboardButton('关闭广告推送', callback_data='groupCloseAdvertise')],
+            #        [InlineKeyboardButton('设置广告内容', callback_data='groupSetAdvertiseContent')],
+            #        [InlineKeyboardButton('设置广告推送时间(秒)', callback_data='groupSetAdvertiseTime')]
+            #    ]))
             return ConversationHandler.END
     except:
         context.bot.send_message(chat_id = update.effective_chat.id, text = "请重新输入数字")
@@ -545,7 +557,8 @@ def groupSetAdvertiseContent(update:Update,context:CallbackContext):
     message = update.message.text
     sql.updateAdvertiseContent(groupId,message)
     print(message)
-    context.bot.send_message(chat_id=update.effective_chat.id,text=message)
+    context.bot.send_message(chat_id = update.effective_chat.id, text = f'content is set to {message}') 
+    advertiseMenu(update,context,groupId)
     #return GROUPSETADVERTISECONTENT
     return ConversationHandler.END
 
@@ -618,14 +631,7 @@ def adminWork(update:Update,context:CallbackContext):
         groupId = sql.getUseGroupId(update.message.from_user.id)
         groupTitle=sql.getGroupTitle(groupId)
         sql.insertAdvertise(update.effective_chat.id,groupId,groupTitle,'','')
-        context.bot.send_message(chat_id=update.effective_chat.id , text=f'广告设置',
-            reply_markup = InlineKeyboardMarkup(
-                [
-                    [InlineKeyboardButton('开启广告推送', callback_data='groupOpenAdvertise')],
-                    [InlineKeyboardButton('关闭广告推送', callback_data='groupCloseAdvertise')],
-                    [InlineKeyboardButton('设置广告内容', callback_data='groupSetAdvertiseContent')],
-                    [InlineKeyboardButton('设置广告推送时间(秒)', callback_data='groupSetAdvertiseTime')]
-                ]))
+        advertiseMenu(update,context,groupId)
 
     # 邀请统计结算奖金
     if update.message.text == keyboard.InvitationStatisticsSettlementBonus:
@@ -640,7 +646,7 @@ def adminWork(update:Update,context:CallbackContext):
         #        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('结算', callback_data=data)]])
         #        context.bot.send_message(chat_id=update.effective_chat.id,text=text,reply_markup=reply_markup)
         #    else:
-        #        InvitationStatisticsSettlementBonusMenu(update,context)
+        #        invitationStatisticsSettlementBonusMenu(update,context)
         #        context.bot.send_message(update.effective_chat.id,text=f"目前尚未有用户可结算奖金达：${sql.inviteSettlementBonus}")
             #    data = json.dumps({result[0]:result[2]})
             #    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('未达标', callback_data=data)]])
@@ -720,10 +726,8 @@ def channel(update: Update, context: CallbackContext):
             link = f'https://t.me/{channelUsername}'
             sql.insertJoinChannel(userId,userName,channelId,channelTitle,link)
 
-START,WORKFLOW,GETTHERIGHT,ADMINWORK,SELECTGROUP,CHANGEPASSWORD,SETINVITEFRIENDSQUANTITY,SETINVITEFRIENDSAUTOCLEARTIME,DELETEMSGFORSECOND,SETINVITEMEMBERS,SETINVITEEARNEDOUTSTAND,SETINVITESETTLEMENTBONUS,SETCONTACTPERSON,BILLINGSESSION,QUERYBILLINGSESSION = range(15) 
+START,WORKFLOW,GETTHERIGHT,ADMINWORK,SELECTGROUP,CHANGEPASSWORD,SETINVITEFRIENDSQUANTITY,SETINVITEFRIENDSAUTOCLEARTIME,DELETEMSGFORSECOND,SETINVITEMEMBERS,SETINVITEEARNEDOUTSTAND,SETINVITESETTLEMENTBONUS,SETCONTACTPERSON,BILLINGSESSION,QUERYBILLINGSESSION,GROUPSETADVERTISECONTENT,GROUPSETADVERTISETIME= range(17) 
 
-# 宣告广告常数
-GROUPSETADVERTISECONTENT,GROUPSETADVERTISETIME=range(2)
 
 init.dispatcher.add_handler(
     ConversationHandler(

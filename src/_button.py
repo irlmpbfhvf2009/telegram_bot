@@ -33,14 +33,14 @@ class Keyboard:
         self.workKeyboardButton=[
                             [KeyboardButton("邀请统计结算奖金")],
                             [KeyboardButton("用戶设置(未开发)"),KeyboardButton("禁言功能(未开放)"),KeyboardButton("分析当日(未开发)")],
-                            [KeyboardButton("群组信息清空(未开放)"),KeyboardButton("广告设置(未开放)")],
+                            [KeyboardButton("群组信息清空(未开放)"),KeyboardButton("广告设置(目前只支援文字 不包含图片跟影片)")],
                             [KeyboardButton("主画面")]
                         ]
         self.homeScreen = "主画面"
         self.userSet = "用戶设置(未开发)"
         self.banToAllPost = "禁言功能(未开放)"
         self.groupMsgClear= "群组信息清空(未开放)"
-        self.adSettings= "广告设置(未开放)"
+        self.adSettings= "广告设置(目前只支援文字 不包含图片跟影片)"
         self.analysisDay= "分析当日(未开发)"
         self.InvitationStatisticsSettlementBonus= "邀请统计结算奖金"
 
@@ -84,7 +84,7 @@ class Keyboard:
 
 
         # invitationBonus
-        self.InvitationStatisticsSettlementBonusMenu=InlineKeyboardMarkup([
+        self.invitationStatisticsSettlementBonusMenu=InlineKeyboardMarkup([
                 [InlineKeyboardButton("开启 [邀请奖金功能]", callback_data="cd_openInvitationBonusSet")],
                 [InlineKeyboardButton("关闭 [邀请奖金功能]", callback_data="cd_closeInvitationBonusSet")],
                 [InlineKeyboardButton("设定 [每邀请(n人)以赚取奖金]", callback_data="cd_setInviteMembers")],
@@ -99,3 +99,11 @@ class Keyboard:
         self.cd_setInviteEarnedOutstand="cd_setInviteEarnedOutstand"
         self.cd_setInviteSettlementBonus="cd_setInviteSettlementBonus"
         self.cd_setContactPerson="cd_setContactPerson"
+
+        # advertise
+        self.advertiseMenu=InlineKeyboardMarkup([
+                    [InlineKeyboardButton('开启广告推送', callback_data='groupOpenAdvertise')],
+                    [InlineKeyboardButton('关闭广告推送', callback_data='groupCloseAdvertise')],
+                    [InlineKeyboardButton('设置广告内容', callback_data='groupSetAdvertiseContent')],
+                    [InlineKeyboardButton('设置广告推送时间(秒)', callback_data='groupSetAdvertiseTime')]
+                ])
