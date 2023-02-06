@@ -14,11 +14,6 @@ else:
 def index():
     return render_template(r'index.html')
 
-
-
-
-
-
 @app.route("/getLog")
 def get_log():
     line_number = [0]

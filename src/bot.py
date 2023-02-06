@@ -10,7 +10,7 @@ import datetime
 import time
 
 _dirs.Dirs()
-logging.basicConfig(level=logging.DEBUG,
+logging.basicConfig(level=logging.INFO,
             format='[%(asctime)s]  %(levelname)s [%(filename)s %(funcName)s] [ line:%(lineno)d ] %(message)s',
             datefmt='%Y-%m-%d %H:%M',
             handlers=[
@@ -19,6 +19,7 @@ logging.basicConfig(level=logging.DEBUG,
 
 keyboard = _button.Keyboard()
 init = _config.BotConfig()
+
 
 def runSQL():
     return _sql.DBHP("telegram-bot.db")
