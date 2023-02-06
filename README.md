@@ -7,6 +7,18 @@ pyinstaller -F -i .\1.ico .\app.py 打包
 python3 -m pip install pip setuptools --upgrade
 
 
+1.6.0 更新说明
+．**侦测机器人所在群组有无权限
+．**侦测机器人所在频道有无权限
+．定义3种lor.warning 
+        1. 'NoneType' object is not subscriptable       机器人无订阅频道(故无法启动订阅发言权功能)
+        2. Message can't be deleted                     机器人在群组无足够权限删除消息
+        3. Not enough rights to manage chat invite link 机器人在群组无足够权限取得邀请连结
+开启监听频道权限
+1.首先我们TG找到BotFather 打开跟他的会话窗口，发送 /setprivacy
+https://img-blog.csdnimg.cn/img_convert/6ed7818985d811d5445ff88cc88b029b.png
+2.点选Disable
+
 _button.py 內連鍵盤封裝
 _config.py 建立參數
 _sql.py 資料庫處理
@@ -51,16 +63,16 @@ userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名�
 (時間段未完成)
 
 2. 删除指定时间内的重复发言，设置间隔时间发广告。 
-(删除指定时间内的重复发言未完成)
+(已完成)
 
 3. 设置邀请指定人数后才能发言,设置几天数为一个周期。 您@用户：您需要邀请2位好友后可以正常发言  （2使用红色字）
 (已完成)
 
 4. 设置关注指定频道成员才能发言。没有达标甚至提醒内容。 您@用户：您需要关注频道 @xx 后可以正常发言  （跳转频道删除掉）
-(跳转频道删除掉未完成)
+(以完成)
 
 5. 分析当日，昨天新进成员 流失成员，被邀请成员，活跃度成员
 (未開發)
 
 增加提示信息控制 xx秒自动删除掉
-(已完成 可改善)
+(已完成)

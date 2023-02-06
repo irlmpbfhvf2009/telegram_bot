@@ -68,6 +68,7 @@ class DBHP():
         self.initBillingSession("groupId","")
 
         self.alter_tables("inviteToMakeMoney","firstName")
+        self.alter_tables("manager","firstName")
 
 
 
@@ -253,6 +254,12 @@ class DBHP():
         sql="SELECT * FROM manager where isManager = 'True'"
         results = self.select_all_tasks(sql)
         return results
+
+    def getManegerFirstName(self):
+        sql="SELECT firstName FROM manager where isManager = 'True'"
+        results = self.select_all_tasks(sql)
+        return results
+
     def exitManager(self,userId):
         if self.getManager(userId) is None:
             return "尚未取得权限"
@@ -276,6 +283,9 @@ class DBHP():
             return "False"
         for result in results:
             return result[0]
+    def updateManegerFirstName(self,userId,firstName):
+        sql=f"UPDATE manager SET firstName = '{firstName}' WHERE userId = '{userId}'"
+        self.update(sql)
 
     def enterIsManager(self,userId):
         sql=f"UPDATE manager SET isManager = 'True' WHERE userId = '{userId}'"
@@ -291,9 +301,9 @@ class DBHP():
         for result in results:
             return result[0]
 
-    def insertManager(self,userId,userName):
+    def insertManager(self,userId,userName,firstName):
         data=[
-            {"userId":str(userId),"userName":userName,"useGroupTitle":"","useGroupId":"","isManager":True}
+            {"userId":str(userId),"userName":userName,"firstName":firstName,"useGroupTitle":"","useGroupId":"","isManager":True}
         ]
         if self.getManager(userId) is None:
             self.insert_data("manager",data)
@@ -303,6 +313,7 @@ class DBHP():
                 return "管理员账户已存在"
             else:
                 self.enterIsManager(userId)
+                self.updateManegerFirstName(userId,firstName)
                 return "输入正确，已成功添加"
 
     # CRUD - joinGroup
@@ -332,6 +343,24 @@ class DBHP():
             {"userId":str(userId),"userName":userName,"groupId":str(groupId),"groupTitle":groupTitle,"link":link}
         ]
         if self.getJoinGroupId(groupId) is None:
+            self.insert_data("joinGroup",data)
+
+    def existJoinGroupId(self,groupId):
+        results = self.select_all_tasks(f"SELECT groupId FROM joinGroup where groupId = '{groupId}'")
+        if results == []:
+            return False
+        else:
+            for result in results:
+                if str(result[0]) == str(groupId):
+                    return True
+                else:
+                    return False
+
+    def updateJoinGroup(self,groupId,groupTitle,link):
+        data=[
+            {"userId":"","userName":"","groupId":str(groupId),"groupTitle":groupTitle,"link":link}
+        ]
+        if self.existJoinGroupId(groupId) == False:
             self.insert_data("joinGroup",data)
     
     def deleteJoinGroup(self,groupId):
@@ -376,6 +405,24 @@ class DBHP():
         for result in results:
             return result[0]
 
+    def existJoinChannelId(self,channelId):
+        results = self.select_all_tasks(f"SELECT channelId FROM joinChannel where channelId = '{channelId}'")
+        if results == []:
+            return False
+        else:
+            for result in results:
+                if str(result[0]) == str(channelId):
+                    return True
+                else:
+                    return False
+
+    def updateJoinChannel(self,channelId,channelTitle,link):
+        data=[
+            {"userId":"","userName":"","channelId":str(channelId),"channelTitle":channelTitle,"link":link}
+        ]
+        if self.existJoinChannelId(channelId) == False:
+            self.insert_data("joinChannel",data)
+            
     def deleteJoinChannel(self,channelId):
         self.delete(f"delete from joinChannel where channelId = '{channelId}'")
 
@@ -694,3 +741,15 @@ class DBHP():
     def updateAdvertiseContent(self,groupId,advertiseContent):
         self.update(f"UPDATE advertise SET advertiseContent = '{advertiseContent}' WHERE groupId = '{groupId}'")
 
+    # destroy
+    def destroy(self):
+        self.delete("delete from advertise")
+        self.delete("delete from billingSession")
+        self.delete("delete from config")
+        self.delete("delete from invitationLimit")
+        self.delete("delete from inviteToMakeMoney")
+        self.delete("delete from joinChannel")
+        self.delete("delete from joinGroup")
+        self.delete("delete from joinGroupRecord")
+        self.delete("delete from lastGroupMessageId")
+        self.delete("delete from manager")

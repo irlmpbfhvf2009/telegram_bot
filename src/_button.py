@@ -59,7 +59,7 @@ class Keyboard:
             ])
         
         self.cd_findAllAdmin="cd_findAllAdmin"
-        self.cd_passwordCheck="cd_passwordCheck",
+        self.cd_passwordCheck="cd_passwordCheck"
         self.cd_passwordChange="cd_passwordChange"
         self.cd_adminExit="cd_exit"
 

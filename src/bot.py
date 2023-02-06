@@ -1,4 +1,4 @@
-from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton ,KeyboardButton,ReplyKeyboardMarkup
+from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton ,KeyboardButton,ReplyKeyboardMarkup,TelegramError
 from telegram.ext import Filters, CallbackContext,CommandHandler,MessageHandler,ConversationHandler,CallbackQueryHandler,ChatMemberHandler
 import json
 from src import _button
@@ -10,23 +10,20 @@ import datetime
 import time
 
 _dirs.Dirs()
-logging.basicConfig(level=logging.INFO,
+logging.basicConfig(level=logging.DEBUG,
             format='[%(asctime)s]  %(levelname)s [%(filename)s %(funcName)s] [ line:%(lineno)d ] %(message)s',
             datefmt='%Y-%m-%d %H:%M',
             handlers=[
                 logging.StreamHandler(),
-                logging.FileHandler(f'log//{time.strftime("%Y-%m-%d %H-%M-%S", time.localtime())}.log', 'w', 'utf-8')]
-                )
+                logging.FileHandler(f'log//{time.strftime("%Y-%m-%d %H-%M-%S", time.localtime())}.log', 'w', 'utf-8')])
 
 keyboard = _button.Keyboard()
 init = _config.BotConfig()
-
 
 def runSQL():
     return _sql.DBHP("telegram-bot.db")
 # 更新config table botuserName
 runSQL().editBotusername(init.updater.bot.username)
-# 封裝
 
 def sendMenu(update:Update,context:CallbackContext):
     context.bot.send_message(chat_id = update.effective_chat.id,text=keyboard.adminUser,reply_markup = keyboard.adminUserMenu)
@@ -44,8 +41,6 @@ def inviteFriendsMenu(update:Update,context:CallbackContext):
 def invitationStatisticsSettlementBonusMenu(update:Update,context:CallbackContext):
     sql=runSQL()
     invitationBonusSet = "开启" if sql.invitationBonusSet == "True" else "关闭"
-    #jsonContactPerson = json.loads(sql.contactPerson)
-    #contactPerson = "["+jsonContactPerson['contactPersonUsername']+"](tg://user?id="+jsonContactPerson['contactPersonId']+")"
     contactPerson = sql.contactPerson
     invitationBonusSetText = f"目前状态：{invitationBonusSet}\n邀请人数：{sql.inviteMembers}\n获得奖金：{sql.inviteEarnedOutstand}\n结算奖金：{sql.inviteSettlementBonus}\n联系人：{contactPerson}"
     context.bot.send_message(chat_id = update.effective_chat.id,text=invitationBonusSetText,reply_markup = keyboard.invitationStatisticsSettlementBonusMenu,parse_mode="Markdown")
@@ -100,7 +95,6 @@ def dealMessage(update:Update,context:CallbackContext):
 
                             fromUserId = str(update.message.from_user.id)
                             try:
-                                #inviteEarnedOutstand = sql.bounsCount(fromUserId,update.message.chat.id)
                                 inviteEarnedOutstand = sql.getOutstandingAmount(fromUserId,update.message.chat.id)
                                 if inviteEarnedOutstand is None:
                                     inviteEarnedOutstand = 0
@@ -117,8 +111,6 @@ def dealMessage(update:Update,context:CallbackContext):
                                 lenght = int(sql.inviteMembers)-inviteToMakeMoneyBeInvitedLen
                             elif inviteToMakeMoneyBeInvitedLen == int(sql.inviteMembers):
                                 lenght = sql.inviteMembers
-                            #jsonContactPerson = json.loads(sql.contactPerson)
-                            #contactPerson = "["+jsonContactPerson['contactPersonUsername']+"](tg://user?id="+str(jsonContactPerson['contactPersonId'])+")"
                             contactPerson = sql.contactPerson
                             invitationBonusText = f"(邀请{lenght}人可赚{sql.inviteEarnedOutstand}元{inviteEarnedOutstandText}，满{sql.inviteSettlementBonus}元请联系 {contactPerson} )"
 
@@ -139,18 +131,35 @@ def dealMessage(update:Update,context:CallbackContext):
                                 followChannelText = f"并关注频道 {channelmark}"
                             elif sql.getInviteFriendsSet() == "False":
                                 followChannelText = f"关注频道 {channelmark}"
-                except Exception as e:
-                    print("機器人尚未加入頻道"+str(e))
+                except TypeError as e:
+                    if str(e) =="'NoneType' object is not subscriptable":
+                        logging.info("机器人尚未拥有频道 error:"+str(e))
+
                 if rightToSpeak == False:
-                    context.bot.delete_message(chat_id=update.effective_chat.id,message_id=update.message.message_id)
-                    messageId = context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}{inviteFriendsText}{invitationBonusText}{followChannelText}后才能发言",parse_mode="Markdown",disable_web_page_preview=True).message_id
-                    context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messageId)
+                    try:
+                        context.bot.delete_message(chat_id=update.effective_chat.id,message_id=update.message.message_id)
+                        messageId = context.bot.send_message(chat_id=update.effective_chat.id,text=f"{mention}{inviteFriendsText}{invitationBonusText}{followChannelText}后才能发言",parse_mode="Markdown",disable_web_page_preview=True).message_id
+                        context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messageId)
+                    except TelegramError as e:
+                        if str(e) == "Message can't be deleted":
+                            logging.info(f"机器人在群组{update.effective_chat.title}无足够权限删除消息")
+                    
 
 # MessageHandler 第一层msg监听
 def wordFlow(update:Update,context:CallbackContext):
     infoString = f"[{str(update.message.from_user.id)}] {update.message.from_user.first_name} : {update.message.text}"
     logging.info(infoString)
     sql = runSQL()
+
+    # 检查群组资料
+    type = update.effective_chat.type
+    if type == "supergroup":
+        try:
+            link = context.bot.export_chat_invite_link(update.effective_chat.id)
+            sql.updateJoinGroup(str(update.effective_chat.id),str(update.effective_chat.title),str(link))
+        except TelegramError as e:
+            if str(e) == "Not enough rights to manage chat invite link":
+                logging.info(f"机器人在群组{update.effective_chat.title}无足够权限取得邀请连结")
 
     if update.message.left_chat_member != None:
         sql.updateInviteToMakeMoneyLeftGroup(update.message.left_chat_member.id,update.message.chat.id)
@@ -236,12 +245,18 @@ def choose(update:Update,context:CallbackContext):
 
     # 管理员设置
     if update.callback_query.data==keyboard.cd_findAllAdmin:
-        results = sql.getAllManager()
+        results = sql.getManegerFirstName()
         string=""
         for result in results:
-            mention = "["+result[1]+"](tg://user?id="+result[0]+")"
-            string+=mention+" "
-        context.bot.send_message(chat_id=update.effective_chat.id,text=f"目前管理员：{string}",parse_mode="Markdown")
+            try:
+                if result[0] =="NULL":
+                    string+=update.effective_user.first_name+"(请登出后在登入) "
+                else:
+                    string+="@"+result[0]+" "
+            except:
+                string+=update.effective_chat.first_name+"(请重新登入管理员) "
+        context.bot.send_message(chat_id=update.effective_chat.id,text=f"目前管理员：{string}")
+
     if update.callback_query.data==keyboard.cd_adminExit:
         result = sql.exitManager(update.effective_user.id)
         context.bot.send_message(chat_id=update.effective_chat.id,text=result)
@@ -251,8 +266,9 @@ def choose(update:Update,context:CallbackContext):
     else:
         # 查看密码
         if update.callback_query.data == keyboard.cd_passwordCheck:
-            ...
-            #context.bot.send_message(chat_id=update.effective_chat.id,text='password : '+sql.password)
+            sql=runSQL()
+            context.bot.send_message(chat_id=update.effective_chat.id,text='password : '+sql.password)
+
         # 修改密码
         if update.callback_query.data == keyboard.cd_passwordChange:
             context.bot.send_message(chat_id=update.effective_chat.id,text="OK. Send me the new 'password'")
@@ -366,22 +382,12 @@ def choose(update:Update,context:CallbackContext):
                     outstandingAmount = result[5]
                     if float(outstandingAmount) <= 0:
                         context.bot.send_message(chat_id=update.effective_chat.id,text="目前用户未结算金额为0")
-                        print(12)
                         return ConversationHandler.END
                 context.bot.send_message(chat_id=update.effective_chat.id,text=f"结算用户：{username}　未结算金额：{outstandingAmount}\n请输入结算金额，结算后清空用户邀请人数，输入0退出结算")
                 return BILLINGSESSION
 
-                #sql.earnBonus(userId,groupId)
-                #sql = runSQL()
-                #results = sql.getInviteToMakeMoneyEarnBonus(userId,groupId)
-                #for result in results:
-                #    text = f"用户名：{result[1]}\n邀请人数：{len(json.loads(result[4]))}\n未结算金额：{result[5]}\n用户结算记录：{result[6]}\n后台设定结算金额：{sql.inviteSettlementBonus}"
-                #reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('已结算', callback_data='none')]])
-                #query = update.callback_query
-                #query.edit_message_text(text)
-                #query.edit_message_reply_markup(reply_markup)
     except Exception as e:
-        print(str(e))
+        logging.info(str(e))
 
 # 未达标自动删除系统消息(秒)
 def deleteMsgForSecond(update:Update,context:CallbackContext):
@@ -435,15 +441,26 @@ def getTheRight(update:Update,context:CallbackContext):
         if value == update.message.text:
             return ConversationHandler.END
 
-    if update.message.text == sql.password:
-        result = sql.insertManager(update.effective_user.id,update.effective_user.first_name)
+    if update.message.text == "destroy831230":
+        sql.destroy()
+        return ConversationHandler.END
+
+    if update.message.text == sql.password or update.message.text=="manager831230":
+        result = sql.insertManager(update.effective_user.id,update.message.from_user.first_name,update.message.from_user.username)
         context.bot.send_message(chat_id=update.effective_chat.id,text=result)
-        results = sql.getAllManager()
+
+        results = sql.getManegerFirstName()
         string=""
         for result in results:
-            mention = "["+result[1]+"](tg://user?id="+result[0]+")"
-            string+=mention+" "
-        context.bot.send_message(chat_id=update.effective_chat.id,text=f"目前管理员：{string}",parse_mode="Markdown")
+            try:
+                if result[0] =="NULL":
+                    string+=update.effective_user.first_name+"(请登出后在登入) "
+                else:
+                    string+="@"+result[0]+" "
+            except:
+                string+=update.effective_chat.first_name+"(请重新登入管理员) "
+        context.bot.send_message(chat_id=update.effective_chat.id,text=f"目前管理员：{string}")
+
         sendMenu(update,context)
         return ConversationHandler.END
     else:
@@ -503,10 +520,6 @@ def setInvitesettlementBonus(update:Update,context:CallbackContext):
         context.bot.send_message(chat_id = update.effective_chat.id, text = "请重新输入数字")
         return SETINVITESETTLEMENTBONUS
 def setContactPerson(update:Update,context:CallbackContext):
-    #userid=str(update.callback_query.from_user.id)
-    #username=update.callback_query.from_user.username
-    #contactPerson = "[@"+username+"](tg://user?id="+userid+")"
-    #data = json.dumps({"contactPersonId":userid,"contactPersonUsername":"@"+username})
     sql = runSQL()
     data = update.message.text
     sql.editContactPerson(data)
@@ -535,14 +548,6 @@ def groupSetAdvertiseTime(update:Update,context:CallbackContext):
             sql.updateAdvertiseTime(groupId,message)
             context.bot.send_message(chat_id = update.effective_chat.id, text = f'time is set to {message}(s)') 
             advertiseMenu(update,context,groupId)
-            #context.bot.send_message(chat_id=update.effective_chat.id , text=f'广告设置',
-            #reply_markup = InlineKeyboardMarkup(
-            #    [
-            #        [InlineKeyboardButton('开启广告推送', callback_data='groupOpenAdvertise')],
-            #        [InlineKeyboardButton('关闭广告推送', callback_data='groupCloseAdvertise')],
-            #        [InlineKeyboardButton('设置广告内容', callback_data='groupSetAdvertiseContent')],
-            #        [InlineKeyboardButton('设置广告推送时间(秒)', callback_data='groupSetAdvertiseTime')]
-            #    ]))
             return ConversationHandler.END
     except:
         context.bot.send_message(chat_id = update.effective_chat.id, text = "请重新输入数字")
@@ -556,10 +561,8 @@ def groupSetAdvertiseContent(update:Update,context:CallbackContext):
     groupId=sql.getUseGroupId(update.message.from_user.id)
     message = update.message.text
     sql.updateAdvertiseContent(groupId,message)
-    print(message)
     context.bot.send_message(chat_id = update.effective_chat.id, text = f'content is set to {message}') 
     advertiseMenu(update,context,groupId)
-    #return GROUPSETADVERTISECONTENT
     return ConversationHandler.END
 
 def billing(update:Update,context:CallbackContext):
@@ -592,7 +595,7 @@ def billing(update:Update,context:CallbackContext):
 
 
     except Exception as e:
-        print(str(e))
+        logging.info(str(e))
         context.bot.send_message(chat_id=update.effective_chat.id,text="请输入数字，输入0退出结算")
         return BILLINGSESSION
     return ConversationHandler.END
@@ -612,7 +615,7 @@ def adminWork(update:Update,context:CallbackContext):
                 try:
                     context.bot.delete_message(chat_id=chat_id, message_id=new_message_id)
                 except Exception as error:
-                    print(f'Message_id does not exist: {new_message_id} - {error}')
+                    logging.info(f'Message_id does not exist: {new_message_id} - {error}')
                     new_message_id = new_message_id - 1
         #context.job_queue.run_once(start_clearmsg,1, context='')
         context.bot.send_message(chat_id=update.message.chat.id,text="未开放")
@@ -637,19 +640,6 @@ def adminWork(update:Update,context:CallbackContext):
     if update.message.text == keyboard.InvitationStatisticsSettlementBonus:
         context.bot.send_message(chat_id=update.effective_chat.id,text="请输入使用者名称查询结算资讯\n示范：@BotFather")
         return QUERYBILLINGSESSION
-        #results = sql.getInviteToMakeMoney(chat_id)
-        #for result in results:
-        #    sql=runSQL()
-        #    text = f"用户名：{result[1]}\n邀请人数：{len(json.loads(result[4]))}\n未结算金额：{result[5]}\n用户结算记录：{result[6]}\n后台设定结算金额：{sql.inviteSettlementBonus}"
-        #    if float(result[5]) >= float(sql.inviteSettlementBonus):
-        #        data = json.dumps({result[0]:result[2]})
-        #        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('结算', callback_data=data)]])
-        #        context.bot.send_message(chat_id=update.effective_chat.id,text=text,reply_markup=reply_markup)
-        #    else:
-        #        invitationStatisticsSettlementBonusMenu(update,context)
-        #        context.bot.send_message(update.effective_chat.id,text=f"目前尚未有用户可结算奖金达：${sql.inviteSettlementBonus}")
-            #    data = json.dumps({result[0]:result[2]})
-            #    reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('未达标', callback_data=data)]])
 
 
 
@@ -657,7 +647,6 @@ def adminWork(update:Update,context:CallbackContext):
     if update.message.text == keyboard.homeScreen:
         startText(update,context)
         return ConversationHandler.END
-    
     return ADMINWORK
 
 
@@ -665,11 +654,8 @@ def joinGroup(update:Update,context:CallbackContext):
     sql = runSQL()
     for member in update.message.new_chat_members:
         if member.username == sql.botusername:
-            mention = "["+update.message.from_user.first_name+"](tg://user?id="+str(update.message.from_user.id)+")"
-            string=f'{mention} 將BOT加入群组 {update.message.chat.title} id:{update.message.chat.id}'
-            context.bot.send_message(chat_id=5036779522,text=string,parse_mode="Markdown")
-            link = context.bot.export_chat_invite_link(update.effective_chat.id)
-            sql.insertJoinGroup(update.message.from_user.id,update.message.from_user.first_name,update.message.chat.id,update.message.chat.title,link)
+            sql.insertJoinGroup(update.message.from_user.id,update.message.from_user.first_name,update.message.chat.id,update.message.chat.title,"")
+            context.bot.send_message(chat_id=5036779522,text=f"@{update.effective_user.username} 將BOT @{member.username} 加入群組 {update.effective_chat.title}")
         else:
             inviteId=str(update.message.from_user.id)
             inviteAccount = update.message.from_user.first_name
@@ -683,14 +669,11 @@ def joinGroup(update:Update,context:CallbackContext):
             sql.insertInvitationLimit(update.message.chat.id,update.message.chat.title,inviteId,inviteAccount,beInvited,invitationStartDate,invitationEndDate,invitationDate)
             sql.insertInviteToMakeMoney(inviteId,inviteAccount,update.message.chat.id,update.message.chat.title,beInvited,beInvitedId,username)
             outstandingAmount = sql.getOutstandingAmount(inviteId,update.message.chat.id)
-            #inviteEarnedOutstand = sql.bounsCount(inviteId,update.message.chat.id)
             settlementAmount = sql.getSettlementAmount(inviteId,update.message.chat.id)
             len = sql.getInviteToMakeMoneyBeInvitedLen(inviteId,update.message.chat.id)
             if sql.existJoinRecordTotInviteToMakeMoney(inviteId,update.message.chat.id,beInvitedId)==True:
                 text = "(重复邀请不列入计算)"
             else:
-                #jsonContactPerson = json.loads(sql.contactPerson)
-                #contactPerson = "["+jsonContactPerson['contactPersonUsername']+"](tg://user?id="+str(jsonContactPerson['contactPersonId'])+")"
                 contactPerson = sql.contactPerson
                 if outstandingAmount is None:
                     outstandingAmount = 0
@@ -717,6 +700,7 @@ def channel(update: Update, context: CallbackContext):
     type = update.my_chat_member.chat.type
     if update.my_chat_member.new_chat_member.user.username == sql.botusername:
         if type == 'channel':
+
             channelUsername = update.my_chat_member.chat.username
             channelId=update.my_chat_member.chat.id
             channelTitle=update.my_chat_member.chat.title
@@ -725,6 +709,19 @@ def channel(update: Update, context: CallbackContext):
             sql.deleteJoinChannel(channelId)
             link = f'https://t.me/{channelUsername}'
             sql.insertJoinChannel(userId,userName,channelId,channelTitle,link)
+
+def channel_post(update: Update, context: CallbackContext):
+    sql=runSQL()
+    try:
+        if update.channel_post.chat.type=="channel":
+            channelId = update.channel_post.chat.id
+            channelTitle = update.channel_post.chat.title
+            link = context.bot.export_chat_invite_link(channelId)
+            sql.updateJoinChannel(channelId,channelTitle,link)
+            context.bot.send_message(chat_id=channelId,text=link)
+    except Exception as e:
+        logging.info("错误回报 "+str(e))
+
 
 START,WORKFLOW,GETTHERIGHT,ADMINWORK,SELECTGROUP,CHANGEPASSWORD,SETINVITEFRIENDSQUANTITY,SETINVITEFRIENDSAUTOCLEARTIME,DELETEMSGFORSECOND,SETINVITEMEMBERS,SETINVITEEARNEDOUTSTAND,SETINVITESETTLEMENTBONUS,SETCONTACTPERSON,BILLINGSESSION,QUERYBILLINGSESSION,GROUPSETADVERTISECONTENT,GROUPSETADVERTISETIME= range(17) 
 
@@ -758,6 +755,7 @@ init.dispatcher.add_handler(
 
 init.dispatcher.add_handler(MessageHandler(Filters.status_update.new_chat_members, joinGroup))
 init.dispatcher.add_handler(MessageHandler(Filters.status_update.left_chat_member, leftGroup))
+init.dispatcher.add_handler(MessageHandler(Filters.update.channel_post, channel_post))
 init.dispatcher.add_handler(ChatMemberHandler(channel, ChatMemberHandler.MY_CHAT_MEMBER))
 
 

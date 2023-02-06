@@ -4,4 +4,5 @@
 -- SELECT * FROM manager WHERE userId = '5036779522'
 --insert into manager ('userId','userName') VALUES ('5036779523','wevr')
 -- delete from manager where userId = '5036779523'
+-- UPDATE manager SET firstName = 'NULL' WHERE userId = '5036779522';
 SELECT * from manager
