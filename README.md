@@ -31,17 +31,17 @@
 </picture>  
 
 
-###### bot使用方法
+## bot使用方法
 >config.ini 填入Token  
 run main.py 執行機器人  
 
-###### py常用指令
+## py常用指令
 > pip install -r requirements.txt 載入必要的lib  
 pyinstaller -F .\main.py 打包  
 pyinstaller -F -i .\1.ico .\main.py 打包  
 pyinstaller -F .\app.py 打包  
 
-###### py檔案
+## py檔案
 >main.py  主容器  
 app.py  網頁容器  
 bot.py bot輪詢  
@@ -51,9 +51,10 @@ _config.py  組態設定
 _sql.py  資料庫處理  
 _dirs.py  資料檢查  
 
-###### sql
+## sql
 #### SQL使用 : SQLITE3   SCHEMAS : telegram-bot.db  
-## TABLE : config  組態設定   column: key,value  
+###### TABLE : config  組態設定   
+###### column: key,value  
 >password(密碼)  
 botuserName(機器人用戶名)  
 inviteFriendsAutoClearTime(邀請好友記錄清除日期)  
@@ -61,7 +62,6 @@ inviteFriendsSet(邀請好友發言權開關)
 followChannelSet(關注頻道發言權開關)  
 inviteFriendsQuantity(邀請好友數量)  
 description(描述)  
-
 
 TABLE : invitationLimit 邀請好友紀錄  
 column : groupId(群組id),groupTitle(群組名稱),inviteId(邀請人ID),inviteAccount(邀請人帳號),beInvited(被邀請人JSON),invitationStartDate(邀請日期),invitationEndDate(過期日期),invitationDate(X日清除一次)  
