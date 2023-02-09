@@ -1,7 +1,3 @@
-###### 更新資訊                 ###### BOT說明
-[1.6.1](#1.6.1)                 [bot使用方法](#bot使用方法)  
-[1.6.0](#1.6.0)                 [开启监听频道权限](#开启监听频道权限)  
-
 ###### BOT說明
 >[bot使用方法](#bot使用方法)  
 [开启监听频道权限](#开启监听频道权限)  
@@ -10,6 +6,10 @@
 >[py常用指令](#py常用指令)  
 [py檔案](#py檔案)
 [sql](#sql)
+
+###### 更新資訊
+[1.6.1](#1.6.1)  
+[1.6.0](#1.6.0)  
 
 ###### 1.6.1
 * 新增網頁API
@@ -51,9 +51,8 @@ _config.py  組態設定
 _sql.py  資料庫處理  
 _dirs.py  資料檢查  
 
-## sql
-#### SQL使用 : SQLITE3   SCHEMAS : telegram-bot.db  
-###### TABLE : config  組態設定
+## sql  SQLITE3   SCHEMAS:telegram-bot.db   
+#### TABLE : config  組態設定
 ###### column: key,value
 >password(密碼)  
 botuserName(機器人用戶名)  
@@ -63,20 +62,20 @@ followChannelSet(關注頻道發言權開關)
 inviteFriendsQuantity(邀請好友數量)  
 description(描述)  
 
-###### TABLE : invitationLimit 邀請好友紀錄
+#### TABLE : invitationLimit 邀請好友紀錄
 ###### column : groupId(群組id),groupTitle(群組名稱),inviteId(邀請人ID),inviteAccount(邀請人帳號),beInvited(被邀請人JSON),invitationStartDate(邀請日期),invitationEndDate(過期日期),invitationDate(X日清除一次)
 
-###### TABLE : manager 管理員
+#### TABLE : manager 管理員
 ###### column : userId(用戶id),userName(用戶名稱),useGroupTitle(使用的群組名稱),useGroupId(使用的群組id),isManager(判斷是否為管理員)
 
-###### TABLE : lastGroupMessageId 紀錄最後訊息id
+#### TABLE : lastGroupMessageId 紀錄最後訊息id
 ###### column : groupId(群組id),lastMessageId(訊息id)
 
-TABLE : joinGroup 機器人管理的群組  
-userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名稱),link(邀請連結)  
+#### TABLE : joinGroup 機器人管理的群組
+###### userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名稱),link(邀請連結)
 
-TABLE : joinChannel 機器人管理的頻道  
-userId(用戶id),userName(用戶名稱),channelId(頻道id),channelTitle(頻道名稱),link(邀請連結)  
+#### TABLE : joinChannel 機器人管理的頻道
+###### userId(用戶id),userName(用戶名稱),channelId(頻道id),channelTitle(頻道名稱),link(邀請連結) 
 
 TABLE : inviteToMakeMoney 邀請好友賺獎金(您邀请6位成员，赚取1.2元未结算，已经结算0元，满100元请联系@xx结算。)  
 userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名稱),beInvited(被邀請人JSON),outstandingAmount(未結算金額),settlementAmount(總結算金額)  
