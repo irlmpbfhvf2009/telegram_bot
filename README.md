@@ -52,13 +52,10 @@ _sql.py  資料庫處理
 _dirs.py  資料檢查  
 
 ###### sql
->SQL使用 : SQLITE3  
-SCHEMAS : telegram-bot.db  
-
->TABLE : config  組態設定  
-column: key,value  
-* password(密碼)  
-* botuserName(機器人用戶名)  
+#### SQL使用 : SQLITE3   SCHEMAS : telegram-bot.db  
+## TABLE : config  組態設定   column: key,value  
+>password(密碼)  
+botuserName(機器人用戶名)  
 inviteFriendsAutoClearTime(邀請好友記錄清除日期)  
 inviteFriendsSet(邀請好友發言權開關)  
 followChannelSet(關注頻道發言權開關)  
