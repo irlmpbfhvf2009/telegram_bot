@@ -24,12 +24,15 @@
         Message can't be deleted                     机器人在群组无足够权限删除消息  
         Not enough rights to manage chat invite link 机器人在群组无足够权限取得邀请连结  
 
+
+
 ## 开启监听频道权限  
 >1.首先我们TG找到BotFather 打开跟他的会话窗口，发送 /setprivacy  
 2.点选Disable
 <picture>
   <img alt="Shows mode." src="https://img-blog.csdnimg.cn/img_convert/6ed7818985d811d5445ff88cc88b029b.png">
 </picture>  
+
 
 
 ## bot使用方法
