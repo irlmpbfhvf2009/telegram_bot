@@ -4,5 +4,5 @@
 
 SELECT * from config;
 
-delete from config where key ='contactPerson'
--- UPDATE config SET value = '1.1' WHERE key = 'inviteSettlementBonus'
+-- delete from config where key ='contactPerson'
+-- UPDATE config SET value = '1.1' WHERE key = 'inviteSettlementBonus'  

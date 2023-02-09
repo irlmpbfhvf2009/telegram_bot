@@ -6,3 +6,4 @@ Flask==2.2.2
 pyinstaller==5.1
 pyinstaller-hooks-contrib==2022.7
 gevent==22.10.2
+bitdotio==2.2.1

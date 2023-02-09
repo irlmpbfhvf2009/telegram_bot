@@ -3,7 +3,7 @@ config.ini 填入Token
 run main.py 執行機器人
 pyinstaller -F .\main.py 打包
 pyinstaller -F -i .\1.ico .\main.py 打包
-pyinstaller -F -i .\1.ico .\app.py 打包
+pyinstaller -F .\app.py 打包
 python3 -m pip install pip setuptools --upgrade
 
 

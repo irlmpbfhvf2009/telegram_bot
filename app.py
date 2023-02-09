@@ -1,68 +1,115 @@
-import os ,sys
-from flask import Flask,render_template
+import os
+import sys
+from flask import Flask, render_template, jsonify, request
 from gevent.pywsgi import WSGIServer
+import json
+from src.common import utils
+from src import _sql
 
-if getattr(sys, 'frozen', False):                                                                                                                                     
-      template_folder = os.path.join(sys.executable, '..','templates')                                                                                                  
-      static_folder = os.path.join(sys.executable, '..','static')                                                                                                       
-      app = Flask(__name__, template_folder = template_folder,static_folder = static_folder)
+if getattr(sys, 'frozen', False):
+    template_folder = os.path.join(sys.executable, '..', 'templates')
+    static_folder = os.path.join(sys.executable, '..', 'static')
+    app = Flask(__name__, template_folder=template_folder,
+                static_folder=static_folder)
 else:
-    app = Flask(__name__,template_folder='templates')
+    app = Flask(__name__, template_folder='templates')
 
 
 @app.route("/")
 def index():
     return render_template(r'index.html')
 
-@app.route("/getLog")
-def get_log():
-    line_number = [0]
+
+@app.route("/getLogList", methods=['get'])
+def getLogList():
+    return jsonify({'log': utils.Common().log['log_list']})
+
+
+@app.route("/getConfig", methods=['get'])
+def getConfig():
+    sql = _sql.DBHP("telegram-bot")
+    return jsonify({'botusername': sql.botusername,
+                    'password': sql.password,
+                    'inviteFriendsAutoClearTime': sql.inviteFriendsAutoClearTime,
+                    'inviteFriendsSet': sql.inviteFriendsSet,
+                    'followChannelSet': sql.followChannelSet,
+                    'inviteFriendsQuantity': sql.inviteFriendsQuantity,
+                    'deleteSeconds': sql.deleteSeconds,
+                    'invitationBonusSet': sql.invitationBonusSet,
+                    'inviteMembers': sql.inviteMembers,
+                    'inviteEarnedOutstand': sql.inviteEarnedOutstand,
+                    'inviteSettlementBonus': sql.inviteSettlementBonus,
+                    'contactPerson': sql.contactPerson})
+
+
+@app.route("/editInviteFriends", methods=['post'])
+def editInviteFriends():
+    sql = _sql.DBHP("telegram-bot")
+    sql.editInviteFriends(
+        "False") if sql.inviteFriendsSet == "True" else sql.editInviteFriends("True")
+    string = "關閉[邀請好友限制發言]" if sql.inviteFriendsSet == "True" else "開啟[邀請好友限制發言]"
+    code = 0 if sql.inviteFriendsSet == "True" else 1
+    return jsonify({'code': code, 'msg': string})
+
+
+@app.route("/editFollowChannel", methods=['post'])
+def editFollowChannel():
+    sql = _sql.DBHP("telegram-bot")
+    sql.editFollowChannel(
+        "False") if sql.followChannelSet == "True" else sql.editFollowChannel("True")
+    string = "關閉[關注頻道限制發言]" if sql.followChannelSet == "True" else "開啟[關注頻道限制發言]"
+    code = 0 if sql.followChannelSet == "True" else 1
+    return jsonify({'code': code, 'msg': string})
+
+
+@app.route("/editPassword", methods=['post'])
+def editPassword():
+    sql = _sql.DBHP("telegram-bot")
     try:
-        log_data = red_logs()
-    except:
-        return {'log_list' : ''}
+        sql.editPassword(request.get_json()['password'])
+        return jsonify({'code': 1,'msg':'修改成功'})
+    except Exception as e:
+        return jsonify({'code': 0,'msg':str(e)})
 
-    if len(log_data) - line_number[0] > 0:
-        log_difference = len(log_data) - line_number[0]
-        log_list = []
-        for i in range(log_difference):
-            log_i = log_data[-(i+1)].decode('utf-8')
-            log_list.insert(0,log_i)
-    _log = {
-        'log_list' : log_list
-    }
-    line_number.append(len(log_data))
-    return _log
+@app.route("/editContactPerson", methods=['post'])
+def editContactPerson():
+    sql = _sql.DBHP("telegram-bot")
+    try:
+        sql.editContactPerson(request.get_json()['contactPerson'])
+        return jsonify({'code': 1,'msg':'修改成功'})
+    except Exception as e:
+        return jsonify({'code': 0,'msg':str(e)})
 
-def find_new_log():
-    dir = os.path.abspath(os.getcwd())+"\log"
-    file_lists = os.listdir(dir)
-    file_lists.sort(key=lambda fn: os.path.getmtime(dir + "\\" + fn)
-                  if not os.path.isdir(dir + "\\" + fn) else 0)
-    log = os.path.join(dir, file_lists[-1])
-    return log
+@app.route("/editInviteFriendsQuantity", methods=['post'])
+def editInviteFriendsQuantity():
+    sql = _sql.DBHP("telegram-bot")
+    try:
+        sql.editInviteFriendsQuantity(request.get_json()['inviteFriendsQuantity'])
+        return jsonify({'code': 1,'msg':'修改成功'})
+    except Exception as e:
+        return jsonify({'code': 0,'msg':str(e)})
 
-def red_logs():
-    log_path = find_new_log()
-    with open(log_path,'rb') as f:
-        log_size = os.path.getsize(log_path) 
-        offset = -100
-        if log_size == 0:
-            return ''
-        while True:
-            if (abs(offset) >= log_size):
-                f.seek(-log_size, 2)
-                data = f.readlines()
-                return data
-            data = f.readlines()
-            if (len(data) > 1):
-                return data
-            else:
-                offset *= 2
+@app.route("/editInviteFriendsAutoClearTime", methods=['post'])
+def editInviteFriendsAutoClearTime():
+    sql = _sql.DBHP("telegram-bot")
+    try:
+        sql.editInviteFriendsAutoClearTime(request.get_json()['inviteFriendsAutoClearTime'])
+        return jsonify({'code': 1,'msg':'修改成功'})
+    except Exception as e:
+        return jsonify({'code': 0,'msg':str(e)})
 
+@app.route("/editDeleteSeconds", methods=['post'])
+def editDeleteSeconds():
+    sql = _sql.DBHP("telegram-bot")
+    try:
+        sql.editDeleteSeconds(request.get_json()['deleteSeconds'])
+        return jsonify({'code': 1,'msg':'修改成功'})
+    except Exception as e:
+        return jsonify({'code': 0,'msg':str(e)})
 
 if __name__ == '__main__':
-    #app.run(host="0.0.0.0")
+    # app.run(host="0.0.0.0")
     http_server = WSGIServer(('127.0.0.1', 5000), app)
-    print(f"* Running on http://{http_server.address[0]}:{http_server.address[1]}")
+    print(
+        f"* Running on http://{http_server.address[0]}:{http_server.address[1]}")
     http_server.serve_forever()
