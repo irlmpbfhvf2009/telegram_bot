@@ -20,9 +20,13 @@
 
 2.点选Disable
 
+
+
+
+
 ###### py 常用指令
-        1.pip install -r requirements.txt 載入必要的lib
-        2.config.ini 填入Token
+> pip install -r requirements.txt 載入必要的lib
+> config.ini 填入Token
         3.run main.py 執行機器人
         4.pyinstaller -F .\main.py 打包
         5.pyinstaller -F -i .\1.ico .\main.py 打包
