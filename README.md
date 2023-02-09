@@ -23,8 +23,7 @@
 
 ###### bot 使用方法
 >config.ini 填入Token
-
-run main.py 執行機器人
+        run main.py 執行機器人
 
 
 ###### py 常用指令
