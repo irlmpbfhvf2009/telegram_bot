@@ -21,15 +21,11 @@
 2.点选Disable
 
 
-
-
-
+###### bot 使用方法
+>config.ini 填入Token
+>run main.py 執行機器人
 ###### py 常用指令
 > pip install -r requirements.txt 載入必要的lib
-
-> config.ini 填入Token
-
-> 3.run main.py 執行機器人
         4.pyinstaller -F .\main.py 打包
         5.pyinstaller -F -i .\1.ico .\main.py 打包
         6.pyinstaller -F .\app.py 打包
