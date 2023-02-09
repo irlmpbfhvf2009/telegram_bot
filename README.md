@@ -12,7 +12,7 @@
 
 开启监听频道权限
 
-1.首先我们TG找到BotFather 打开跟他的会话窗口，发送 /setprivacy
+1.首先我们TG找到BotFather 打开跟他的会话窗口，发送 /setprivacy  
 <picture>
   <img alt="Shows mode." src="https://img-blog.csdnimg.cn/img_convert/6ed7818985d811d5445ff88cc88b029b.png">
 </picture>
@@ -22,8 +22,8 @@
 
 
 ###### bot 使用方法
->config.ini 填入Token
-        run main.py 執行機器人
+>config.ini 填入Token  
+run main.py 執行機器人
 
 
 ###### py 常用指令
