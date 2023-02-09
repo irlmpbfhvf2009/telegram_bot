@@ -36,11 +36,15 @@
 >config.ini 填入Token  
 run main.py 執行機器人  
 
+
+
 ## py常用指令
 > pip install -r requirements.txt 載入必要的lib  
 pyinstaller -F .\main.py 打包  
 pyinstaller -F -i .\1.ico .\main.py 打包  
 pyinstaller -F .\app.py 打包  
+
+
 
 ## py檔案
 >main.py  主容器  
@@ -51,6 +55,8 @@ _button.py  內聯鍵盤
 _config.py  組態設定  
 _sql.py  資料庫處理  
 _dirs.py  資料檢查  
+
+
 
 ## SQLITE3   SCHEMAS:telegram-bot.db   
 #### TABLE : config  組態設定
@@ -65,29 +71,25 @@ description(描述)
 
 #### TABLE : invitationLimit 邀請好友紀錄
 ###### column : groupId(群組id),groupTitle(群組名稱),inviteId(邀請人ID),inviteAccount(邀請人帳號),beInvited(被邀請人JSON),invitationStartDate(邀請日期),invitationEndDate(過期日期),invitationDate(X日清除一次)
-
 #### TABLE : manager 管理員
 ###### column : userId(用戶id),userName(用戶名稱),useGroupTitle(使用的群組名稱),useGroupId(使用的群組id),isManager(判斷是否為管理員)
-
 #### TABLE : lastGroupMessageId 紀錄最後訊息id
 ###### column : groupId(群組id),lastMessageId(訊息id)
-
 #### TABLE : joinGroup 機器人管理的群組
 ###### userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名稱),link(邀請連結)
-
 #### TABLE : joinChannel 機器人管理的頻道
 ###### userId(用戶id),userName(用戶名稱),channelId(頻道id),channelTitle(頻道名稱),link(邀請連結)
-
 #### TABLE : inviteToMakeMoney 邀請好友賺獎金(您邀请6位成员，赚取1.2元未结算，已经结算0元，满100元请联系@xx结算。)
 ###### userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名稱),beInvited(被邀請人JSON),outstandingAmount(未結算金額),settlementAmount(總結算金額)
-
 #### TABLE : joinGroupRecord 入群紀錄
 ###### userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名稱),invite(邀請人),joinGroupTime(入群時間)
+
+
 
 ## 功能進度
 - [ ] 设置每天禁言时间  
 - [x] 删除指定时间内的重复发言，设置间隔时间发广告。  
-- [x] 设置邀请指定人数后才能发言,设置几天数为一个周期。 您@用户：您需要邀请2位好友后可以正常发言（2使用红色字）  
+- [x] 设置邀请指定人数后才能发言,设置几天数为一个周期。 您@用户：您需要邀请2位好友后可以正常发言  
 - [x] 设置关注指定频道成员才能发言。没有达标甚至提醒内容。 您@用户：您需要关注频道 @xx 后可以正常发言  
 - [ ] 分析当日，昨天新进成员 流失成员，被邀请成员，活跃度成员  
 - [x] 增加提示信息控制 xx秒自动删除掉  
