@@ -1,11 +1,3 @@
-pip install -r requirements.txt 載入必要的lib
-config.ini 填入Token
-run main.py 執行機器人
-pyinstaller -F .\main.py 打包
-pyinstaller -F -i .\1.ico .\main.py 打包
-pyinstaller -F .\app.py 打包
-python3 -m pip install pip setuptools --upgrade
-
 1.6.1
 
 ．新增網頁API
@@ -29,6 +21,19 @@ python3 -m pip install pip setuptools --upgrade
 https://img-blog.csdnimg.cn/img_convert/6ed7818985d811d5445ff88cc88b029b.png
 
 2.点选Disable
+
+
+1.pip install -r requirements.txt 載入必要的lib
+
+2.config.ini 填入Token
+
+3.run main.py 執行機器人
+
+4.pyinstaller -F .\main.py 打包
+
+5.pyinstaller -F -i .\1.ico .\main.py 打包
+
+6.pyinstaller -F .\app.py 打包
 
 _button.py 內連鍵盤封裝
 
