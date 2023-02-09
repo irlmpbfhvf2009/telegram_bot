@@ -12,12 +12,10 @@
 ###### 1.6.1
 * 新增網頁API
 * 查詢、修改config群組
-
 ###### 1.6.0
 * 侦测机器人所在群组有无权限
 * 侦测机器人所在频道有无权限
-* 定义3种lor.warning
-
+* 定义3种lor.warning  
         'NoneType' object is not subscriptable       机器人无订阅频道(故无法启动订阅发言权功能)  
         Message can't be deleted                     机器人在群组无足够权限删除消息  
         Not enough rights to manage chat invite link 机器人在群组无足够权限取得邀请连结  
@@ -27,7 +25,7 @@
 <picture>
   <img alt="Shows mode." src="https://img-blog.csdnimg.cn/img_convert/6ed7818985d811d5445ff88cc88b029b.png">
 </picture>  
-2.点选Disable
+>2.点选Disable
 
 
 ###### bot使用方法
