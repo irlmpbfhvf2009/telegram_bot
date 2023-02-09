@@ -14,7 +14,10 @@
 开启监听频道权限
 
 1.首先我们TG找到BotFather 打开跟他的会话窗口，发送 /setprivacy
-https://img-blog.csdnimg.cn/img_convert/6ed7818985d811d5445ff88cc88b029b.png
+<picture>
+  <img alt="Shows mode." src="https://img-blog.csdnimg.cn/img_convert/6ed7818985d811d5445ff88cc88b029b.png">
+</picture>
+
 
 2.点选Disable
 
