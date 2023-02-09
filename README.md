@@ -5,8 +5,8 @@
 ###### 開發事項  
 >[py常用指令](#py常用指令)  
 [py檔案](#py檔案)  
-[SQL](#SQLITE3)
-[功能進度](#功能進度)
+[SQL](#SQLITE3-SCHEMAS:telegram-bot.db)  
+[功能進度](#功能進度)  
 
 ###### 更新資訊
 [1.6.1](#1.6.1)  
@@ -58,8 +58,7 @@ _dirs.py  資料檢查
 
 
 
-## SQLITE3
-## SCHEMAS:telegram-bot.db   
+## SQLITE3-SCHEMAS:telegram-bot.db
 #### TABLE : config  組態設定
 ###### column: key,value
 >password(密碼)  
