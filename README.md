@@ -4,8 +4,8 @@
 
 ###### 開發事項  
 >[py常用指令](#py常用指令)  
-[py檔案](#py檔案)
-[sql](#sql)
+[py檔案](#py檔案)  
+[SQL](#SQLITE3   SCHEMAS:telegram-bot.db)
 
 ###### 更新資訊
 [1.6.1](#1.6.1)  
@@ -51,7 +51,7 @@ _config.py  組態設定
 _sql.py  資料庫處理  
 _dirs.py  資料檢查  
 
-## sql  SQLITE3   SCHEMAS:telegram-bot.db   
+## SQLITE3   SCHEMAS:telegram-bot.db   
 #### TABLE : config  組態設定
 ###### column: key,value
 >password(密碼)  
@@ -75,29 +75,24 @@ description(描述)
 ###### userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名稱),link(邀請連結)
 
 #### TABLE : joinChannel 機器人管理的頻道
-###### userId(用戶id),userName(用戶名稱),channelId(頻道id),channelTitle(頻道名稱),link(邀請連結) 
+###### userId(用戶id),userName(用戶名稱),channelId(頻道id),channelTitle(頻道名稱),link(邀請連結)
 
-TABLE : inviteToMakeMoney 邀請好友賺獎金(您邀请6位成员，赚取1.2元未结算，已经结算0元，满100元请联系@xx结算。)  
-userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名稱),beInvited(被邀請人JSON),outstandingAmount(未結算金額),settlementAmount(總結算金額)  
+#### TABLE : inviteToMakeMoney 邀請好友賺獎金(您邀请6位成员，赚取1.2元未结算，已经结算0元，满100元请联系@xx结算。)
+###### userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名稱),beInvited(被邀請人JSON),outstandingAmount(未結算金額),settlementAmount(總結算金額)
 
-TABLE : joinGroupRecord 入群紀錄  
-userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名稱),invite(邀請人),joinGroupTime(入群時間)  
+#### TABLE : joinGroupRecord 入群紀錄
+###### userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名稱),invite(邀請人),joinGroupTime(入群時間)
 
-
+###### 功能進度
 1. 设置每天禁言时间
 (時間段未完成)
-
 2. 删除指定时间内的重复发言，设置间隔时间发广告。 
 (已完成)
-
 3. 设置邀请指定人数后才能发言,设置几天数为一个周期。 您@用户：您需要邀请2位好友后可以正常发言  （2使用红色字）
 (已完成)
-
 4. 设置关注指定频道成员才能发言。没有达标甚至提醒内容。 您@用户：您需要关注频道 @xx 后可以正常发言  （跳转频道删除掉）
 (以完成)
-
 5. 分析当日，昨天新进成员 流失成员，被邀请成员，活跃度成员
 (未開發)
-
 增加提示信息控制 xx秒自动删除掉
 (已完成)
