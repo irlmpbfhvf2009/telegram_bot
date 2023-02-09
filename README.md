@@ -6,7 +6,6 @@
 * 侦测机器人所在群组有无权限
 * 侦测机器人所在频道有无权限
 * 定义3种lor.warning 
-
         1. 'NoneType' object is not subscriptable       机器人无订阅频道(故无法启动订阅发言权功能)
         2. Message can't be deleted                     机器人在群组无足够权限删除消息
         3. Not enough rights to manage chat invite link 机器人在群组无足够权限取得邀请连结
@@ -21,7 +20,7 @@
 
 2.点选Disable
 
-
+###### py 常用指令
         1.pip install -r requirements.txt 載入必要的lib
         2.config.ini 填入Token
         3.run main.py 執行機器人
