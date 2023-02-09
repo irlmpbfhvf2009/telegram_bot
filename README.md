@@ -5,10 +5,11 @@
 ###### 1.6.0 更新说明
 * 侦测机器人所在群组有无权限
 * 侦测机器人所在频道有无权限
-* 定义3种lor.warning  
-        1. 'NoneType' object is not subscriptable       机器人无订阅频道(故无法启动订阅发言权功能)  
-        2. Message can't be deleted                     机器人在群组无足够权限删除消息  
-        3. Not enough rights to manage chat invite link 机器人在群组无足够权限取得邀请连结  
+* 定义3种lor.warning
+
+        'NoneType' object is not subscriptable       机器人无订阅频道(故无法启动订阅发言权功能)  
+        Message can't be deleted                     机器人在群组无足够权限删除消息  
+        Not enough rights to manage chat invite link 机器人在群组无足够权限取得邀请连结  
 
 开启监听频道权限  
 1.首先我们TG找到BotFather 打开跟他的会话窗口，发送 /setprivacy  
@@ -24,18 +25,15 @@ run main.py 執行機器人
 
 
 ###### py 常用指令
-> pip install -r requirements.txt 載入必要的lib
-        4.pyinstaller -F .\main.py 打包
-        5.pyinstaller -F -i .\1.ico .\main.py 打包
-        6.pyinstaller -F .\app.py 打包
+> pip install -r requirements.txt 載入必要的lib  
+pyinstaller -F .\main.py 打包  
+pyinstaller -F -i .\1.ico .\main.py 打包  
+pyinstaller -F .\app.py 打包  
 
-_button.py 內連鍵盤封裝
-
-_config.py 建立參數
-
-_sql.py 資料庫處理
-
-_bot.py 機器人輪詢 
+_button.py 內連鍵盤封裝  
+_config.py 建立參數  
+_sql.py 資料庫處理  
+_bot.py 機器人輪詢  
 
 
 SQLITE3　SCHEMAS : telegram-bot.db
@@ -45,55 +43,35 @@ TABLE : config  組態設定
 
 column: key,value
 
-        password(密碼)    
-
-        botuserName(機器人用戶名)
-
-        inviteFriendsAutoClearTime(邀請好友記錄清除日期)     
-
-        inviteFriendsSet(邀請好友發言權開關)
-
-        followChannelSet(關注頻道發言權開關)
-
-        inviteFriendsQuantity(邀請好友數量)
-
-        description(描述)
+        password(密碼)  
+        botuserName(機器人用戶名)  
+        inviteFriendsAutoClearTime(邀請好友記錄清除日期)  
+        inviteFriendsSet(邀請好友發言權開關)  
+        followChannelSet(關注頻道發言權開關)  
+        inviteFriendsQuantity(邀請好友數量)  
+        description(描述)  
 
 
-TABLE : invitationLimit 邀請好友紀錄
+TABLE : invitationLimit 邀請好友紀錄  
+column : groupId(群組id),groupTitle(群組名稱),inviteId(邀請人ID),inviteAccount(邀請人帳號),beInvited(被邀請人JSON),invitationStartDate(邀請日期),invitationEndDate(過期日期),invitationDate(X日清除一次)  
 
-column : groupId(群組id),groupTitle(群組名稱),inviteId(邀請人ID),inviteAccount(邀請人帳號),beInvited(被邀請人JSON),invitationStartDate(邀請日期),invitationEndDate(過期日期),invitationDate(X日清除一次)
+TABLE : manager 管理員  
+column : userId(用戶id),userName(用戶名稱),useGroupTitle(使用的群組名稱),useGroupId(使用的群組id),isManager(判斷是否為管理員)  
 
+TABLE : lastGroupMessageId 紀錄最後訊息id  
+column : groupId(群組id),lastMessageId(訊息id)  
 
-TABLE : manager 管理員
+TABLE : joinGroup 機器人管理的群組  
+userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名稱),link(邀請連結)  
 
-column : userId(用戶id),userName(用戶名稱),useGroupTitle(使用的群組名稱),useGroupId(使用的群組id),isManager(判斷是否為管理員)
+TABLE : joinChannel 機器人管理的頻道  
+userId(用戶id),userName(用戶名稱),channelId(頻道id),channelTitle(頻道名稱),link(邀請連結)  
 
+TABLE : inviteToMakeMoney 邀請好友賺獎金(您邀请6位成员，赚取1.2元未结算，已经结算0元，满100元请联系@xx结算。)  
+userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名稱),beInvited(被邀請人JSON),outstandingAmount(未結算金額),settlementAmount(總結算金額)  
 
-TABLE : lastGroupMessageId 紀錄最後訊息id
-
-column : groupId(群組id),lastMessageId(訊息id)
-
-
-TABLE : joinGroup 機器人管理的群組
-
-userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名稱),link(邀請連結)
-
-
-TABLE : joinChannel 機器人管理的頻道
-
-userId(用戶id),userName(用戶名稱),channelId(頻道id),channelTitle(頻道名稱),link(邀請連結)
-
-
-TABLE : inviteToMakeMoney 邀請好友賺獎金(您邀请6位成员，赚取1.2元未结算，已经结算0元，满100元请联系@xx结算。)
-
-userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名稱),beInvited(被邀請人JSON),outstandingAmount(未結算金額),settlementAmount(總結算金額)
-
-
-TABLE : joinGroupRecord 入群紀錄
-
-userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名稱),invite(邀請人),joinGroupTime(入群時間)
-
+TABLE : joinGroupRecord 入群紀錄  
+userId(用戶id),userName(用戶名稱),groupId(群組id),groupTitle(群組名稱),invite(邀請人),joinGroupTime(入群時間)  
 
 
 1. 设置每天禁言时间
