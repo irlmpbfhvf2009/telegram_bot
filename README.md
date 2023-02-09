@@ -1,6 +1,7 @@
 [1.6.1](#1.6.1)  
 [1.6.0](#1.6.0)
-[py 常用指令](#py 常用指令)
+[bot使用方法](#bot使用方法)
+[py常用指令](#py常用指令)
 
 ###### 1.6.1
 * 新增網頁API
@@ -23,12 +24,12 @@
 2.点选Disable
 
 
-###### bot 使用方法
+###### bot使用方法
 >config.ini 填入Token  
 run main.py 執行機器人
 
 
-###### py 常用指令
+###### py常用指令
 > pip install -r requirements.txt 載入必要的lib  
 pyinstaller -F .\main.py 打包  
 pyinstaller -F -i .\1.ico .\main.py 打包  
