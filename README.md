@@ -8,6 +8,8 @@
 
 ###### 開發事項  
 >[py常用指令](#py常用指令)  
+[py檔案](#py檔案)
+[sql](#sql)
 
 ###### 1.6.1
 * 新增網頁API
@@ -16,22 +18,22 @@
 * 侦测机器人所在群组有无权限
 * 侦测机器人所在频道有无权限
 * 定义3种lor.warning  
+
         'NoneType' object is not subscriptable       机器人无订阅频道(故无法启动订阅发言权功能)  
         Message can't be deleted                     机器人在群组无足够权限删除消息  
         Not enough rights to manage chat invite link 机器人在群组无足够权限取得邀请连结  
 
 ## 开启监听频道权限  
 >1.首先我们TG找到BotFather 打开跟他的会话窗口，发送 /setprivacy  
+2.点选Disable
 <picture>
   <img alt="Shows mode." src="https://img-blog.csdnimg.cn/img_convert/6ed7818985d811d5445ff88cc88b029b.png">
 </picture>  
->2.点选Disable
 
 
 ###### bot使用方法
 >config.ini 填入Token  
-run main.py 執行機器人
-
+run main.py 執行機器人  
 
 ###### py常用指令
 > pip install -r requirements.txt 載入必要的lib  
@@ -39,18 +41,22 @@ pyinstaller -F .\main.py 打包
 pyinstaller -F -i .\1.ico .\main.py 打包  
 pyinstaller -F .\app.py 打包  
 
-_button.py 內連鍵盤封裝  
-_config.py 建立參數  
-_sql.py 資料庫處理  
-_bot.py 機器人輪詢  
+###### py檔案
+>main.py  主容器  
+app.py  網頁容器  
+bot.py bot輪詢  
+utils.py  工具類  
+_button.py  內聯鍵盤  
+_config.py  組態設定  
+_sql.py  資料庫處理  
+_dirs.py  資料檢查  
 
+###### sql
+SQLITE3  
+SCHEMAS : telegram-bot.db  
 
-SQLITE3　SCHEMAS : telegram-bot.db
-
-TABLE : config  組態設定   
-
-
-column: key,value
+TABLE : config  組態設定  
+column: key,value  
 
         password(密碼)  
         botuserName(機器人用戶名)  
