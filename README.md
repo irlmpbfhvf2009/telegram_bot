@@ -6,18 +6,15 @@
 * 侦测机器人所在群组有无权限
 * 侦测机器人所在频道有无权限
 * 定义3种lor.warning 
-        1. 'NoneType' object is not subscriptable       机器人无订阅频道(故无法启动订阅发言权功能)
-        2. Message can't be deleted                     机器人在群组无足够权限删除消息
-        3. Not enough rights to manage chat invite link 机器人在群组无足够权限取得邀请连结
+>1. 'NoneType' object is not subscriptable       机器人无订阅频道(故无法启动订阅发言权功能)  
+2. Message can't be deleted                     机器人在群组无足够权限删除消息  
+3. Not enough rights to manage chat invite link 机器人在群组无足够权限取得邀请连结  
 
-开启监听频道权限
-
+开启监听频道权限  
 1.首先我们TG找到BotFather 打开跟他的会话窗口，发送 /setprivacy  
 <picture>
   <img alt="Shows mode." src="https://img-blog.csdnimg.cn/img_convert/6ed7818985d811d5445ff88cc88b029b.png">
-</picture>
-
-
+</picture>  
 2.点选Disable
 
 
