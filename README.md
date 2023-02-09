@@ -6,8 +6,13 @@ pyinstaller -F -i .\1.ico .\main.py 打包
 pyinstaller -F .\app.py 打包
 python3 -m pip install pip setuptools --upgrade
 
+1.6.1
+
+．新增網頁API
+．查詢、修改config群組
 
 1.6.0 更新说明
+
 ．**侦测机器人所在群组有无权限
 ．**侦测机器人所在频道有无权限
 ．定义3种lor.warning 
@@ -28,6 +33,7 @@ SQLITE3
 SCHEMAS : telegram-bot.db
 
 TABLE : config  組態設定    
+
 column: key,value
         password(密碼)            
         botuserName(機器人用戶名)
