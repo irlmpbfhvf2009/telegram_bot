@@ -2,7 +2,7 @@
 * 新增網頁API
 * 查詢、修改config群組
 
-###### 1.6.0 更新说明
+###### 1.6.0
 * 侦测机器人所在群组有无权限
 * 侦测机器人所在频道有无权限
 * 定义3种lor.warning
@@ -11,8 +11,8 @@
         Message can't be deleted                     机器人在群组无足够权限删除消息  
         Not enough rights to manage chat invite link 机器人在群组无足够权限取得邀请连结  
 
-开启监听频道权限  
-1.首先我们TG找到BotFather 打开跟他的会话窗口，发送 /setprivacy  
+## 开启监听频道权限  
+>1.首先我们TG找到BotFather 打开跟他的会话窗口，发送 /setprivacy  
 <picture>
   <img alt="Shows mode." src="https://img-blog.csdnimg.cn/img_convert/6ed7818985d811d5445ff88cc88b029b.png">
 </picture>  
