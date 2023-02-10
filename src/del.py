@@ -252,7 +252,6 @@ def main():
             states={
                 AAA:[MessageHandler(filters=Filters.text & (~ Filters.command), callback=startCommand)],
             },fallbacks=[CommandHandler('start', startCommand)],))
-    #dispatcher.add_handler(CommandHandler("start",startCommand))
     dispatcher.add_handler( 
         ConversationHandler(
             entry_points=[CallbackQueryHandler(choose)],

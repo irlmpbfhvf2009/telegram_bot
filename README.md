@@ -9,11 +9,17 @@
 [功能進度](#功能進度)  
 
 ###### 更新資訊
+[1.6.2](#1.6.2)  
 [1.6.1](#1.6.1)  
 [1.6.0](#1.6.0)  
 
+###### 1.6.2
+* tkinter UI介面
+* multiprocessing 多核心運算
+* 定義版本號
+* 優化程式碼
 ###### 1.6.1
-* 新增網頁API
+* API
 * 查詢、修改config群組
 ###### 1.6.0
 * 侦测机器人所在群组有无权限
@@ -43,9 +49,7 @@ run main.py 執行機器人
 
 ## py常用指令
 > pip install -r requirements.txt 載入必要的lib  
-pyinstaller -F .\main.py 打包  
-pyinstaller -F -i .\1.ico .\main.py 打包  
-pyinstaller -F .\app.py 打包  
+pyinstaller -F -w .\main.py  
 
 
 
