@@ -2,9 +2,10 @@ import os
 import sys
 from flask import Flask, render_template, jsonify, request
 from gevent.pywsgi import WSGIServer
-import json
 from src.common import utils
 from src import _sql
+from src import bot
+import multiprocessing as mp
 
 if getattr(sys, 'frozen', False):
     template_folder = os.path.join(sys.executable, '..', 'templates')
@@ -107,9 +108,7 @@ def editDeleteSeconds():
     except Exception as e:
         return jsonify({'code': 0,'msg':str(e)})
 
-if __name__ == '__main__':
-    # app.run(host="0.0.0.0")
+def flask():
     http_server = WSGIServer(('127.0.0.1', 5000), app)
-    print(
-        f"* Running on http://{http_server.address[0]}:{http_server.address[1]}")
+    print(f"* Running on http://{http_server.address[0]}:{http_server.address[1]}")
     http_server.serve_forever()
