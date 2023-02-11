@@ -1,12 +1,11 @@
-import sqlite3
-import json
+import sqlite3,json
 from decimal import Decimal
 
 '''
 sqlite3數據操作封裝
 '''
 class DBHP():
-    def __init__(self,db_name=None):
+    def __init__(self,db_name="telegram-bot.db"):
         self.conn = sqlite3.connect(db_name if db_name else 'CattleSpider.db')
         self.cursor = self.conn.cursor()
 

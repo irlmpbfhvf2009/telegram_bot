@@ -1,13 +1,9 @@
-import app
-import multiprocessing as mp
-from src.common.gui import Window
-from src import bot
+from multiprocessing import freeze_support,Process
+from src.tkinter.gui import Window
 
-mp.freeze_support()
+freeze_support()
 
 if __name__=="__main__":
-    p1 = mp.Process(target=app.flask)
-    p2 = mp.Process(target=Window)
-    p1.start()
-    p2.start()
-    bot.run()
+    windowProcess = Process(target=Window)
+    windowProcess.start()
+    windowProcess.join()

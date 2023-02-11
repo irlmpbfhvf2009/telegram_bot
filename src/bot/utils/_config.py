@@ -1,12 +1,12 @@
 from telegram.ext import Updater
-from src import _sql
-import configparser
+from src.sql._sql import DBHP
+from configparser import ConfigParser
 
 class BotConfig:
     def __init__(self):
-        config = configparser.ConfigParser()
+        config = ConfigParser()
         config.read('config.ini')
-        sql = _sql.DBHP("telegram-bot.db")
+        sql = DBHP()
         self.updater = Updater(config['Telegram-BOT']['token'])
         self.dispatcher = self.updater.dispatcher
         self.botusername = sql.botusername

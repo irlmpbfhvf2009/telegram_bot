@@ -1,28 +1,18 @@
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton ,KeyboardButton,ReplyKeyboardMarkup,TelegramError
 from telegram.ext import Filters, CallbackContext,CommandHandler,MessageHandler,ConversationHandler,CallbackQueryHandler,ChatMemberHandler
-import json
-from src import _button
-from src import _dirs
-from src import _config
-from src import _sql
-import logging
-import datetime
-import time
+from src.bot.utils import _button,_config
+from src.sql._sql import DBHP
+from src.common import logger
+import datetime,time,json
 
-_dirs.Dirs()
-logging.basicConfig(level=logging.INFO,
-            format='[%(asctime)s]  %(levelname)s [%(filename)s %(funcName)s] [ line:%(lineno)d ] %(message)s',
-            datefmt='%Y-%m-%d %H:%M',
-            handlers=[
-                logging.StreamHandler(),
-                logging.FileHandler(f'log//{time.strftime("%Y-%m-%d %H-%M-%S", time.localtime())}.log', 'w', 'utf-8')])
 
+log = logger.myLogger
 keyboard = _button.Keyboard()
 init = _config.BotConfig()
 
 
 def runSQL():
-    return _sql.DBHP("telegram-bot.db")
+    return DBHP()
 # 更新config table botuserName
 runSQL().editBotusername(init.updater.bot.username)
 
@@ -134,7 +124,7 @@ def dealMessage(update:Update,context:CallbackContext):
                                 followChannelText = f"关注频道 {channelmark}"
                 except TypeError as e:
                     if str(e) =="'NoneType' object is not subscriptable":
-                        logging.info("机器人尚未拥有频道 error:"+str(e))
+                        log.info("机器人尚未拥有频道 error:"+str(e))
 
                 if rightToSpeak == False:
                     try:
@@ -143,15 +133,15 @@ def dealMessage(update:Update,context:CallbackContext):
                         context.job_queue.run_once(deleteMsgToSeconds,int(sql.deleteSeconds), context=messageId)
                     except TelegramError as e:
                         if str(e) == "Message can't be deleted":
-                            logging.info(f"机器人在群组{update.effective_chat.title}无足够权限删除消息")
+                            log.info(f"机器人在群组{update.effective_chat.title}无足够权限删除消息")
                     
 
 # MessageHandler 第一层msg监听
 def wordFlow(update:Update,context:CallbackContext):
     infoString = f"[{str(update.message.from_user.id)}] {update.message.from_user.first_name} : {update.message.text}"
-    logging.info(infoString)
-    sql = runSQL()
+    log.info(infoString)
 
+    sql = runSQL()
     # 检查群组资料
     type = update.effective_chat.type
     if type == "supergroup":
@@ -160,7 +150,7 @@ def wordFlow(update:Update,context:CallbackContext):
             sql.updateJoinGroup(str(update.effective_chat.id),str(update.effective_chat.title),str(link))
         except TelegramError as e:
             if str(e) == "Not enough rights to manage chat invite link":
-                logging.info(f"机器人在群组{update.effective_chat.title}无足够权限取得邀请连结")
+                log.info(f"机器人在群组{update.effective_chat.title}无足够权限取得邀请连结")
 
     if update.message.left_chat_member != None:
         sql.updateInviteToMakeMoneyLeftGroup(update.message.left_chat_member.id,update.message.chat.id)
@@ -388,7 +378,7 @@ def choose(update:Update,context:CallbackContext):
                 return BILLINGSESSION
 
     except Exception as e:
-        logging.info(str(e))
+        log.info(str(e))
 
 # 未达标自动删除系统消息(秒)
 def deleteMsgForSecond(update:Update,context:CallbackContext):
@@ -596,7 +586,7 @@ def billing(update:Update,context:CallbackContext):
 
 
     except Exception as e:
-        logging.info(str(e))
+        log.info(str(e))
         context.bot.send_message(chat_id=update.effective_chat.id,text="请输入数字，输入0退出结算")
         return BILLINGSESSION
     return ConversationHandler.END
@@ -616,7 +606,7 @@ def adminWork(update:Update,context:CallbackContext):
                 try:
                     context.bot.delete_message(chat_id=chat_id, message_id=new_message_id)
                 except Exception as error:
-                    logging.info(f'Message_id does not exist: {new_message_id} - {error}')
+                    log.info(f'Message_id does not exist: {new_message_id} - {error}')
                     new_message_id = new_message_id - 1
         #context.job_queue.run_once(start_clearmsg,1, context='')
         context.bot.send_message(chat_id=update.message.chat.id,text="未开放")
@@ -721,7 +711,7 @@ def channel_post(update: Update, context: CallbackContext):
             sql.updateJoinChannel(channelId,channelTitle,link)
             context.bot.send_message(chat_id=channelId,text=link)
     except Exception as e:
-        logging.info("错误回报 "+str(e))
+        log.info("错误回报 "+str(e))
 
 
 START,WORKFLOW,GETTHERIGHT,ADMINWORK,SELECTGROUP,CHANGEPASSWORD,SETINVITEFRIENDSQUANTITY,SETINVITEFRIENDSAUTOCLEARTIME,DELETEMSGFORSECOND,SETINVITEMEMBERS,SETINVITEEARNEDOUTSTAND,SETINVITESETTLEMENTBONUS,SETCONTACTPERSON,BILLINGSESSION,QUERYBILLINGSESSION,GROUPSETADVERTISECONTENT,GROUPSETADVERTISETIME= range(17) 
@@ -764,6 +754,6 @@ def run():
     start = time.time()
     init.updater.start_polling()
     end = time.time()
-    logging.info(f"BOT : {init.updater.bot.username} 已启动  執行時間：{round((end - start),2)}秒")
+    log.info(f"BOT : {init.updater.bot.username} 已启动  執行時間：{round((end - start),2)}秒")
     init.updater.idle()
     init.updater.stop()
