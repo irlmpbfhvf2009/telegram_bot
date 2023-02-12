@@ -91,7 +91,8 @@ def editDeleteSeconds():
     except Exception as e:
         return jsonify({'code': 0,'msg':str(e)})
 
-def flask():
-    http_server = WSGIServer(('127.0.0.1', 5555), app)
-    print(f"* Running on http://{http_server.address[0]}:{http_server.address[1]}")
+def flask(port):
+    print(port)
+    http_server = WSGIServer(('127.0.0.1', port), app)
+    #print(f"* Running on http://{http_server.address[0]}:{http_server.address[1]}")
     http_server.serve_forever()

@@ -1,11 +1,8 @@
 from multiprocessing import freeze_support, Process
-from src.tkinter.gui import Window
-from src.common.utils import makedirs
-import os
+from src.tkinter.gui import runGui
 freeze_support()
 
 if __name__ == "__main__":
-    makedirs(path = os.path.abspath(os.path.dirname(__file__)) + '\\log')
-    windowProcess = Process(target=Window)
+    windowProcess = Process(target=runGui)
     windowProcess.start()
     windowProcess.join()

@@ -12,6 +12,7 @@ class Logging(logging.Logger):
         self.logger = logging.getLogger(name)
         self.setLevel(logger_level)
         fmt = logging.Formatter(logger_format)
+        
         if file:
             file_handler = logging.FileHandler(file,'a','utf-8')
             file_handler.setLevel(logger_level)

@@ -3,7 +3,6 @@ import os
 
 
 def makedirs(path=None):
-    print(path)
     if not os.path.isdir(path):
         return os.makedirs(path, mode=511, exist_ok=False)
 
@@ -11,7 +10,8 @@ def makedirs(path=None):
 
 
 def currentDirectory():
-    return os.path.abspath(os.path.dirname(__file__))
+    # return os.path.abspath(os.path.dirname(__file__)) #當前檔案位置
+     return os.getcwd().replace('\\','/') 
 
 # 上級目錄
 
@@ -26,7 +26,7 @@ def doubleParentDirectory():
     return os.path.abspath(os.path.join(os.getcwd(), "../.."))
 
 
-def chick_port(port='5555', host='127.0.0.1'):
+def chick_port(port=None, host='127.0.0.1'):
     s = None
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -40,15 +40,14 @@ def chick_port(port='5555', host='127.0.0.1'):
             s.close()
 
 
-class GetLog:
+class Log:
     def __init__(self):
-        return self.get_log()
+        self.new_log=self.get_log()
+        self.find_new_log=self.find_new_log()
 
     def find_new_log(self):
         dir = os.path.abspath(os.getcwd())+"\log"
-        print(dir)
         file_lists = os.listdir(dir)
-        print(file_lists)
         file_lists.sort(key=lambda fn: os.path.getmtime(dir + "\\" + fn)
                     if not os.path.isdir(dir + "\\" + fn) else 0)
         log = os.path.join(dir, file_lists[-1])

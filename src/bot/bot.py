@@ -3,8 +3,10 @@ from telegram.ext import Filters, CallbackContext,CommandHandler,MessageHandler,
 from src.bot.utils import _button,_config
 from src.common import logger
 from src.sql._sql import DBHP
-import datetime,time,json
+import datetime,time,json,os
+from src.common.utils import makedirs,currentDirectory
 
+makedirs(path = currentDirectory() + '\\log')
 log = logger.Logging(file='log/'+str(datetime.datetime.now().date())+'.log')
 keyboard = _button.Keyboard()
 init = _config.BotConfig()
