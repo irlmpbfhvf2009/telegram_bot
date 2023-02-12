@@ -49,8 +49,9 @@ run main.py 執行機器人
 
 ## py常用指令
 > pip install -r requirements.txt 載入必要的lib  
+pyi-makespec -F -w -i tkinter/bot.ico main.py 生成spec檔
+pyinstaller -F -w -i tkinter/bot.ico main.spec
 pyinstaller -F -w .\main.py  
-
 
 
 ## py檔案

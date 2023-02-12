@@ -1,15 +1,13 @@
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton ,KeyboardButton,ReplyKeyboardMarkup,TelegramError
 from telegram.ext import Filters, CallbackContext,CommandHandler,MessageHandler,ConversationHandler,CallbackQueryHandler,ChatMemberHandler
 from src.bot.utils import _button,_config
-from src.sql._sql import DBHP
 from src.common import logger
+from src.sql._sql import DBHP
 import datetime,time,json
 
-
-log = logger.myLogger
+log = logger.Logging(file='log/'+str(datetime.datetime.now().date())+'.log')
 keyboard = _button.Keyboard()
 init = _config.BotConfig()
-
 
 def runSQL():
     return DBHP()

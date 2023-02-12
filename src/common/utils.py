@@ -1,12 +1,54 @@
+import socket
 import os
 
-class Common:
+
+def makedirs(path=None):
+    print(path)
+    if not os.path.isdir(path):
+        return os.makedirs(path, mode=511, exist_ok=False)
+
+# 當前目錄
+
+
+def currentDirectory():
+    return os.path.abspath(os.path.dirname(__file__))
+
+# 上級目錄
+
+
+def parentDirectory():
+    return os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+
+# 上上級目錄
+
+
+def doubleParentDirectory():
+    return os.path.abspath(os.path.join(os.getcwd(), "../.."))
+
+
+def chick_port(port='5555', host='127.0.0.1'):
+    s = None
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(1)
+        s.connect((host, int(port)))
+        return True
+    except socket.error:
+        return False
+    finally:
+        if s:
+            s.close()
+
+
+class GetLog:
     def __init__(self):
-        self.log = self.get_log()
+        return self.get_log()
 
     def find_new_log(self):
         dir = os.path.abspath(os.getcwd())+"\log"
+        print(dir)
         file_lists = os.listdir(dir)
+        print(file_lists)
         file_lists.sort(key=lambda fn: os.path.getmtime(dir + "\\" + fn)
                     if not os.path.isdir(dir + "\\" + fn) else 0)
         log = os.path.join(dir, file_lists[-1])

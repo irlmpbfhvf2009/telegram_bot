@@ -1,56 +1,49 @@
-import tkinter as tk
-import time,threading,configparser,webbrowser 
-from multiprocessing import Process,freeze_support
-#import os,signal
+import time,threading,configparser,webbrowser,tkinter,logging,os,signal,datetime
+from multiprocessing import Process
 from src.common import logger
-import logging
+from src.common.utils import chick_port
 from src.web.app import flask
 from src.bot.bot import run
-from src.bot import bot
 
-freeze_support()
-class Window(tk.Tk):
+class Window(tkinter.Tk):
     def __init__(self):
         super().__init__()
         config = configparser.ConfigParser()
         config.read('config.ini')
         self.title(f"telegram-bot {config['Telegram-BOT']['version']}")
         self.geometry("800x600")
-        self.iconbitmap("src/tkinter/bot.ico")
         self.resizable(width=False,height=False)
         
-        self.label = tk.Label(self,bg='green',width=50)
+        self.label = tkinter.Label(self,bg='green',width=50)
         self.label.pack()
-        self.button3 = tk.Button(self,text="開啟網頁",command=self.openUrl)
+        self.button3 = tkinter.Button(self,text="開啟網頁",command=self.appStart)
         self.button3.pack()
-        self.button6 = tk.Button(self,text="log",command=self.btn_command)
-        self.button6.pack()
+        self.button3 = tkinter.Button(self,text="啟動機器人",command=self.botStart)
+        self.button3.pack()
 
         # 日誌輸出
-        normalTextBox = tk.Text(self, width=50,height=5)
-        normalTextBox.place(x=40,y=200)
-        self.log=bot.log
-        handler = TextboxHandler(normalTextBox)
+        self.normalTextBox = tkinter.Text(self, width=70,height=20)
+        self.normalTextBox.place(x=40,y=200)
+        self.log=logger.Logging(file='log/'+str(datetime.datetime.now().date())+'.log')
+        handler = TextboxHandler(self.normalTextBox)
         self.log.addHandler(handler)
  
-        t_count = threading.Thread(target=self.count)
-        t_count.start()
-        
-        self.appStart()
-        self.botStart()
-        self.protocol('WM_DELETE_WINDOW', self.windowClose(self,))
+        threading.Thread(target=self.count).start()
+        self.appPid = 987654321987654321987654321
+        self.botPid = 987654321987654321987654312
+        self.protocol('WM_DELETE_WINDOW', self.windowClose)
+        self.log.info("界面载入完成")
         self.mainloop()
 
-    def windowClose(self,root):
-        self.apps.terminate()
-        self.apps.join()
-        self.bot.terminate()
-        self.bot.join()
-        root.destroy
+    def windowClose(self):
+        try:
+            os.kill(self.appPid, signal.SIGTERM)
+            os.kill(self.botPid, signal.SIGTERM)
+        except:
+            print("退出程序")
+        self.quit()
+        self.destroy()
         
-    def openUrl(self):
-        urL='http://127.0.0.1:5555'
-        webbrowser.get('windows-default').open_new(urL)
 
     def count(self):
         while True:
@@ -63,15 +56,21 @@ class Window(tk.Tk):
                 break
 
     def appStart(self):
-        self.apps = Process(target=flask)
-        self.apps.start()
+        if(chick_port()==False):
+            app = Process(target=flask)
+            app.start()
+            self.appPid=app.pid
+            urL='http://127.0.0.1:5555'
+            webbrowser.get('windows-default').open_new(urL)
+        else:
+            urL='http://127.0.0.1:5555'
+            webbrowser.get('windows-default').open_new(urL)
 
     def botStart(self):
-        self.bot = Process(target=run)
-        self.bot.start()
+        bot = Process(target=run)
+        bot.start()
+        self.botPid=bot.pid
 
-    def btn_command(self):
-        self.log.info(f"LoggerBox")
 
 class TextboxHandler(logging.Handler):
     def __init__(self, textbox):

@@ -4,12 +4,12 @@ from gevent.pywsgi import WSGIServer
 from src.sql._sql import DBHP
 
 if getattr(sys, 'frozen', False):
-    template_folder = os.path.join(sys.executable, '..', 'templates')
-    static_folder = os.path.join(sys.executable, '..', 'static')
+    template_folder = os.path.join(sys.executable, '../../resources', 'templates')
+    static_folder = os.path.join(sys.executable, '../../resources', 'static')
     app = Flask(__name__, template_folder=template_folder,
                 static_folder=static_folder)
 else:
-    app = Flask(__name__, template_folder='templates')
+    app = Flask(__name__, template_folder='../../resources/templates',static_folder='../../resources/static')
 
 sql = DBHP()
 
