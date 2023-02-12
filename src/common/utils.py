@@ -42,9 +42,9 @@ def chick_port(port=None, host='127.0.0.1'):
 
 class Log:
     def __init__(self):
-        self.new_log=self.get_log()
-        self.find_new_log=self.find_new_log()
-
+        self.new_log2=self.find_new_log()
+        self.new_log=os.path.abspath(os.getcwd())+"\log"
+    
     def find_new_log(self):
         dir = os.path.abspath(os.getcwd())+"\log"
         file_lists = os.listdir(dir)

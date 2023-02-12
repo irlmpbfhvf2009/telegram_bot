@@ -3,18 +3,18 @@ from telegram.ext import Filters, CallbackContext,CommandHandler,MessageHandler,
 from src.bot.utils import _button,_config
 from src.common import logger
 from src.sql._sql import DBHP
-import datetime,time,json,os
+import datetime,time,json
 from src.common.utils import makedirs,currentDirectory
 
 makedirs(path = currentDirectory() + '\\log')
-log = logger.Logging(file='log/'+str(datetime.datetime.now().date())+'.log')
+log = logger.Logging(file='log/'+str(datetime.datetime.now().date())+'.log',guiFile='log/gui_.log')
 keyboard = _button.Keyboard()
 init = _config.BotConfig()
 
 def runSQL():
     return DBHP()
 # 更新config table botuserName
-runSQL().editBotusername(init.updater.bot.username)
+runSQL().editBotusername(init.botusername)
 
 def sendMenu(update:Update,context:CallbackContext):
     context.bot.send_message(chat_id = update.effective_chat.id,text=keyboard.adminUser,reply_markup = keyboard.adminUserMenu)

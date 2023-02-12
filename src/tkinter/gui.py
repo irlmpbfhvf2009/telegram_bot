@@ -1,11 +1,11 @@
 import time,threading,configparser,webbrowser,tkinter,os,signal,datetime,inspect,ctypes
+import tkinter.font as tkFont
 from multiprocessing import Process
 from src.common import logger
-from src.common.utils import chick_port,Log
+from src.common.utils import chick_port,Log,makedirs,currentDirectory
 from src.web.app import flask
 from src.bot.bot import run
 from src.sql._sql import DBHP
-import tkinter.font as tkFont
 
 class Window(tkinter.Tk):
     def __init__(self):
@@ -13,10 +13,17 @@ class Window(tkinter.Tk):
         config = configparser.ConfigParser()
         config.read('config.ini')
         self.title("telegram-bot")
-        self.log=logger.Logging(file='log/'+str(datetime.datetime.now().date())+'.log')
-        
-        
-        self.geometry("700x400")
+        makedirs(path = currentDirectory() + '\\log')
+        with open(os.path.abspath(os.getcwd())+"\log\gui_.log",'a+',encoding='utf-8') as test:
+            test.truncate(0)
+        self.log=logger.Logging(file='log/'+str(datetime.datetime.now().date())+'.log',guiFile='log/gui_.log')
+        def center_window(w, h):
+            ws = self.winfo_screenwidth()
+            hs = self.winfo_screenheight()
+            x = (ws/2) - (w/2)
+            y = (hs/2) - (h/2)
+            self.geometry('%dx%d+%d+%d' % (w, h, x, y))
+        center_window(700,400)
         self.resizable(width=False,height=False)
         fontStyle = tkFont.Font(family="Lucida Grande", size=16)
         self.label_time = tkinter.Label(self,font=fontStyle)
@@ -42,13 +49,10 @@ class Window(tkinter.Tk):
         self.label_token.place(x=50,y=150)
         self.label_version.place(x=50,y=180)
         
-        
         self.button_bot_run.place(x=550, y=40)
         self.button_app_run.place(x=450, y=40)
-        
         self.normalTextBox.place(x=5, y=250)
         
-        self.log.info("程序启动完成 今日累计Log行数:" + str(self.log_count()))
         
         self.t_count = threading.Thread(target=self.count)
         self.t_inftxt = threading.Thread(target=self.in_f_txt)
@@ -65,10 +69,11 @@ class Window(tkinter.Tk):
             os.kill(self.botPid, signal.SIGTERM)
         except:
             print("退出程序")
-        self.stop_thread(self.t_count)
-        self.stop_thread(self.t_inftxt)
-        self.quit()
-        self.destroy()
+        finally:
+            self.stop_thread(self.t_count)
+            self.stop_thread(self.t_inftxt)
+            self.quit()
+            self.destroy()
         
     def ctrlEvent(self,event):
         if(12==event.state and event.keysym=='c' ):
@@ -90,18 +95,17 @@ class Window(tkinter.Tk):
         while True:
             try:
                 self.normalTextBox.delete('1.0','end')
-                file=Log().find_new_log
+                file=os.path.abspath(os.getcwd())+"\log\gui_.log"
                 if os.path.exists(file):
-                    logFile=open(file,'r',encoding='utf-8')
-                    i=0
-                    for r in logFile:
-                        i+=1
-                        self.normalTextBox.insert("insert",r)
-                    logFile.close()
-                    self.normalTextBox.see(str(i)+".0")
-                    time.sleep(5)
+                    with open(file,'r',encoding='utf-8') as logFile:
+                        i=0
+                        for r in logFile:
+                            i+=1
+                            self.normalTextBox.insert("insert",r)
+                        self.normalTextBox.see(str(i)+".0")
+                        time.sleep(5)
             except Exception as e:
-                print(e)
+                self.log.info(e)
                 break
             
     def log_count(self):
