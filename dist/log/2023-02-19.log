@@ -1,8 +1,0 @@
- [2023-02-19 14:34:35,181]  INFO gui.py [ line:175 ] Invalid token
- [2023-02-19 14:34:58,931]  INFO bot.py [ line:764 ] BOT : CCP1121_BOT 已启动  執行時間：0.21秒
- [2023-02-19 14:35:23,264]  INFO gui.py [ line:182 ] BOT停止运作
- [2023-02-19 14:35:25,432]  INFO bot.py [ line:764 ] BOT : CCP1121_BOT 已启动  執行時間：0.21秒
- [2023-02-19 14:36:01,451]  INFO bot.py [ line:764 ] BOT : CCP1121_BOT 已启动  執行時間：0.21秒
- [2023-02-19 14:36:09,465]  INFO gui.py [ line:182 ] BOT停止运作
- [2023-02-19 14:38:36,533]  INFO gui.py [ line:154 ] 伺服器启动
- [2023-02-19 14:38:36,533]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555

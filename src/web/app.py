@@ -20,6 +20,21 @@ sql = DBHP()
 async def index():
     return render_template(r'index.html')
 
+@app.route("/getLogList", methods=['get'])
+def getConfig():
+    return jsonify({'botusername': sql.botusername,
+                    'password': sql.password,
+                    'inviteFriendsAutoClearTime': sql.inviteFriendsAutoClearTime,
+                    'inviteFriendsSet': sql.inviteFriendsSet,
+                    'followChannelSet': sql.followChannelSet,
+                    'inviteFriendsQuantity': sql.inviteFriendsQuantity,
+                    'deleteSeconds': sql.deleteSeconds,
+                    'invitationBonusSet': sql.invitationBonusSet,
+                    'inviteMembers': sql.inviteMembers,
+                    'inviteEarnedOutstand': sql.inviteEarnedOutstand,
+                    'inviteSettlementBonus': sql.inviteSettlementBonus,
+                    'contactPerson': sql.contactPerson})
+    
 @app.route("/getConfig", methods=['get'])
 def getConfig():
     return jsonify({'botusername': sql.botusername,

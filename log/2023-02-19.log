@@ -80,3 +80,23 @@
  [2023-02-19 14:17:17,457]  INFO gui.py [ line:179 ] BOT停止运作
  [2023-02-19 14:22:29,152]  INFO bot.py [ line:764 ] BOT : CCP1121_BOT 已启动  執行時間：0.21秒
  [2023-02-19 14:22:31,897]  INFO gui.py [ line:182 ] BOT停止运作
+ [2023-02-19 15:29:59,650]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-19 15:29:59,651]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-19 15:30:52,800]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-19 15:30:52,800]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-19 15:32:56,317]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-19 15:32:56,317]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-19 15:37:34,249]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-19 15:37:34,249]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-19 15:51:19,322]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-19 15:51:19,322]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-19 15:51:40,709]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-19 15:51:40,710]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-19 15:52:10,346]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-19 15:52:10,346]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-19 15:53:32,736]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-19 15:53:32,737]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-19 16:07:44,628]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-19 16:07:44,628]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-19 16:08:32,022]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-19 16:08:32,022]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555

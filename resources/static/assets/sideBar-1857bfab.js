@@ -1,0 +1,1 @@
+import{_ as e}from"./_plugin-vue_export-helper-c27b6911.js";import{o as s,c as t,H as _}from"./runtime-core.esm-bundler-1511fa78.js";const o={},c={class:"wrap"},a=_("div",{class:"header"},null,-1),r=[a];function n(d,i){return s(),t("div",c,r)}const p=e(o,[["render",n]]);export{p as default};
