@@ -98,14 +98,12 @@ Telegram-Bot/
 
 ## py檔案
 >main.py  主容器  
-app.py  網頁容器  
-bot.py bot輪詢  
-utils.py  工具類  
-_button.py  內聯鍵盤  
-_config.py  組態設定  
-_sql.py  資料庫處理  
-_dirs.py  資料檢查  
-
+app.py  網頁程序  
+bot.py bot应用  
+utils.py  工具  
+_button.py  內聯鍵盤封裝  
+_config.py  組態初始化  
+_sql.py  資料處理  
 
 
 ## SQLITE3
