@@ -2,6 +2,12 @@
 >[bot使用方法](#bot使用方法)  
 [开启监听频道权限](#开启监听频道权限)  
 
+###### 開發事項  
+>[py常用指令](#py常用指令)  
+[專案結構](#專案結構)  
+[py檔案](#py檔案)  
+[SQL](#SQLITE3)  
+[功能進度](#功能進度)  
 #### 更新資訊
 
 ###### 1.6.4
@@ -29,6 +35,30 @@
         'NoneType' object is not subscriptable       机器人无订阅频道(故无法启动订阅发言权功能)  
         Message can't be deleted                     机器人在群组无足够权限删除消息  
         Not enough rights to manage chat invite link 机器人在群组无足够权限取得邀请连结  
+
+
+
+## 开启监听频道权限  
+>1.首先我们TG找到BotFather 打开跟他的会话窗口，发送 /setprivacy  
+2.点选Disable
+<picture>
+  <img alt="Shows mode." src="https://img-blog.csdnimg.cn/img_convert/6ed7818985d811d5445ff88cc88b029b.png">
+</picture>  
+
+
+
+## bot使用方法
+>config.ini 填入Token  
+run main.py 執行機器人  
+
+
+
+## py常用指令
+> pip install -r requirements.txt 載入必要的lib  
+pyi-makespec -F -w -i tkinter/bot.ico main.py 生成spec檔  
+pyi-makespec -F -w main.py 生成spec檔  
+pyinstaller main.spec
+
 
 ###### 專案結構  
 Telegram-Bot/  
@@ -64,34 +94,6 @@ Telegram-Bot/
 &emsp;&emsp;|-- web/  
 &emsp;&emsp;&emsp;&emsp;|-- app.py  
 
-
-
-###### 開發事項  
->[py常用指令](#py常用指令)  
-[py檔案](#py檔案)  
-[SQL](#SQLITE3)  
-[功能進度](#功能進度)  
-
-## 开启监听频道权限  
->1.首先我们TG找到BotFather 打开跟他的会话窗口，发送 /setprivacy  
-2.点选Disable
-<picture>
-  <img alt="Shows mode." src="https://img-blog.csdnimg.cn/img_convert/6ed7818985d811d5445ff88cc88b029b.png">
-</picture>  
-
-
-
-## bot使用方法
->config.ini 填入Token  
-run main.py 執行機器人  
-
-
-
-## py常用指令
-> pip install -r requirements.txt 載入必要的lib  
-pyi-makespec -F -w -i tkinter/bot.ico main.py 生成spec檔  
-pyi-makespec -F -w main.py 生成spec檔  
-pyinstaller main.spec
 
 
 ## py檔案
