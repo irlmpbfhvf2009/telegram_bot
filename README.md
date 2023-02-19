@@ -2,12 +2,6 @@
 >[bot使用方法](#bot使用方法)  
 [开启监听频道权限](#开启监听频道权限)  
 
-###### 開發事項  
->[py常用指令](#py常用指令)  
-[py檔案](#py檔案)  
-[SQL](#SQLITE3)  
-[功能進度](#功能進度)  
-
 #### 更新資訊
 
 ###### 1.6.4
@@ -36,7 +30,46 @@
         Message can't be deleted                     机器人在群组无足够权限删除消息  
         Not enough rights to manage chat invite link 机器人在群组无足够权限取得邀请连结  
 
+###### 專案結構  
+Telegram-Bot/
+|-- main.py  
+|-- main.spec  
+|-- config.ini  
+|-- telegram-bot.db  
+|-- README.md  
+|-- requirements.txt  
+|-- log/  
+    |-- * files *  
+|-- resources/  
+    |-- favcon.ico  
+    |-- static/  
+        |-- * files *  
+    |-- templates/  
+        |-- * files *  
+|-- src/
+    |-- bot/
+        |-- bot.py  
+        |-- utils/  
+            |-- _button.py  
+            |-- _config.py  
+    |-- common/
+        |-- logger.py  
+        |-- utils.py  
+    |-- sql/
+        |-- sql指令/  
+            |-- * files *  
+        |-- sql.py  
+    |-- tkinter/
+        |-- gui.py  
+    |-- web/
+        |-- app.py  
 
+
+###### 開發事項  
+>[py常用指令](#py常用指令)  
+[py檔案](#py檔案)  
+[SQL](#SQLITE3)  
+[功能進度](#功能進度)  
 
 ## 开启监听频道权限  
 >1.首先我们TG找到BotFather 打开跟他的会话窗口，发送 /setprivacy  

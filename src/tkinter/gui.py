@@ -162,6 +162,8 @@ class Window(tkinter.Tk):
         config = configparser.ConfigParser()
         config.read('config.ini')
         self.label_token.config(text="Token："+ config['Telegram-BOT']['token'])
+        self.label_botusername.config(text="机器人："+DBHP().botusername)
+        
         try:
             from src.bot.bot import run
             bot = Process(target=run)
