@@ -46,23 +46,24 @@ Telegram-Bot/
         |-- * files *  
     |-- templates/  
         |-- * files *  
-|-- src/
-    |-- bot/
+|-- src/  
+    |-- bot/  
         |-- bot.py  
         |-- utils/  
             |-- _button.py  
             |-- _config.py  
-    |-- common/
+    |-- common/  
         |-- logger.py  
         |-- utils.py  
-    |-- sql/
+    |-- sql/  
         |-- sql指令/  
             |-- * files *  
         |-- sql.py  
-    |-- tkinter/
+    |-- tkinter/  
         |-- gui.py  
-    |-- web/
+    |-- web/  
         |-- app.py  
+
 
 
 ###### 開發事項  
