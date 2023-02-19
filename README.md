@@ -31,7 +31,7 @@
         Not enough rights to manage chat invite link 机器人在群组无足够权限取得邀请连结  
 
 ###### 專案結構  
-Telegram-Bot/
+Telegram-Bot/  
 |-- main.py  
 |-- main.spec  
 |-- config.ini  
@@ -39,30 +39,30 @@ Telegram-Bot/
 |-- README.md  
 |-- requirements.txt  
 |-- log/  
-    |-- * files *  
+&emsp;&emsp;|-- * files *  
 |-- resources/  
-    |-- favcon.ico  
+&emsp;&emsp;|-- favcon.ico  
     |-- static/  
-        |-- * files *  
-    |-- templates/  
-        |-- * files *  
+&emsp;&emsp;&emsp;&emsp;|-- * files *  
+&emsp;&emsp;|-- templates/  
+&emsp;&emsp;&emsp;&emsp;|-- * files *  
 |-- src/  
-    |-- bot/  
-        |-- bot.py  
-        |-- utils/  
-            |-- _button.py  
-            |-- _config.py  
-    |-- common/  
-        |-- logger.py  
-        |-- utils.py  
-    |-- sql/  
-        |-- sql指令/  
-            |-- * files *  
-        |-- sql.py  
-    |-- tkinter/  
-        |-- gui.py  
-    |-- web/  
-        |-- app.py  
+&emsp;&emsp;|-- bot/  
+&emsp;&emsp;&emsp;&emsp;|-- bot.py  
+&emsp;&emsp;&emsp;&emsp;|-- utils/  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|-- _button.py  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|-- _config.py  
+&emsp;&emsp;|-- common/  
+&emsp;&emsp;&emsp;&emsp;|-- logger.py  
+&emsp;&emsp;&emsp;&emsp;|-- utils.py  
+&emsp;&emsp;|-- sql/  
+&emsp;&emsp;&emsp;&emsp;|-- sql指令/  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;|-- * files *  
+&emsp;&emsp;&emsp;&emsp;|-- sql.py  
+&emsp;&emsp;|-- tkinter/  
+&emsp;&emsp;&emsp;&emsp;|-- gui.py  
+&emsp;&emsp;|-- web/  
+&emsp;&emsp;&emsp;&emsp;|-- app.py  
 
 
 
