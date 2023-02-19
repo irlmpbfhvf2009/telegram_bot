@@ -3,6 +3,7 @@ from flask import Flask, render_template, jsonify, request
 from gevent.pywsgi import WSGIServer
 from src.sql._sql import DBHP
 import mimetypes
+from src.common.utils import Log
 mimetypes.add_type('application/javascript', '.js')
 mimetypes.add_type('text/css', '.css')
 
@@ -21,19 +22,9 @@ async def index():
     return render_template(r'index.html')
 
 @app.route("/getLogList", methods=['get'])
-def getConfig():
-    return jsonify({'botusername': sql.botusername,
-                    'password': sql.password,
-                    'inviteFriendsAutoClearTime': sql.inviteFriendsAutoClearTime,
-                    'inviteFriendsSet': sql.inviteFriendsSet,
-                    'followChannelSet': sql.followChannelSet,
-                    'inviteFriendsQuantity': sql.inviteFriendsQuantity,
-                    'deleteSeconds': sql.deleteSeconds,
-                    'invitationBonusSet': sql.invitationBonusSet,
-                    'inviteMembers': sql.inviteMembers,
-                    'inviteEarnedOutstand': sql.inviteEarnedOutstand,
-                    'inviteSettlementBonus': sql.inviteSettlementBonus,
-                    'contactPerson': sql.contactPerson})
+def getLogList():
+    print(Log()._log)
+    return jsonify({'log': Log()._log['log_list']})
     
 @app.route("/getConfig", methods=['get'])
 def getConfig():
