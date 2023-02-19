@@ -9,22 +9,28 @@
 [功能進度](#功能進度)  
 
 ###### 更新資訊
+[1.6.4](#1.6.4)  
 [1.6.3](#1.6.3)  
 [1.6.2](#1.6.2)  
 [1.6.1](#1.6.1)  
 [1.6.0](#1.6.0)  
 
+###### 1.6.4
+* 優化介面
+* 廣告功能調整(發送第四次廣告,前三次訊息刪除)
+* 資料表advertiseRecord (groupId,messageId)
+* 統整vite網頁畫面
+* config判斷 token檢查
 ###### 1.6.3
 * 完成 UI介面
-* 全局logger
+* 全域logger
 * 優化程式碼
 ###### 1.6.2
 * tkinter UI介面
 * multiprocessing 多核心運算
 * 定義版本號
-* 優化程式碼
 ###### 1.6.1
-* API
+* API新增
 * 查詢、修改config群組
 ###### 1.6.0
 * 侦测机器人所在群组有无权限
@@ -84,7 +90,15 @@ inviteFriendsQuantity(邀請好友數量)
 description(描述)  
 
 #### TABLE : invitationLimit 邀請好友紀錄
-###### column : groupId(群組id),groupTitle(群組名稱),inviteId(邀請人ID),inviteAccount(邀請人帳號),beInvited(被邀請人JSON),invitationStartDate(邀請日期),invitationEndDate(過期日期),invitationDate(X日清除一次)
+###### column :
+groupId(群組id),  
+groupTitle(群組名稱),  
+inviteId(邀請人ID),  
+inviteAccount(邀請人帳號),  
+beInvited(被邀請人JSON),  
+invitationStartDate(邀請日期),  
+invitationEndDate(過期日期),  
+invitationDate(X日清除一次)  
 #### TABLE : manager 管理員
 ###### column : userId(用戶id),userName(用戶名稱),useGroupTitle(使用的群組名稱),useGroupId(使用的群組id),isManager(判斷是否為管理員)
 #### TABLE : lastGroupMessageId 紀錄最後訊息id

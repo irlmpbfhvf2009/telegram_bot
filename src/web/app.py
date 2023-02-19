@@ -2,6 +2,9 @@ import os,sys
 from flask import Flask, render_template, jsonify, request
 from gevent.pywsgi import WSGIServer
 from src.sql._sql import DBHP
+import mimetypes
+mimetypes.add_type('application/javascript', '.js')
+mimetypes.add_type('text/css', '.css')
 
 if getattr(sys, 'frozen', False):
     template_folder = os.path.join(sys.executable, '../../resources', 'templates')
@@ -14,7 +17,7 @@ else:
 sql = DBHP()
 
 @app.route("/")
-def index():
+async def index():
     return render_template(r'index.html')
 
 @app.route("/getConfig", methods=['get'])

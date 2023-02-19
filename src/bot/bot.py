@@ -13,6 +13,7 @@ init = _config.BotConfig()
 
 def runSQL():
     return DBHP()
+
 # 更新config table botuserName
 runSQL().editBotusername(init.botusername)
 
@@ -337,9 +338,16 @@ def choose(update:Update,context:CallbackContext):
             groupId=sql.getUseGroupId(update.effective_user.id)
             advertiseTime = sql.getAdvertiseTime(groupId)
             advertiseText = sql.getAdvertiseContent(groupId)
-            if (int(advertiseTime)) !=0 and advertiseText!="":
+            if (int(advertiseTime)) != "" and advertiseText!="":
                 def startSendAdvertise(context: CallbackContext):
-                    context.bot.send_message(chat_id = groupId, text = context.job.context)
+                    sql = runSQL()
+                    if len(sql.getAdvertiseRecord(groupId)) > 2:
+                        for result in sql.getAdvertiseRecord(groupId):
+                            context.bot.delete_message(chat_id=groupId, message_id=result[0])
+                        sql.deletetAdvertiseRecord(groupId)
+                    advertiseMessageId = context.bot.send_message(chat_id = groupId, text = context.job.context).message_id
+                    sql.insertAdvertiseRecord(groupId,advertiseMessageId)
+                    print(advertiseMessageId)
                 context.job_queue.run_repeating(startSendAdvertise,interval=int(advertiseTime),first=0.0, context=advertiseText,name=groupId)
             else:
                 context.bot.send_message(chat_id=update.effective_chat.id,text='内容或秒数未设置')
@@ -715,7 +723,6 @@ def channel_post(update: Update, context: CallbackContext):
 
 
 START,WORKFLOW,GETTHERIGHT,ADMINWORK,SELECTGROUP,CHANGEPASSWORD,SETINVITEFRIENDSQUANTITY,SETINVITEFRIENDSAUTOCLEARTIME,DELETEMSGFORSECOND,SETINVITEMEMBERS,SETINVITEEARNEDOUTSTAND,SETINVITESETTLEMENTBONUS,SETCONTACTPERSON,BILLINGSESSION,QUERYBILLINGSESSION,GROUPSETADVERTISECONTENT,GROUPSETADVERTISETIME= range(17) 
-
 
 init.dispatcher.add_handler(
     ConversationHandler(

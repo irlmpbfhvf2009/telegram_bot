@@ -47,6 +47,8 @@ class DBHP():
         self.create_tables("billingSession",['key','value'])
         # create advertise table
         self.create_tables("advertise",['userId','groupId','groupTitle','advertiseContent','advertiseTime'])
+        # create advertiseRecord table
+        self.create_tables("advertiseRecord",['groupId','advertiseMessageId'])
 
         self.initConfig("password","12356")
         self.initConfig("botuserName","")
@@ -737,9 +739,24 @@ class DBHP():
 
     def updateAdvertiseTime(self,groupId,advertiseTime):
         self.update(f"UPDATE advertise SET advertiseTime = '{advertiseTime}' WHERE groupId = '{groupId}'")
+        
     def updateAdvertiseContent(self,groupId,advertiseContent):
         self.update(f"UPDATE advertise SET advertiseContent = '{advertiseContent}' WHERE groupId = '{groupId}'")
 
+    # CRUD - advertiseRecord
+    def insertAdvertiseRecord(self,groupId,advertiseMessageId):
+        data=[
+            {"groupId":groupId,"advertiseMessageId":advertiseMessageId}
+        ]
+        self.insert_data("advertiseRecord",data)
+        
+    def getAdvertiseRecord(self,groupId):
+        results = self.select_all_tasks(f"SELECT advertiseMessageId FROM advertiseRecord where groupId = '{groupId}'")
+        return results
+        
+    def deletetAdvertiseRecord(self,groupId):
+        self.delete(f"delete from advertiseRecord where groupId = '{groupId}'")
+        
     # destroy
     def destroy(self):
         self.delete("delete from advertise")

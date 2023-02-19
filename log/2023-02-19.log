@@ -1,0 +1,82 @@
+ [2023-02-19 11:51:20,948]  INFO gui.py [ line:135 ] 伺服器启动
+ [2023-02-19 11:51:20,948]  INFO gui.py [ line:136 ] Running on http:127.0.0.1:5555
+ [2023-02-19 11:54:34,271]  INFO bot.py [ line:757 ] BOT : CCP1121_BOT 已启动  執行時間：0.22秒
+ [2023-02-19 11:54:35,735]  INFO bot.py [ line:143 ] [1922251002] Yarranagula : I remember 5 clock ⏰
+ [2023-02-19 11:54:36,947]  INFO bot.py [ line:143 ] [417279068] Venky : Notify me alaram 17.39
+ [2023-02-19 11:54:36,962]  INFO bot.py [ line:143 ] [417279068] Venky : +Add
+ [2023-02-19 11:54:36,973]  INFO bot.py [ line:143 ] [417279068] Venky : Menu
+ [2023-02-19 11:54:38,548]  INFO bot.py [ line:143 ] [417279068] Venky : I want review sir telugu movie
+ [2023-02-19 11:54:38,942]  INFO bot.py [ line:143 ] [5635583262] Madhu : Notify me after 5 min at 6:15pm
+ [2023-02-19 11:54:41,390]  INFO bot.py [ line:143 ] [1047940527] chathiri : Add
+ [2023-02-19 11:54:41,395]  INFO bot.py [ line:143 ] [1047940527] chathiri : 1:53 am alarm sound remember
+ [2023-02-19 11:54:41,415]  INFO bot.py [ line:143 ] [1087968824] Group : None
+ [2023-02-19 11:54:42,029]  INFO bot.py [ line:128 ] 机器人尚未拥有频道 error:'NoneType' object is not subscriptable
+ [2023-02-19 11:54:55,873]  INFO gui.py [ line:156 ] BOT停止运作
+ [2023-02-19 11:55:01,696]  INFO bot.py [ line:757 ] BOT : CCP1121_BOT 已启动  執行時間：0.22秒
+ [2023-02-19 11:55:28,393]  INFO bot.py [ line:757 ] BOT : CCP1121_BOT 已启动  執行時間：0.22秒
+ [2023-02-19 11:56:29,897]  INFO bot.py [ line:143 ] [5060307540] Spiez : Look for audience
+ [2023-02-19 11:57:21,014]  INFO bot.py [ line:757 ] BOT : CCP1121_BOT 已启动  執行時間：0.21秒
+ [2023-02-19 11:57:24,010]  INFO gui.py [ line:157 ] BOT停止运作
+ [2023-02-19 12:02:18,502]  INFO bot.py [ line:757 ] BOT : CCP1121_BOT 已启动  執行時間：0.22秒
+ [2023-02-19 12:02:34,968]  INFO bot.py [ line:143 ] [5036779522] Leo : 管理面板
+ [2023-02-19 12:02:42,100]  INFO bot.py [ line:143 ] [5036779522] Leo : 管理面板
+ [2023-02-19 12:02:53,380]  INFO bot.py [ line:143 ] [5036779522] Leo : 支援团队列表
+ [2023-02-19 12:03:46,163]  INFO bot.py [ line:143 ] [5036779522] Leo : 如何将我添加到您的群组
+ [2023-02-19 12:03:58,778]  INFO bot.py [ line:143 ] [5036779522] Leo : 管理面板
+ [2023-02-19 12:04:03,320]  INFO bot.py [ line:143 ] [5036779522] Leo : 支援团队列表
+ [2023-02-19 12:04:12,250]  INFO gui.py [ line:161 ] BOT停止运作
+ [2023-02-19 12:04:16,365]  INFO bot.py [ line:757 ] BOT : CCP1121_BOT 已启动  執行時間：0.22秒
+ [2023-02-19 12:04:20,612]  INFO bot.py [ line:143 ] [5036779522] Leo : 管理面板
+ [2023-02-19 12:04:23,909]  INFO bot.py [ line:143 ] [5036779522] Leo : 支援团队列表
+ [2023-02-19 12:04:48,331]  INFO bot.py [ line:143 ] [5036779522] Leo : None
+ [2023-02-19 12:04:54,301]  INFO bot.py [ line:143 ] [5036779522] Leo : 如何将我添加到您的群组
+ [2023-02-19 12:05:07,950]  INFO bot.py [ line:143 ] [5036779522] Leo : 管理面板
+ [2023-02-19 12:05:23,185]  INFO bot.py [ line:382 ] Expecting value: line 1 column 1 (char 0)
+ [2023-02-19 12:05:48,249]  INFO bot.py [ line:382 ] Expecting value: line 1 column 1 (char 0)
+ [2023-02-19 12:08:43,508]  INFO bot.py [ line:758 ] BOT : CCP1121_BOT 已启动  執行時間：0.21秒
+ [2023-02-19 12:08:47,548]  INFO bot.py [ line:383 ] Expecting value: line 1 column 1 (char 0)
+ [2023-02-19 12:08:59,611]  INFO bot.py [ line:143 ] [5036779522] Leo : 1
+ [2023-02-19 12:09:19,540]  INFO bot.py [ line:383 ] Expecting value: line 1 column 1 (char 0)
+ [2023-02-19 12:35:38,035]  INFO bot.py [ line:762 ] BOT : CCP1121_BOT 已启动  執行時間：0.23秒
+ [2023-02-19 12:35:44,824]  INFO bot.py [ line:387 ] Expecting value: line 1 column 1 (char 0)
+ [2023-02-19 12:38:07,008]  INFO bot.py [ line:763 ] BOT : CCP1121_BOT 已启动  執行時間：0.21秒
+ [2023-02-19 12:38:12,109]  INFO bot.py [ line:388 ] Expecting value: line 1 column 1 (char 0)
+ [2023-02-19 12:41:36,284]  INFO bot.py [ line:764 ] BOT : CCP1121_BOT 已启动  執行時間：0.21秒
+ [2023-02-19 12:41:43,058]  INFO bot.py [ line:389 ] Expecting value: line 1 column 1 (char 0)
+ [2023-02-19 12:42:55,148]  INFO bot.py [ line:764 ] BOT : CCP1121_BOT 已启动  執行時間：0.21秒
+ [2023-02-19 12:42:59,021]  INFO bot.py [ line:389 ] Expecting value: line 1 column 1 (char 0)
+ [2023-02-19 12:43:06,511]  INFO bot.py [ line:389 ] Expecting value: line 1 column 1 (char 0)
+ [2023-02-19 12:43:35,233]  INFO bot.py [ line:764 ] BOT : CCP1121_BOT 已启动  執行時間：0.21秒
+ [2023-02-19 12:43:38,336]  INFO bot.py [ line:389 ] Expecting value: line 1 column 1 (char 0)
+ [2023-02-19 12:45:12,032]  INFO bot.py [ line:764 ] BOT : CCP1121_BOT 已启动  執行時間：0.22秒
+ [2023-02-19 12:45:15,866]  INFO bot.py [ line:389 ] Expecting value: line 1 column 1 (char 0)
+ [2023-02-19 13:02:32,789]  INFO gui.py [ line:137 ] 伺服器启动
+ [2023-02-19 13:02:32,790]  INFO gui.py [ line:138 ] Running on http:127.0.0.1:5555
+ [2023-02-19 13:04:50,552]  INFO gui.py [ line:137 ] 伺服器启动
+ [2023-02-19 13:04:50,553]  INFO gui.py [ line:138 ] Running on http:127.0.0.1:5555
+ [2023-02-19 13:08:47,022]  INFO gui.py [ line:137 ] 伺服器启动
+ [2023-02-19 13:08:47,022]  INFO gui.py [ line:138 ] Running on http:127.0.0.1:5555
+ [2023-02-19 13:15:24,440]  INFO gui.py [ line:137 ] 伺服器启动
+ [2023-02-19 13:15:24,440]  INFO gui.py [ line:138 ] Running on http:127.0.0.1:5555
+ [2023-02-19 13:16:36,338]  INFO gui.py [ line:137 ] 伺服器启动
+ [2023-02-19 13:16:36,339]  INFO gui.py [ line:138 ] Running on http:127.0.0.1:5555
+ [2023-02-19 13:20:20,396]  INFO gui.py [ line:137 ] 伺服器启动
+ [2023-02-19 13:20:20,397]  INFO gui.py [ line:138 ] Running on http:127.0.0.1:5555
+ [2023-02-19 13:21:50,409]  INFO gui.py [ line:137 ] 伺服器启动
+ [2023-02-19 13:21:50,410]  INFO gui.py [ line:138 ] Running on http:127.0.0.1:5555
+ [2023-02-19 13:23:19,259]  INFO gui.py [ line:137 ] 伺服器启动
+ [2023-02-19 13:23:19,260]  INFO gui.py [ line:138 ] Running on http:127.0.0.1:5555
+ [2023-02-19 13:27:13,959]  INFO gui.py [ line:137 ] 伺服器启动
+ [2023-02-19 13:27:13,960]  INFO gui.py [ line:138 ] Running on http:127.0.0.1:5555
+ [2023-02-19 13:28:09,572]  INFO gui.py [ line:137 ] 伺服器启动
+ [2023-02-19 13:28:09,573]  INFO gui.py [ line:138 ] Running on http:127.0.0.1:5555
+ [2023-02-19 13:29:21,687]  INFO gui.py [ line:137 ] 伺服器启动
+ [2023-02-19 13:29:21,688]  INFO gui.py [ line:138 ] Running on http:127.0.0.1:5555
+ [2023-02-19 13:30:37,027]  INFO gui.py [ line:137 ] 伺服器启动
+ [2023-02-19 13:30:37,028]  INFO gui.py [ line:138 ] Running on http:127.0.0.1:5555
+ [2023-02-19 14:11:15,711]  INFO bot.py [ line:764 ] BOT : CCP1121_BOT 已启动  執行時間：0.21秒
+ [2023-02-19 14:11:25,936]  INFO gui.py [ line:179 ] BOT停止运作
+ [2023-02-19 14:17:16,018]  INFO bot.py [ line:764 ] BOT : CCP1121_BOT 已启动  執行時間：0.22秒
+ [2023-02-19 14:17:17,457]  INFO gui.py [ line:179 ] BOT停止运作
+ [2023-02-19 14:22:29,152]  INFO bot.py [ line:764 ] BOT : CCP1121_BOT 已启动  執行時間：0.21秒
+ [2023-02-19 14:22:31,897]  INFO gui.py [ line:182 ] BOT停止运作

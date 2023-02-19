@@ -1,17 +1,35 @@
 import time,threading,configparser,webbrowser,tkinter,os,signal,datetime,inspect,ctypes
 import tkinter.font as tkFont
+from tkinter import messagebox
 from multiprocessing import Process
 from src.common import logger
 from src.common.utils import chick_port,Log,makedirs,currentDirectory
-from src.web.app import flask
-from src.bot.bot import run
+#from src.web.app import flask
+# from src.bot.bot import run
 from src.sql._sql import DBHP
 
 class Window(tkinter.Tk):
     def __init__(self):
         super().__init__()
+        
         config = configparser.ConfigParser()
-        config.read('config.ini')
+        if os.path.isfile('config.ini'):
+            config.read('config.ini')
+            try:
+                self.token = config['Telegram-BOT']['token']
+                self.version = "1.6.4"
+            except KeyError:
+                config['Telegram-BOT'] = { 'token': '','version': '1.6.4' }
+                with open('config.ini', 'w') as configfile:
+                    config.write(configfile)
+        else:
+            config['Telegram-BOT'] = { 'token':'','version': '1.6.4' }
+            with open('config.ini', 'w') as configfile:
+                config.write(configfile)
+            self.token = config['Telegram-BOT']['token']
+            self.version = "1.6.4"
+            
+            
         self.title("telegram-bot")
         makedirs(path = currentDirectory() + '\\log')
         with open(os.path.abspath(os.getcwd())+"\log\gui_.log",'a+',encoding='utf-8') as test:
@@ -30,8 +48,8 @@ class Window(tkinter.Tk):
         self.label_botstate = tkinter.Label(self,text="BOT状态：未启动")
         self.label_appstate = tkinter.Label(self,text="网页状态：未启动")
         self.label_botusername = tkinter.Label(self,text="机器人："+DBHP().botusername)
-        self.label_version = tkinter.Label(self,text="版本号："+config['Telegram-BOT']['version'])
-        self.label_token = tkinter.Label(self,text="Token："+config['Telegram-BOT']['token'])
+        self.label_version = tkinter.Label(self,text="版本号："+self.version)
+        self.label_token = tkinter.Label(self,text="Token："+self.token)
         
         self.button_app_run = tkinter.Button(self,text="开启网页",command=self.appStart,width=9,height=2)
         self.button_bot_run = tkinter.Button(self,text="启动BOT",command=self.botStart,width=9,height=2)
@@ -126,6 +144,7 @@ class Window(tkinter.Tk):
     def appStart(self):
         port = 5555
         if(chick_port(port=port)==False):
+            from src.web.app import flask
             app = Process(target=flask,args=(port,))
             app.start()
             self.appPid=app.pid
@@ -139,11 +158,24 @@ class Window(tkinter.Tk):
             webbrowser.get('windows-default').open_new(urL)
 
     def botStart(self):
-        bot = Process(target=run)
-        bot.start()
-        self.botPid=bot.pid
-        self.button_bot_run.config(text="停止BOT",command=self.botStop)
-        self.label_botstate.config(text="BOT状态：已启动")
+        from telegram import TelegramError
+        config = configparser.ConfigParser()
+        config.read('config.ini')
+        self.label_token.config(text="Token："+ config['Telegram-BOT']['token'])
+        try:
+            from src.bot.bot import run
+            bot = Process(target=run)
+            bot.start()
+            self.botPid=bot.pid
+            self.button_bot_run.config(text="停止BOT",command=self.botStop)
+            self.label_botstate.config(text="BOT状态：已启动")
+        except TelegramError as e:
+            if str(e) == "Invalid token":
+                messagebox.showwarning('Invalid token', '请检查config.ini')
+                self.log.info("Invalid token")
+        except Exception as e:
+            self.log.info(str(e))
+
         
     def botStop(self):
         os.kill(self.botPid, signal.SIGTERM)

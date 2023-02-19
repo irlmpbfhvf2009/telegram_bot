@@ -1,0 +1,1 @@
+import{_ as e,b as s,c as _,d as t}from"./index-e1e726b3.mjs";const c={},a={class:"wrap"},o=t("div",{class:"header"},null,-1),n=[o];function r(d,i){return s(),_("div",a,n)}const f=e(c,[["render",r]]);export{f as default};
