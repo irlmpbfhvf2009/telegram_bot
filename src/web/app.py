@@ -102,6 +102,6 @@ def updateAdvertiseData():
     return jsonify({'code':200,'data':{}})
 
 def flask(port):
-    http_server = WSGIServer(('127.0.0.1', port), app)
+    http_server = WSGIServer(('0.0.0.0', port), app)
     #print(f"* Running on http://{http_server.address[0]}:{http_server.address[1]}")
     http_server.serve_forever()

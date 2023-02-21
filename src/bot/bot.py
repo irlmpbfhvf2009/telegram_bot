@@ -565,7 +565,7 @@ def groupSetAdvertiseContent(update:Update,context:CallbackContext):
     groupId=sql.getUseGroupId(update.message.from_user.id)
     message = update.message.text
     sql.updateAdvertiseContent(groupId,message)
-    context.bot.send_message(chat_id = update.effective_chat.id, text = f'content is set to {message}') 
+    # context.bot.send_message(chat_id = update.effective_chat.id, text = f'content is set to {message}') 
     advertiseMenu(update,context,groupId)
     return ConversationHandler.END
 
