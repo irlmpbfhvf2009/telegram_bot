@@ -1,8 +1,7 @@
-import os,sys
+import os,sys,mimetypes,json
 from flask import Flask, render_template, jsonify, request
 from gevent.pywsgi import WSGIServer
 from src.sql._sql import DBHP
-import mimetypes
 from src.common.utils import Log
 mimetypes.add_type('application/javascript', '.js')
 mimetypes.add_type('text/css', '.css')
@@ -23,82 +22,84 @@ async def index():
 
 @app.route("/getLogList", methods=['get'])
 def getLogList():
-    print(Log()._log)
     return jsonify({'log': Log()._log['log_list']})
     
-@app.route("/getConfig", methods=['get'])
+@app.route("/dev/getConfig", methods=['get'])
 def getConfig():
-    return jsonify({'botusername': sql.botusername,
-                    'password': sql.password,
-                    'inviteFriendsAutoClearTime': sql.inviteFriendsAutoClearTime,
-                    'inviteFriendsSet': sql.inviteFriendsSet,
-                    'followChannelSet': sql.followChannelSet,
-                    'inviteFriendsQuantity': sql.inviteFriendsQuantity,
-                    'deleteSeconds': sql.deleteSeconds,
-                    'invitationBonusSet': sql.invitationBonusSet,
-                    'inviteMembers': sql.inviteMembers,
-                    'inviteEarnedOutstand': sql.inviteEarnedOutstand,
-                    'inviteSettlementBonus': sql.inviteSettlementBonus,
-                    'contactPerson': sql.contactPerson})
+    sql = DBHP()
+    list = [{'key':'机器人名称','value':sql.botusername},
+            {'key':'密码','value':sql.password},
+            {'key':'邀请好友限制发言','value':sql.inviteFriendsSet},
+            {'key':'关注频道限制发言','value':sql.followChannelSet},
+            {'key':'邀请指定人数','value':sql.inviteFriendsQuantity},
+            {'key':'自动删除系统消息(秒)','value':sql.inviteFriendsAutoClearTime},
+            {'key':'重置天数(n天为一个周期)','value':sql.deleteSeconds},
+            {'key':'邀请奖金功能','value':sql.invitationBonusSet},
+            {'key':'每邀请(n人)获取奖金','value':sql.inviteMembers},
+            {'key':'邀请达标赚取(n元)奖金','value':sql.inviteEarnedOutstand},
+            {'key':'满(n元)结算奖金','value':sql.inviteSettlementBonus},
+            {'key':'设定联系人','value':sql.contactPerson},
+        ]
+    return jsonify({'code':200,'data':{'list':list}})
+
+@app.route("/dev/updateConfig", methods=['post'])
+def updateConfig():
+    data = request.get_json()
+    data['value'] = 'False' if data['value'] == '关闭' else 'True'
+    match data['key']:
+        case "密码":
+            key='password'
+        case "自动删除系统消息(秒)":
+            key='inviteFriendsAutoClearTime'
+        case "邀请好友限制发言":
+            key = 'inviteFriendsSet'
+        case "关注频道限制发言":
+            key = 'followChannelSet'
+        case "邀请指定人数":
+            key='inviteFriendsQuantity'
+        case "重置天数(n天为一个周期)":
+            key='deleteSeconds'
+        case "邀请奖金功能":
+            key='invitationBonusSet'
+        case "每邀请(n人)获取奖金":
+            key='inviteMembers'
+        case "邀请达标赚取(n元)奖金":
+            key='inviteEarnedOutstand'
+        case "满(n元)结算奖金":
+            key='inviteSettlementBonus'
+        case "设定联系人":
+            key='contactPerson'
+    sql.editConfig(key,data['value'])
+    return jsonify({'code':200,'data':{}})
+
+@app.route("/dev/groupCategory", methods=['post'])
+def groupCategory():
+    sql = DBHP()
+    list = []
+    results=sql.getAllJoinGroupIdAndTitle()
+    for result in results:
+        list.append({"groupId":result[0],"groupTitle":result[1]})
+    return jsonify({'code':200,'data':{'list':list}})
+
+@app.route("/dev/getAdvertiseData", methods=['post'])
+def getAdvertiseData():
+    req = request.data.decode("utf8")
+    sql = DBHP()
+    list = []
+    groupId = json.loads(req)['category']
+    results=sql.getAdvertis(groupId)
+    for result in results:
+        list.append({"groupId":result[1],"groupTitle":result[2],"advertiseContent":result[3],"advertiseTime":result[4]})
+    return jsonify({'code':200,'data':{'list':list}})
 
 
-@app.route("/editInviteFriends", methods=['post'])
-def editInviteFriends():
-    sql.editInviteFriends(
-        "False") if sql.inviteFriendsSet == "True" else sql.editInviteFriends("True")
-    string = "關閉[邀請好友限制發言]" if sql.inviteFriendsSet == "True" else "開啟[邀請好友限制發言]"
-    code = 0 if sql.inviteFriendsSet == "True" else 1
-    return jsonify({'code': code, 'msg': string})
-
-
-@app.route("/editFollowChannel", methods=['post'])
-def editFollowChannel():
-    sql.editFollowChannel(
-        "False") if sql.followChannelSet == "True" else sql.editFollowChannel("True")
-    string = "關閉[關注頻道限制發言]" if sql.followChannelSet == "True" else "開啟[關注頻道限制發言]"
-    code = 0 if sql.followChannelSet == "True" else 1
-    return jsonify({'code': code, 'msg': string})
-
-
-@app.route("/editPassword", methods=['post'])
-def editPassword():
-    try:
-        sql.editPassword(request.get_json()['password'])
-        return jsonify({'code': 1,'msg':'修改成功'})
-    except Exception as e:
-        return jsonify({'code': 0,'msg':str(e)})
-
-@app.route("/editContactPerson", methods=['post'])
-def editContactPerson():
-    try:
-        sql.editContactPerson(request.get_json()['contactPerson'])
-        return jsonify({'code': 1,'msg':'修改成功'})
-    except Exception as e:
-        return jsonify({'code': 0,'msg':str(e)})
-
-@app.route("/editInviteFriendsQuantity", methods=['post'])
-def editInviteFriendsQuantity():
-    try:
-        sql.editInviteFriendsQuantity(request.get_json()['inviteFriendsQuantity'])
-        return jsonify({'code': 1,'msg':'修改成功'})
-    except Exception as e:
-        return jsonify({'code': 0,'msg':str(e)})
-
-@app.route("/editInviteFriendsAutoClearTime", methods=['post'])
-def editInviteFriendsAutoClearTime():
-    try:
-        sql.editInviteFriendsAutoClearTime(request.get_json()['inviteFriendsAutoClearTime'])
-        return jsonify({'code': 1,'msg':'修改成功'})
-    except Exception as e:
-        return jsonify({'code': 0,'msg':str(e)})
-
-@app.route("/editDeleteSeconds", methods=['post'])
-def editDeleteSeconds():
-    try:
-        sql.editDeleteSeconds(request.get_json()['deleteSeconds'])
-        return jsonify({'code': 1,'msg':'修改成功'})
-    except Exception as e:
-        return jsonify({'code': 0,'msg':str(e)})
+@app.route("/dev/updateAdvertiseData", methods=['post'])
+def updateAdvertiseData():
+    #{'advertiseContent': 'asd', 'advertiseTime': '55', 'groupId': '-1001700543954', 'groupTitle': 'CCP1121Group'}
+    data = request.get_json() 
+    sql=DBHP()
+    sql.updateAdvertise(data['groupId'],data['advertiseContent'],data['advertiseTime'])
+    return jsonify({'code':200,'data':{}})
 
 def flask(port):
     http_server = WSGIServer(('127.0.0.1', port), app)

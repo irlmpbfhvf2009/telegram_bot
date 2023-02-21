@@ -336,9 +336,10 @@ def choose(update:Update,context:CallbackContext):
         if update.callback_query.data=='groupOpenAdvertise':
             sql=runSQL()
             groupId=sql.getUseGroupId(update.effective_user.id)
+            jobname = groupId + "advertise"
             advertiseTime = sql.getAdvertiseTime(groupId)
             advertiseText = sql.getAdvertiseContent(groupId)
-            if (int(advertiseTime)) != "" and advertiseText!="":
+            if advertiseTime != "" and advertiseText!="" and  advertiseTime != "0":
                 def startSendAdvertise(context: CallbackContext):
                     sql = runSQL()
                     if len(sql.getAdvertiseRecord(groupId)) > 2:
@@ -347,15 +348,19 @@ def choose(update:Update,context:CallbackContext):
                         sql.deletetAdvertiseRecord(groupId)
                     advertiseMessageId = context.bot.send_message(chat_id = groupId, text = context.job.context).message_id
                     sql.insertAdvertiseRecord(groupId,advertiseMessageId)
-                    print(advertiseMessageId)
-                context.job_queue.run_repeating(startSendAdvertise,interval=int(advertiseTime),first=0.0, context=advertiseText,name=groupId)
+
+                advertiseMessageId = context.bot.send_message(chat_id = groupId, text = advertiseText).message_id
+                sql.insertAdvertiseRecord(groupId,advertiseMessageId)
+
+                context.job_queue.run_repeating(startSendAdvertise,interval=int(advertiseTime),first=0.0, context=advertiseText,name=jobname)
             else:
                 context.bot.send_message(chat_id=update.effective_chat.id,text='内容或秒数未设置')
 
         if update.callback_query.data=='groupCloseAdvertise':
             sql=runSQL()
             groupId=sql.getUseGroupId(update.effective_user.id)
-            current_jobs = context.job_queue.get_jobs_by_name(groupId)
+            jobname = groupId + "advertise"
+            current_jobs = context.job_queue.get_jobs_by_name(jobname)
             for job in current_jobs:
                 job.schedule_removal()
             context.bot.send_message(chat_id=update.effective_chat.id,text='停止广告推送')

@@ -7,21 +7,15 @@ def makedirs(path=None):
         return os.makedirs(path, mode=511, exist_ok=False)
 
 # 當前目錄
-
-
 def currentDirectory():
     # return os.path.abspath(os.path.dirname(__file__)) #當前檔案位置
      return os.getcwd().replace('\\','/') 
 
 # 上級目錄
-
-
 def parentDirectory():
     return os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 # 上上級目錄
-
-
 def doubleParentDirectory():
     return os.path.abspath(os.path.join(os.getcwd(), "../.."))
 

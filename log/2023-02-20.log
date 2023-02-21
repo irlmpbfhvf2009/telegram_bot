@@ -1,0 +1,43 @@
+ [2023-02-20 16:00:57,918]  INFO bot.py [ line:764 ] BOT : CCP1121_BOT 已启动  執行時間：0.21秒
+ [2023-02-20 16:01:04,533]  INFO bot.py [ line:143 ] [5036779522] Leo : 主画面
+ [2023-02-20 16:01:09,524]  INFO bot.py [ line:143 ] [5036779522] Leo : 管理面板
+ [2023-02-20 16:02:07,203]  INFO bot.py [ line:143 ] [5036779522] Leo : 管理面板
+ [2023-02-20 17:33:28,732]  INFO bot.py [ line:764 ] BOT : CCP1121_BOT 已启动  執行時間：0.21秒
+ [2023-02-20 17:33:58,787]  INFO bot.py [ line:143 ] [5036779522] Leo : 广告设置(目前只支援文字 不包含图片跟影片)
+ [2023-02-20 17:34:16,346]  INFO bot.py [ line:389 ] Expecting value: line 1 column 1 (char 0)
+ [2023-02-20 17:42:23,687]  INFO bot.py [ line:389 ] Expecting value: line 1 column 1 (char 0)
+ [2023-02-20 17:51:08,879]  INFO gui.py [ line:184 ] BOT停止运作
+ [2023-02-20 18:54:10,536]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-20 18:54:10,537]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-20 19:22:51,506]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-20 19:22:51,507]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-20 19:33:36,988]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-20 19:33:36,989]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-20 19:56:36,388]  INFO bot.py [ line:763 ] BOT : CCP1121_BOT 已启动  執行時間：0.21秒
+ [2023-02-20 19:56:39,411]  INFO bot.py [ line:143 ] [5060307540] Spiez : START
+ [2023-02-20 19:57:03,254]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-20 19:57:03,254]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-20 19:59:07,189]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-20 19:59:07,189]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-20 20:02:33,419]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-20 20:02:33,419]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-20 20:04:18,842]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-20 20:04:18,843]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-20 21:28:35,813]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-20 21:28:35,813]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-20 21:35:58,348]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-20 21:35:58,349]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-20 21:39:22,909]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-20 21:39:22,910]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-20 21:39:53,286]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-20 21:39:53,287]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-20 21:43:23,119]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-20 21:43:23,120]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-20 21:49:52,071]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-20 21:49:52,072]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-20 21:54:02,538]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-20 21:54:02,539]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-20 21:57:41,897]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-20 21:57:41,898]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555
+ [2023-02-20 22:01:57,230]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-20 22:01:57,231]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5555

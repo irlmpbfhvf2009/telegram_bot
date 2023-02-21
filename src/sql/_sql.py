@@ -223,7 +223,10 @@ class DBHP():
         results = self.select_all_tasks(f"SELECT value FROM config where key = 'contactPerson'")
         for result in results:
             return result[0]
-
+        
+    def editConfig(self,key,value):
+        sql=f"UPDATE config SET value='{value}' where key='{key}'"
+        self.update(sql)
     def editContactPerson(self,contactPerson):
         sql=f"UPDATE config SET value='{contactPerson}' where key='contactPerson'"
         self.update(sql)
@@ -705,6 +708,10 @@ class DBHP():
             return result[0]
 
     # CRUD - advertise
+    def getAdvertis(self,groupId):
+        results = self.select_all_tasks(f"SELECT * FROM advertise where groupId = '{groupId}'")
+        return results
+        
     def getAdvertiseContent(self,groupId):
         results = self.select_all_tasks(f"SELECT advertiseContent FROM advertise where groupId = '{groupId}'")
         for result in results:
@@ -737,6 +744,9 @@ class DBHP():
         if self.existGroupIdAdvertise(groupId) == False:
             self.insert_data("advertise",data)
 
+    def updateAdvertise(self,groupId,advertiseContent,advertiseTime):
+        self.update(f"UPDATE advertise SET advertiseContent = '{advertiseContent}' ,advertiseTime = '{advertiseTime}' WHERE groupId = '{groupId}'")
+    
     def updateAdvertiseTime(self,groupId,advertiseTime):
         self.update(f"UPDATE advertise SET advertiseTime = '{advertiseTime}' WHERE groupId = '{groupId}'")
         

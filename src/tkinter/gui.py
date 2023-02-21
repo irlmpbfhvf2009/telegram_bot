@@ -142,7 +142,7 @@ class Window(tkinter.Tk):
 
             
     def appStart(self):
-        port = 5555
+        port = 5556
         if(chick_port(port=port)==False):
             from src.web.app import flask
             app = Process(target=flask,args=(port,))
