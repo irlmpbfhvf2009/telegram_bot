@@ -1,4 +1,4 @@
-import sqlite3,json
+import sqlite3,json,time
 from decimal import Decimal
 
 '''
@@ -46,7 +46,7 @@ class DBHP():
         # create billingSession table
         self.create_tables("billingSession",['key','value'])
         # create advertise table
-        self.create_tables("advertise",['userId','groupId','groupTitle','advertiseContent','advertiseTime'])
+        self.create_tables("advertise",['userId','groupId','groupTitle','advertiseSerialNumber','advertiseContent','advertiseTime'])
         # create advertiseRecord table
         self.create_tables("advertiseRecord",['groupId','advertiseMessageId'])
 
@@ -70,6 +70,7 @@ class DBHP():
 
         self.alter_tables("inviteToMakeMoney","firstName")
         self.alter_tables("manager","firstName")
+        self.alter_tables("advertise","advertiseSerialNumber")
 
 
 
@@ -285,6 +286,11 @@ class DBHP():
         results = self.select_all_tasks(sql)
         if results == []:
             return "False"
+        for result in results:
+            return result[0]
+    def getUseGroupTitle(self,userId):
+        sql=f"SELECT useGroupTitle FROM manager WHERE userId = '{userId}'"
+        results = self.select_all_tasks(sql)
         for result in results:
             return result[0]
     def updateManegerFirstName(self,userId,firstName):
@@ -708,9 +714,13 @@ class DBHP():
             return result[0]
 
     # CRUD - advertise
-    def getAdvertis(self,groupId):
+    def getAdvertise(self,groupId):
         results = self.select_all_tasks(f"SELECT * FROM advertise where groupId = '{groupId}'")
         return results
+    
+    def deleteAdvertiseForGroupId(self,groupId):
+        self.delete(f"delete from advertise where groupId = '{groupId}'")
+    
         
     def getAdvertiseContent(self,groupId):
         results = self.select_all_tasks(f"SELECT advertiseContent FROM advertise where groupId = '{groupId}'")
@@ -719,30 +729,36 @@ class DBHP():
 
     def getAdvertiseTime(self,groupId):
         results = self.select_all_tasks(f"SELECT advertiseTime FROM advertise where groupId = '{groupId}'")
-        for result in results:
-            return result[0]
-
-    def getAdvertiseTitle(self,groupId):
-        results = self.select_all_tasks(f"SELECT groupTitle FROM advertise where groupId = '{groupId}'")
-        for result in results:
-            return result[0]
-
-    def existGroupIdAdvertise(self,groupId):
-        results = self.select_all_tasks(f"SELECT * FROM advertise where groupId = '{groupId}'")
         if results == []:
-            return False
-        else:
-            for result in results:
-                if str(result[1]) == str(groupId):
-                    return True
-                else:
-                    return False
+            return 0
+        for result in results:
+            return result[0]
+        
+    def getAdvertiseSerialNumbere(self,groupId):
+        results = self.select_all_tasks(f"SELECT advertiseSerialNumber FROM advertise where groupId = '{groupId}'")
+        return results
+
+    # def existGroupIdAdvertise(self,groupId):
+    #     results = self.select_all_tasks(f"SELECT * FROM advertise where groupId = '{groupId}'")
+    #     if results == []:
+    #         return False
+    #     else:
+    #         for result in results:
+    #             if str(result[1]) == str(groupId):
+    #                 return True
+    #             else:
+    #                 return False
+
+
+    # ("advertise",['userId','groupId','groupTitle','advertiseSerialNumber','advertiseContent','advertiseTime'])
+
     def insertAdvertise(self,userId,groupId,groupTitle,advertiseContent,advertiseTime):
+        advertiseSerialNumber = str(int(time.time()))
         data=[
-            {"userId":userId,"groupId":groupId,"groupTitle":groupTitle,"advertiseContent":advertiseContent,"advertiseTime":advertiseTime}
+            {"userId":userId,"groupId":groupId,"groupTitle":groupTitle,"advertiseSerialNumber":advertiseSerialNumber,"advertiseContent":advertiseContent,"advertiseTime":advertiseTime}
         ]
-        if self.existGroupIdAdvertise(groupId) == False:
-            self.insert_data("advertise",data)
+        # if self.existGroupIdAdvertise(groupId) == False:
+        self.insert_data("advertise",data)
 
     def updateAdvertise(self,groupId,advertiseContent,advertiseTime):
         self.update(f"UPDATE advertise SET advertiseContent = '{advertiseContent}' ,advertiseTime = '{advertiseTime}' WHERE groupId = '{groupId}'")

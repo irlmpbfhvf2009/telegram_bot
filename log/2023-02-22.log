@@ -1,0 +1,6 @@
+ [2023-02-22 13:59:14,486]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-22 13:59:14,486]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5556
+ [2023-02-22 14:03:40,059]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-22 14:03:40,060]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5556
+ [2023-02-22 17:54:02,609]  INFO gui.py [ line:154 ] 伺服器启动
+ [2023-02-22 17:54:02,610]  INFO gui.py [ line:155 ] Running on http:127.0.0.1:5556

@@ -102,8 +102,10 @@ class Keyboard:
 
         # advertise
         self.advertiseMenu=InlineKeyboardMarkup([
-                    [InlineKeyboardButton('开启广告推送', callback_data='groupOpenAdvertise')],
-                    [InlineKeyboardButton('关闭广告推送', callback_data='groupCloseAdvertise')],
-                    [InlineKeyboardButton('设置广告内容', callback_data='groupSetAdvertiseContent')],
-                    [InlineKeyboardButton('设置广告推送时间(秒)', callback_data='groupSetAdvertiseTime')]
+                    [InlineKeyboardButton('开启推送', callback_data='groupOpenAdvertise')],
+                    [InlineKeyboardButton('关闭推送', callback_data='groupCloseAdvertise')],
+                    [InlineKeyboardButton('设置推送时间(秒)', callback_data='groupSetAdvertiseTime')],
+                    [InlineKeyboardButton('新增广告', callback_data='groupSetAdvertiseContent')],
+                    [InlineKeyboardButton('查看全部广告', callback_data='getAdvertiseContent')],
+                    [InlineKeyboardButton('移除全部广告', callback_data='groupDeleteAdvertiseContent')],
                 ])

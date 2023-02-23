@@ -39,10 +39,18 @@ def invitationStatisticsSettlementBonusMenu(update:Update,context:CallbackContex
 
 def advertiseMenu(update:Update,context:CallbackContext,groupId):
     sql=runSQL()
-    content = sql.getAdvertiseContent(groupId)
+    # content = sql.getAdvertiseContent(groupId)
     time = sql.getAdvertiseTime(groupId)
-    title = sql.getAdvertiseTitle(groupId)
-    text = f"使用群组:{title}\n设置秒数:{time}(s)\n内容:{content}"
+    title = sql.getUseGroupTitle(update.effective_user.id)
+    advertise = sql.getAdvertise(groupId)
+    length = len(advertise)
+    getAdvertiseSerialNumbere=sql.getAdvertiseSerialNumbere(groupId)
+    sn=""
+    for serialNumber in getAdvertiseSerialNumbere:
+        if serialNumber is None:
+            serialNumber = 0
+        sn += str(serialNumber[0]) + "、"
+    text = f"使用群组:{title}\n设置秒数:{time}(s)\n广告数量:{length}\n广告序号:{sn}"
     context.bot.send_message(chat_id=update.effective_chat.id , text=text , reply_markup = keyboard.advertiseMenu)
 
 def startText(update:Update,context:CallbackContext):
@@ -70,7 +78,8 @@ def dealMessage(update:Update,context:CallbackContext):
             
     def deleteMsgToSeconds(context: CallbackContext):
         context.bot.delete_message(chat_id=update.effective_chat.id,message_id=context.job.context)
-
+    def timestamp():
+        return int(time.time())
     if sql.getIsManager(update.effective_user.id) == "False" or sql.getManager(update.effective_user.id) is None:
         if first_name != "Telegram":
             if catchChannel() == False:
@@ -338,8 +347,10 @@ def choose(update:Update,context:CallbackContext):
             groupId=sql.getUseGroupId(update.effective_user.id)
             jobname = groupId + "advertise"
             advertiseTime = sql.getAdvertiseTime(groupId)
-            advertiseText = sql.getAdvertiseContent(groupId)
+            # advertiseText = sql.getAdvertiseContent(groupId)
+            advertise = sql.getAdvertise(groupId)
             if advertiseTime != "" and advertiseText!="" and  advertiseTime != "0":
+
                 def startSendAdvertise(context: CallbackContext):
                     sql = runSQL()
                     if len(sql.getAdvertiseRecord(groupId)) > 2:
@@ -368,6 +379,20 @@ def choose(update:Update,context:CallbackContext):
         if update.callback_query.data=='groupSetAdvertiseContent':
             context.bot.send_message(chat_id=update.effective_chat.id,text=f"OK. Send me the new 'content'.")
             return GROUPSETADVERTISECONTENT
+        if update.callback_query.data=='getAdvertiseContent':
+            sql=runSQL()
+            groupId=sql.getUseGroupId(update.effective_user.id)
+            allAdvertise = sql.getAdvertise(groupId) 
+            for advertise in allAdvertise:
+                context.bot.send_message(chat_id=update.effective_chat.id,text=f"序号{advertise[6]}\n{advertise[3]}")
+            
+        if update.callback_query.data=='groupDeleteAdvertiseContent':
+            sql=runSQL()
+            groupId=sql.getUseGroupId(update.effective_user.id)
+            sql.deleteAdvertiseForGroupId(groupId)
+            groupTitle = sql.getGroupTitle(groupId)
+            context.bot.send_message(chat_id=update.effective_chat.id,text=f"clear advertise from {groupTitle} success.")
+
         if update.callback_query.data=='groupSetAdvertiseTime':
             context.bot.send_message(chat_id=update.effective_chat.id,text=f"OK. Send me the new 'time(s)'.")
             return GROUPSETADVERTISETIME
@@ -563,8 +588,15 @@ def groupSetAdvertiseTime(update:Update,context:CallbackContext):
 def groupSetAdvertiseContent(update:Update,context:CallbackContext):
     sql = runSQL()
     groupId=sql.getUseGroupId(update.message.from_user.id)
-    message = update.message.text
-    sql.updateAdvertiseContent(groupId,message)
+    # message = update.message.text
+    # sql.updateAdvertiseContent(groupId,message)
+    if sql.getAdvertiseTime(groupId) == "0" or sql.getAdvertiseTime(groupId) == 0 or sql.getAdvertiseTime(groupId) == None:
+        advertiseTime="0"
+    else:
+        advertiseTime=sql.getAdvertiseTime(groupId)
+    # 'userId','groupId','groupTitle','advertiseSerialNumber','advertiseContent','advertiseTime'
+    sql.insertAdvertise(update.effective_user.id,groupId,sql.getUseGroupTitle(update.effective_user.id),update.message.text,advertiseTime)
+
     # context.bot.send_message(chat_id = update.effective_chat.id, text = f'content is set to {message}') 
     advertiseMenu(update,context,groupId)
     return ConversationHandler.END
@@ -637,7 +669,7 @@ def adminWork(update:Update,context:CallbackContext):
         sql=runSQL()
         groupId = sql.getUseGroupId(update.message.from_user.id)
         groupTitle=sql.getGroupTitle(groupId)
-        sql.insertAdvertise(update.effective_chat.id,groupId,groupTitle,'','')
+        # sql.insertAdvertise(update.effective_chat.id,groupId,groupTitle,'','')
         advertiseMenu(update,context,groupId)
 
     # 邀请统计结算奖金

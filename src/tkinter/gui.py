@@ -47,7 +47,7 @@ class Window(tkinter.Tk):
         self.label_time = tkinter.Label(self,font=fontStyle)
         self.label_botstate = tkinter.Label(self,text="BOT状态：未启动")
         self.label_appstate = tkinter.Label(self,text="网页状态：未启动")
-        self.label_botusername = tkinter.Label(self,text="机器人："+DBHP().botusername)
+        self.label_botusername = tkinter.Label(self,text="机器人：")
         self.label_version = tkinter.Label(self,text="版本号："+self.version)
         self.label_token = tkinter.Label(self,text="Token："+self.token)
         
@@ -162,7 +162,6 @@ class Window(tkinter.Tk):
         config = configparser.ConfigParser()
         config.read('config.ini')
         self.label_token.config(text="Token："+ config['Telegram-BOT']['token'])
-        self.label_botusername.config(text="机器人："+DBHP().botusername)
         
         try:
             from src.bot.bot import run
@@ -171,6 +170,7 @@ class Window(tkinter.Tk):
             self.botPid=bot.pid
             self.button_bot_run.config(text="停止BOT",command=self.botStop)
             self.label_botstate.config(text="BOT状态：已启动")
+            self.label_botusername.config(text="机器人："+DBHP().botusername)
         except TelegramError as e:
             if str(e) == "Invalid token":
                 messagebox.showwarning('Invalid token', '请检查config.ini')
