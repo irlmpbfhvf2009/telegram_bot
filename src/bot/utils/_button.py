@@ -107,5 +107,6 @@ class Keyboard:
                     [InlineKeyboardButton('设置推送时间(秒)', callback_data='groupSetAdvertiseTime')],
                     [InlineKeyboardButton('新增广告', callback_data='groupSetAdvertiseContent')],
                     [InlineKeyboardButton('查看全部广告', callback_data='getAdvertiseContent')],
+                    [InlineKeyboardButton('移除指定广告', callback_data='groupSpecifyDeleteAdvertiseContent')],
                     [InlineKeyboardButton('移除全部广告', callback_data='groupDeleteAdvertiseContent')],
                 ])

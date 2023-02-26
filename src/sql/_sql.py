@@ -718,8 +718,12 @@ class DBHP():
         results = self.select_all_tasks(f"SELECT * FROM advertise where groupId = '{groupId}'")
         return results
     
+    
     def deleteAdvertiseForGroupId(self,groupId):
         self.delete(f"delete from advertise where groupId = '{groupId}'")
+
+    def deleteAdvertiseForGroupIdAndNumber(self,groupId,number):
+        self.delete(f"delete from advertise where groupId = '{groupId}' and advertiseSerialNumber = '{number}'")
     
         
     def getAdvertiseContent(self,groupId):
@@ -737,6 +741,10 @@ class DBHP():
         
     def getAdvertiseSerialNumbere(self,groupId):
         results = self.select_all_tasks(f"SELECT advertiseSerialNumber FROM advertise where groupId = '{groupId}'")
+        return results
+    
+    def getAdvertiseSerialNumbere_(self,groupId,number):
+        results = self.select_all_tasks(f"SELECT advertiseSerialNumber FROM advertise where groupId = '{groupId}' and advertiseSerialNumber = '{number}'")
         return results
 
     # def existGroupIdAdvertise(self,groupId):

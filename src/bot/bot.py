@@ -401,6 +401,16 @@ def choose(update:Update,context:CallbackContext):
             sql.deleteAdvertiseForGroupId(groupId)
             groupTitle = sql.getGroupTitle(groupId)
             context.bot.send_message(chat_id=update.effective_chat.id,text=f"clear advertise from {groupTitle} success.")
+        
+        if update.callback_query.data=='groupSpecifyDeleteAdvertiseContent':
+            sql=runSQL()
+            groupId=sql.getUseGroupId(update.effective_user.id)
+            allAdvertise = sql.getAdvertise(groupId) 
+            for advertise in allAdvertise:
+                context.bot.send_message(chat_id=update.effective_chat.id,text=f"序号{advertise[5]}\n\n{advertise[3]}")
+            context.bot.send_message(chat_id=update.effective_chat.id,text=f"请输入序号删除广告")
+            return GROUPSPECIFYDELETEADVERTISECONTENT
+
 
         if update.callback_query.data=='groupSetAdvertiseTime':
             context.bot.send_message(chat_id=update.effective_chat.id,text=f"OK. Send me the new 'time(s)'.")
@@ -591,7 +601,24 @@ def groupSetAdvertiseTime(update:Update,context:CallbackContext):
         context.bot.send_message(chat_id = update.effective_chat.id, text = "请重新输入数字")
         return GROUPSETADVERTISETIME
 
-
+def groupSpecifyDeleteAdvertiseContent(update:Update,context:CallbackContext):
+    sql=runSQL()
+    groupId=sql.getUseGroupId(update.effective_user.id)
+    number = update.message.text
+    try:
+        if type(int(number)) != int:
+            context.bot.send_message(chat_id=update.effective_chat.id,text="请重新输入数字")
+            return GROUPSPECIFYDELETEADVERTISECONTENT
+        if sql.getAdvertiseSerialNumbere_(groupId,number):
+            sql.deleteAdvertiseForGroupIdAndNumber(groupId,number)
+            groupTitle = sql.getGroupTitle(groupId)
+            context.bot.send_message(chat_id=update.effective_chat.id,text=f"del {number} advertise from {groupTitle} success.")
+        else:
+            context.bot.send_message(chat_id=update.effective_chat.id,text="无此广告序号")
+        return ConversationHandler.END
+    except ValueError:
+        context.bot.send_message(chat_id=update.effective_chat.id,text="请重新输入数字")
+        return GROUPSPECIFYDELETEADVERTISECONTENT
 
 #设定广告內容
 def groupSetAdvertiseContent(update:Update,context:CallbackContext):
@@ -771,7 +798,7 @@ def channel_post(update: Update, context: CallbackContext):
         log.info("错误回报 "+str(e))
 
 
-START,WORKFLOW,GETTHERIGHT,ADMINWORK,SELECTGROUP,CHANGEPASSWORD,SETINVITEFRIENDSQUANTITY,SETINVITEFRIENDSAUTOCLEARTIME,DELETEMSGFORSECOND,SETINVITEMEMBERS,SETINVITEEARNEDOUTSTAND,SETINVITESETTLEMENTBONUS,SETCONTACTPERSON,BILLINGSESSION,QUERYBILLINGSESSION,GROUPSETADVERTISECONTENT,GROUPSETADVERTISETIME= range(17) 
+START,WORKFLOW,GETTHERIGHT,ADMINWORK,SELECTGROUP,CHANGEPASSWORD,SETINVITEFRIENDSQUANTITY,SETINVITEFRIENDSAUTOCLEARTIME,DELETEMSGFORSECOND,SETINVITEMEMBERS,SETINVITEEARNEDOUTSTAND,SETINVITESETTLEMENTBONUS,SETCONTACTPERSON,BILLINGSESSION,QUERYBILLINGSESSION,GROUPSETADVERTISECONTENT,GROUPSETADVERTISETIME,GROUPSPECIFYDELETEADVERTISECONTENT= range(18) 
 
 init.dispatcher.add_handler(
     ConversationHandler(
@@ -798,6 +825,7 @@ init.dispatcher.add_handler(
             # 广告会话
             GROUPSETADVERTISETIME: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=groupSetAdvertiseTime)],
             GROUPSETADVERTISECONTENT: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=groupSetAdvertiseContent)],
+            GROUPSPECIFYDELETEADVERTISECONTENT: [MessageHandler(filters=Filters.text & (~ Filters.command), callback=groupSpecifyDeleteAdvertiseContent)],
         },fallbacks=[CommandHandler('start', start),CallbackQueryHandler(choose),MessageHandler(filters=Filters.text & (~ Filters.command), callback=wordFlow)]))
 
 init.dispatcher.add_handler(MessageHandler(Filters.status_update.new_chat_members, joinGroup))
