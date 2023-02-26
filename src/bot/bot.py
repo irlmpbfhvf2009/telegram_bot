@@ -360,8 +360,11 @@ def choose(update:Update,context:CallbackContext):
                         sql = runSQL()
                         advertiseLength = len(sql.getAdvertiseContent(groupId))
                         if len(sql.getAdvertiseRecord(groupId)) >= advertiseLength:
-                            for result in sql.getAdvertiseRecord(groupId):
-                                context.bot.delete_message(chat_id=groupId, message_id=result[0])
+                            try:
+                                for result in sql.getAdvertiseRecord(groupId):
+                                    context.bot.delete_message(chat_id=groupId, message_id=result[0])
+                            except:
+                                log.info("Message to delete not found")
                             sql.deletetAdvertiseRecord(groupId)
                             
                         advertiseMessageId = context.bot.send_message(chat_id = groupId, text = i[0]).message_id

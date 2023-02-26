@@ -1,0 +1,3 @@
+ [2023-02-26 18:31:09,981]  INFO bot.py [ line:844 ] BOT : CCP1121_BOT 已启动  執行時間：0.21秒
+ [2023-02-26 18:31:15,572]  INFO bot.py [ line:441 ] Expecting value: line 1 column 1 (char 0)
+ [2023-02-26 18:31:17,226]  INFO bot.py [ line:367 ] Message to delete not found
