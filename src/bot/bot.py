@@ -347,23 +347,32 @@ def choose(update:Update,context:CallbackContext):
             groupId=sql.getUseGroupId(update.effective_user.id)
             jobname = groupId + "advertise"
             advertiseTime = sql.getAdvertiseTime(groupId)
-            # advertiseText = sql.getAdvertiseContent(groupId)
             advertise = sql.getAdvertise(groupId)
-            if advertiseTime != "" and advertiseText!="" and  advertiseTime != "0":
+            advertiseText = sql.getAdvertiseContent(groupId)
+            arrayText=[]
 
+            if advertiseTime != "" and  advertiseTime != "0":
+                for i in advertiseText:
+                    arrayText.append(i[0])
                 def startSendAdvertise(context: CallbackContext):
-                    sql = runSQL()
-                    if len(sql.getAdvertiseRecord(groupId)) > 2:
-                        for result in sql.getAdvertiseRecord(groupId):
-                            context.bot.delete_message(chat_id=groupId, message_id=result[0])
-                        sql.deletetAdvertiseRecord(groupId)
-                    advertiseMessageId = context.bot.send_message(chat_id = groupId, text = context.job.context).message_id
-                    sql.insertAdvertiseRecord(groupId,advertiseMessageId)
+                    cjcArr = context.job.context
+                    for i in cjcArr:
+                        sql = runSQL()
+                        advertiseLength = len(sql.getAdvertiseContent(groupId))
+                        if len(sql.getAdvertiseRecord(groupId)) >= advertiseLength:
+                            for result in sql.getAdvertiseRecord(groupId):
+                                context.bot.delete_message(chat_id=groupId, message_id=result[0])
+                            sql.deletetAdvertiseRecord(groupId)
+                            
+                        advertiseMessageId = context.bot.send_message(chat_id = groupId, text = i[0]).message_id
+                        sql.insertAdvertiseRecord(groupId,advertiseMessageId)
+                        time.sleep(int(advertiseTime))
 
-                advertiseMessageId = context.bot.send_message(chat_id = groupId, text = advertiseText).message_id
-                sql.insertAdvertiseRecord(groupId,advertiseMessageId)
-
-                context.job_queue.run_repeating(startSendAdvertise,interval=int(advertiseTime),first=0.0, context=advertiseText,name=jobname)
+                # advertiseMessageId = context.bot.send_message(chat_id = groupId, text = arrayText).message_id
+                # sql.insertAdvertiseRecord(groupId,advertiseMessageId)
+                # context.job_queue.run_once(startSendAdvertise,int(1), context=run_job_a,name=jobname)
+                interval = int(advertiseTime) * len(advertiseText) + 5
+                context.job_queue.run_repeating(startSendAdvertise,interval=interval,first=1.0, context=advertiseText,name=jobname)
             else:
                 context.bot.send_message(chat_id=update.effective_chat.id,text='内容或秒数未设置')
 
@@ -384,7 +393,7 @@ def choose(update:Update,context:CallbackContext):
             groupId=sql.getUseGroupId(update.effective_user.id)
             allAdvertise = sql.getAdvertise(groupId) 
             for advertise in allAdvertise:
-                context.bot.send_message(chat_id=update.effective_chat.id,text=f"序号{advertise[6]}\n{advertise[3]}")
+                context.bot.send_message(chat_id=update.effective_chat.id,text=f"序号{advertise[5]}\n\n{advertise[3]}")
             
         if update.callback_query.data=='groupDeleteAdvertiseContent':
             sql=runSQL()
@@ -588,8 +597,11 @@ def groupSetAdvertiseTime(update:Update,context:CallbackContext):
 def groupSetAdvertiseContent(update:Update,context:CallbackContext):
     sql = runSQL()
     groupId=sql.getUseGroupId(update.message.from_user.id)
-    # message = update.message.text
+    message = update.message.text
     # sql.updateAdvertiseContent(groupId,message)
+    if message == "":
+        context.bot.send_message(chat_id = update.effective_chat.id, text = "请重新输入")
+        return GROUPSETADVERTISECONTENT
     if sql.getAdvertiseTime(groupId) == "0" or sql.getAdvertiseTime(groupId) == 0 or sql.getAdvertiseTime(groupId) == None:
         advertiseTime="0"
     else:

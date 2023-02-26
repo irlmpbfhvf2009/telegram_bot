@@ -724,8 +724,9 @@ class DBHP():
         
     def getAdvertiseContent(self,groupId):
         results = self.select_all_tasks(f"SELECT advertiseContent FROM advertise where groupId = '{groupId}'")
-        for result in results:
-            return result[0]
+        return results
+        # for result in results:
+        #     return result[0]
 
     def getAdvertiseTime(self,groupId):
         results = self.select_all_tasks(f"SELECT advertiseTime FROM advertise where groupId = '{groupId}'")
