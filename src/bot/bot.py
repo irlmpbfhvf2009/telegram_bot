@@ -5,6 +5,7 @@ from src.common import logger
 from src.sql._sql import DBHP
 import datetime,time,json
 from src.common.utils import makedirs,currentDirectory
+# from src.bot.app_thread import start
 
 makedirs(path = currentDirectory() + '\\log')
 log = logger.Logging(file='log/'+str(datetime.datetime.now().date())+'.log',guiFile='log/gui_.log')

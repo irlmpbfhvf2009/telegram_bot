@@ -4,8 +4,6 @@ from tkinter import messagebox
 from multiprocessing import Process
 from src.common import logger
 from src.common.utils import chick_port,Log,makedirs,currentDirectory
-#from src.web.app import flask
-# from src.bot.bot import run
 from src.sql._sql import DBHP
 
 class Window(tkinter.Tk):

@@ -7,8 +7,10 @@ mimetypes.add_type('application/javascript', '.js')
 mimetypes.add_type('text/css', '.css')
 
 if getattr(sys, 'frozen', False):
-    template_folder = os.path.join(sys.executable, '../../resources', 'templates')
-    static_folder = os.path.join(sys.executable, '../../resources', 'static')
+    template_folder = os.path.join(sys.executable, '../resources', 'templates')
+    static_folder = os.path.join(sys.executable, '../resources', 'static')
+    print("template_folder")
+    print(template_folder)
     app = Flask(__name__, template_folder=template_folder,
                 static_folder=static_folder)
 else:
@@ -87,7 +89,7 @@ def getAdvertiseData():
     sql = DBHP()
     list = []
     groupId = json.loads(req)['category']
-    results=sql.getAdvertis(groupId)
+    results=sql.getAdvertise(groupId)
     for result in results:
         list.append({"groupId":result[1],"groupTitle":result[2],"advertiseContent":result[3],"advertiseTime":result[4]})
     return jsonify({'code':200,'data':{'list':list}})

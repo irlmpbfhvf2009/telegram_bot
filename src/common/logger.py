@@ -9,7 +9,7 @@ class Logging(logging.Logger):
                  logger_format = " [%(asctime)s]  %(levelname)s %(filename)s [ line:%(lineno)d ] %(message)s"
                  ):
         super().__init__(name)
-
+        
         self.logger = logging.getLogger(name)
         self.setLevel(logger_level)
         fmt = logging.Formatter(logger_format)

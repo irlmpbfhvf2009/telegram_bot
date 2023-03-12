@@ -67,7 +67,7 @@ run main.py 執行機器人
 pyi-makespec -F -w -i tkinter/bot.ico main.py 生成spec檔  
 pyi-makespec -F -w main.py 生成spec檔  
 pyinstaller main.spec
-
+pyinstaller -F -w main.py
 
 ###### 專案結構  
 Telegram-Bot/  
